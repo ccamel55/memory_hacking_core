@@ -1,12 +1,14 @@
 #pragma once
 
-#include "../../Singleton.hpp"
+#include "../singleton.hpp"
 
 #include <Windows.h>
 #include <windowsx.h>
 
 #include <array>
 #include <functional>
+
+#include <string>
 
 namespace CORE {
 

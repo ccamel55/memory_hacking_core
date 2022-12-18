@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../Singleton.hpp"
+#include "../singleton.hpp"
 
 #include "interfaces/UI_FormElement.hpp"
 #include "interfaces/UI_TextElement.hpp"

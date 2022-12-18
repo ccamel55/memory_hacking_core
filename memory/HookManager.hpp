@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../../Singleton.hpp"
-#include "../../deps/minhook/include/MinHook.h"
+#include "../singleton.hpp"
+#include "../deps/minhook/include/MinHook.h"
 
 #include <unordered_map>
 
