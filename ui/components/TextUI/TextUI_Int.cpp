@@ -4,13 +4,13 @@ using namespace CORE;
 
 TextUI_Int::TextUI_Int(const std::string& name, int* var, const INT_CONTROL_TEXT& displayText) {
 
-	m_pVar = var;
-	m_sTitle = name;
+	_var = var;
+	_title = name;
 
-	m_cDrawPos;
-	m_cControlPos;
+	_drawPos;
+	_controlPos;
 
-	m_aDisplayText = displayText;
+	_displayText = displayText;
 }
 
 TextUI_Int::~TextUI_Int() {
@@ -22,8 +22,8 @@ void TextUI_Int::onRender(bool open) {
 	const auto& pos = getControlPos();
 
 	// only text lol
-	RENDER::drawText(pos.x, pos.y, FONTS::TEXT_UI_FONT, COLORS::WHITE, m_sTitle, DX9::OUTLINE);
-	RENDER::drawText(pos.x + UI_TEXT_CONSTANTS::CONTROL_SPACING.x, pos.y, FONTS::TEXT_UI_FONT, m_aDisplayText.at(*m_pVar).m_iColor, m_aDisplayText.at(*m_pVar).m_sName, DX9::ALIGN_R | DX9::OUTLINE);
+	RENDER::drawText(pos.x, pos.y, FONTS::TEXT_UI_FONT, COLORS::WHITE, _title, DX9::OUTLINE);
+	RENDER::drawText(pos.x + UI_TEXT_CONSTANTS::CONTROL_SPACING.x, pos.y, FONTS::TEXT_UI_FONT, _displayText.at(*_var)._color, _displayText.at(*_var)._name, DX9::ALIGN_R | DX9::OUTLINE);
 }
 
 void TextUI_Int::onUpdate() {
@@ -37,38 +37,38 @@ void TextUI_Int::processKeys() {
 	// cycle options
 	if (parent->hasControl() && CONTROL::isPressed(CONTROL::K_SELECT)) {
 
-		if (*m_pVar >= static_cast<int>(m_aDisplayText.size() - 1)) {
-			*m_pVar = 0;
+		if (*_var >= static_cast<int>(_displayText.size() - 1)) {
+			*_var = 0;
 		}	
 		else {
-			*m_pVar += 1;
+			*_var += 1;
 		}	
 	}
 }
 
 POINT_INT& TextUI_Int::getDrawPos() {
-	return m_cDrawPos;
+	return _drawPos;
 }
 
 void TextUI_Int::setDrawPos(POINT_INT& pos) {
 
-	m_cDrawPos = pos;
+	_drawPos = pos;
 
-	if (m_pActive) {
-		m_pActive->setDrawPos(m_cDrawPos);
+	if (_active) {
+		_active->setDrawPos(_drawPos);
 	}
 }
 
 POINT_INT& TextUI_Int::getControlPos() {
-	return m_cControlPos;
+	return _controlPos;
 }
 
 void TextUI_Int::setControlPos(POINT_INT& pos) {
 
-	m_cControlPos = { pos.x, pos.y + m_cPos.y };
+	_controlPos = { pos.x, pos.y + _pos.y };
 
-	if (m_pActive) {
-		m_pActive->setControlPos(m_cDrawPos);
+	if (_active) {
+		_active->setControlPos(_drawPos);
 	}
 }
 
@@ -77,5 +77,5 @@ void TextUI_Int::addChild(const std::shared_ptr<UI_TextElement>& c) {
 	c->setParent(shared_from_this());
 	c->disableControl();
 
-	m_pActive = c;
+	_active = c;
 }

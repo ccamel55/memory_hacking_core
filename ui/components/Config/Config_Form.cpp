@@ -4,13 +4,13 @@ using namespace CORE;
 
 Config_Form::Config_Form() : UI_FormElement() {
 
-	m_cPos.x = 50;
-	m_cPos.y = 50;
+	_pos.x = 50;
+	_pos.y = 50;
 
-	m_cSize.x = 400;
-	m_cSize.y = 300;
+	_size.x = 400;
+	_size.y = 300;
 
-	m_sTitle = "Settings";
+	_title = "Settings";
 
 	// update with current values
 	setControlPos();

@@ -7,6 +7,9 @@
 
 namespace CORE {
 
+	// current implementation is a bit shit and slow, need to rewrite!
+
+	/*
 	template<typename T>
 	class C_TrippleBuffer {
 	public:
@@ -87,4 +90,5 @@ namespace CORE {
 		std::mutex m_cReadQueueMutex;
 		std::condition_variable m_cReadQueue;
 	};
+	*/
 }

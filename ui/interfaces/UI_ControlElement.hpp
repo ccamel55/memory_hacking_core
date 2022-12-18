@@ -11,6 +11,6 @@ namespace CORE {
 		~UI_ControlElement();
 	protected:
 		// form this element is rendering from
-		std::shared_ptr<UI_BaseElement> m_pForm;
+		std::shared_ptr<UI_BaseElement> _form;
 	};
 }

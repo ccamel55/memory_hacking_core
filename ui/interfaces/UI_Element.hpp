@@ -29,12 +29,12 @@ namespace CORE {
 		std::shared_ptr<UI_BaseElement>& getParent();
 		void setParent(const std::shared_ptr<UI_BaseElement>& p);
 	protected:
-		POINT_INT m_cPos;
-		POINT_INT m_cSize;
+		POINT_INT _pos;
+		POINT_INT _size;
 
-		bool m_bIsFocused;
-		bool m_bBlocking;
+		bool _isFocused;
+		bool _blocking;
 
-		std::shared_ptr<UI_BaseElement> m_pParent;
+		std::shared_ptr<UI_BaseElement> _parent;
 	};
 }

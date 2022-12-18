@@ -41,8 +41,8 @@ namespace CORE::DX9 {
 	class C_VertexBuffer {
 	public:
 		C_VertexBuffer() {
-			m_pDevice = NULL;
-			m_pVertexBuffer = NULL;
+			_device = NULL;
+			_vertexBuffer = NULL;
 		}
 
 		~C_VertexBuffer() {
@@ -54,7 +54,7 @@ namespace CORE::DX9 {
 		void apply();
 		void release();
 	private:
-		IDirect3DDevice9* m_pDevice;
-		IDirect3DVertexBuffer9* m_pVertexBuffer;
+		IDirect3DDevice9* _device;
+		IDirect3DVertexBuffer9* _vertexBuffer;
 	};
 }

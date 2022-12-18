@@ -13,7 +13,7 @@ void C_Console::attatch() {
 	freopen_s(reinterpret_cast<_iobuf**>(stdout), "CONOUT$", "w", stdout);
 	freopen_s(reinterpret_cast<_iobuf**>(stderr), "CONOUT$", "w", stderr);
 
-	m_pHandle = GetStdHandle(STD_OUTPUT_HANDLE);
+	_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	// set console attribtes
 	SetConsoleTitleA("sdk");

@@ -47,16 +47,16 @@ namespace CORE {
 		std::vector<std::shared_ptr<UI_BaseElement>>& getChildren();
 		virtual void addChild(const std::shared_ptr<UI_BaseElement>& c) = 0;
 	protected:
-		bool m_bPinned;
-		bool m_bDragging;
+		bool _pinned;
+		bool _dragging;
 
-		std::string m_sTitle;
+		std::string _title;
 
 		// where window for where controls can start drawing and how big that window is
-		POINT_INT m_cControlPos;
-		POINT_INT m_cControlSize;
+		POINT_INT _controlPos;
+		POINT_INT _controlSize;
 
-		std::shared_ptr<UI_BaseElement> m_pFocused;
-		std::vector<std::shared_ptr<UI_BaseElement>> m_aChildren;
+		std::shared_ptr<UI_BaseElement> _focused;
+		std::vector<std::shared_ptr<UI_BaseElement>> _children;
 	};
 }

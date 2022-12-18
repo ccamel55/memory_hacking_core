@@ -104,29 +104,29 @@ namespace CORE::DX9 {
 	public:
 		C_DX9Render() {
 
-			m_pDevice = NULL;
-			m_bInit = false;
+			_device = NULL;
+			_init = false;
 
-			m_cScreenSize = { 0, 0 };
-			m_cViewport = { 0, 0, 0, 0 };
+			_screenSize = { 0, 0 };
+			_viewport = { 0, 0, 0, 0 };
 
-			m_cOldState = {};
-			m_cNewState = {};
-			m_cMainBuffer = {};
+			_oldState = {};
+			_newState = {};
+			_mainBuffer = {};
 
-			m_aDrawBatchs.clear();
-			m_mFonts;
+			_drawBatchs.clear();
+			_fonts;
 
 			// build lookup circle
 			for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-				m_aCircleLookup.at(i).cos = std::cos(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
-				m_aCircleLookup.at(i).sin = std::sin(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
+				_circleLookup.at(i).cos = std::cos(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
+				_circleLookup.at(i).sin = std::sin(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
 			}
 		}
 
 		~C_DX9Render() {
 
-			for (auto& font : m_mFonts) {
+			for (auto& font : _fonts) {
 				font.second.m_cFontTexture.release();
 				font.second.m_cFontBitmap.release();
 			}
@@ -154,20 +154,20 @@ namespace CORE::DX9 {
 		void drawCircleFill(float x, float y, float r, DWORD col);
 		void drawCircleFillGradient(float x, float y, float r, DWORD colO, DWORD colI);
 	private:
-		bool m_bInit;
-		IDirect3DDevice9* m_pDevice;
+		bool _init;
+		IDirect3DDevice9* _device;
 
-		POINT m_cScreenSize;
-		D3DVIEWPORT9 m_cViewport;
+		POINT _screenSize;
+		D3DVIEWPORT9 _viewport;
 
-		C_RenderState m_cOldState;
-		C_RenderState m_cNewState;
-		C_VertexBuffer m_cMainBuffer;
+		C_RenderState _oldState;
+		C_RenderState _newState;
+		C_VertexBuffer _mainBuffer;
 
-		std::vector<T_RenderBatch> m_aDrawBatchs;
-		std::unordered_map<hash_t, T_Font> m_mFonts;
+		std::vector<T_RenderBatch> _drawBatchs;
+		std::unordered_map<hash_t, T_Font> _fonts;
 
 		static constexpr size_t CIRCLE_SEGMENTS = 64;
-		std::array<T_Circle, CIRCLE_SEGMENTS + 1> m_aCircleLookup;
+		std::array<T_Circle, CIRCLE_SEGMENTS + 1> _circleLookup;
 	};
 }

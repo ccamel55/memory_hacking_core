@@ -29,10 +29,10 @@ namespace CORE {
 		void addTextUI(const std::shared_ptr<UI_TextElement>& t);
 		void setOpen(bool b);
 	private:
-		bool m_bOpen;
+		bool _open;
 
-		C_TrippleBuffer<T_UI_Data> m_cDataBuffer;
-		std::shared_ptr<UI_TextElement> m_pTextUI;
+		T_UI_Data _dataBuffer;
+		std::shared_ptr<UI_TextElement> _textUI;
 	};
 
 	class C_UI : public Singleton<C_UI> {
@@ -44,8 +44,8 @@ namespace CORE {
 		void input();
 		bool isOpen();
 
-		C_TrippleBuffer<T_UI_Data>* getDataBuffer();
+		T_UI_Data* getDataBuffer();
 	private:
-		std::shared_ptr<UI_MainForm> m_pMainForm;
+		std::shared_ptr<UI_MainForm> _mainForm;
 	};
 }

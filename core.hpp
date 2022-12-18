@@ -4,9 +4,11 @@
 
 #include "math/FastMath.hpp"
 #include "math/RayIntersection.hpp"
+#include "math/MathLib.hpp"
 
-#include "memory/HookManager.hpp"
+#include "memory/DetourHookManager.hpp"
 #include "memory/PatternScanner.hpp"
+#include "memory/VirtualFnHookManager.hpp"
 
 #include "rendering/BitmapFont.hpp"
 #include "rendering/directx9/Directx9Render.hpp"

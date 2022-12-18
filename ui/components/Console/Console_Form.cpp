@@ -4,13 +4,13 @@ using namespace CORE;
 
 Console_Form::Console_Form(int w, int h) {
 
-	m_cPos.x = 40;
-	m_cPos.y = 40;
+	_pos.x = 40;
+	_pos.y = 40;
 
-	m_cSize.x = w;
-	m_cSize.y = h;
+	_size.x = w;
+	_size.y = h;
 
-	m_sTitle = "Console";
+	_title = "Console";
 
 	// update with current values
 	setControlPos();

@@ -21,16 +21,16 @@ namespace CORE {
 		struct CONTROL_TEXT {
 
 			CONTROL_TEXT() {
-				m_iColor = COLORS::WHITE;
-				m_sName = "NULL";
+				_color = COLORS::WHITE;
+				_name = "NULL";
 			}
 
 			CONTROL_TEXT(const std::string& name, DWORD colour) :
-				m_sName(name),
-				m_iColor(colour) { }
+				_name(name),
+				_color(colour) { }
 
-			DWORD m_iColor;
-			std::string m_sName;
+			DWORD _color;
+			std::string _name;
 		};
 	}
 
@@ -66,10 +66,10 @@ namespace CORE {
 		virtual POINT_INT& getDrawPos() = 0;
 		virtual void setDrawPos(POINT_INT& p) = 0;
 	protected:
-		bool m_bHasControl;
-		std::string m_sTitle;
+		bool _hasControl;
+		std::string _title;
 
-		std::shared_ptr<UI_TextElement> m_pActive;
-		std::vector<std::shared_ptr<UI_TextElement>> m_aChildren;
+		std::shared_ptr<UI_TextElement> _active;
+		std::vector<std::shared_ptr<UI_TextElement>> _children;
 	};
 }

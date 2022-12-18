@@ -4,22 +4,22 @@ using namespace CORE;
 
 TextUI_Form::TextUI_Form(int x, int y) : UI_TextElement() {
 
-	m_cPos.x = x;
-	m_cPos.y = y;
+	_pos.x = x;
+	_pos.y = y;
 
-	m_cDrawPos.x = x;
-	m_cDrawPos.y = y + UI_TEXT_CONSTANTS::TITLE_SIZE.y + 5;
+	_drawPos.x = x;
+	_drawPos.y = y + UI_TEXT_CONSTANTS::TITLE_SIZE.y + 5;
 
-	m_cSize.x = UI_TEXT_CONSTANTS::TITLE_SIZE.x;
-	m_cSize.y = UI_TEXT_CONSTANTS::TITLE_SIZE.y;
+	_size.x = UI_TEXT_CONSTANTS::TITLE_SIZE.x;
+	_size.y = UI_TEXT_CONSTANTS::TITLE_SIZE.y;
 
-	m_sTitle = "Text UI";
+	_title = "Text UI";
 
-	m_bOpen = false;
-	m_bDragging = false;
-	m_bForceOpen = false;
+	_open = false;
+	_dragging = false;
+	_forceOpen = false;
 
-	m_pDrawGroup = std::make_shared<TextUI_DrawGroup>(30, 20);
+	_drawGroup = std::make_shared<TextUI_DrawGroup>(30, 20);
 }
 
 TextUI_Form::~TextUI_Form() {
@@ -46,19 +46,19 @@ void TextUI_Form::onRender(bool open) {
 	}
 
 	const auto& drawPos = getDrawPos();
-	m_bForceOpen = open;
+	_forceOpen = open;
 
 	// menu related stuff
 	{
 		RENDER::drawText(drawPos.x, drawPos.y, FONTS::TEXT_UI_FONT, COLORS::WHITE, "[  ]", DX9::OUTLINE);
 		RENDER::drawText(drawPos.x + 25, drawPos.y, FONTS::TEXT_UI_FONT, COLORS::WHITE, getTitle(), DX9::OUTLINE);
 
-		if (m_bOpen || m_bForceOpen) {
+		if (_open || _forceOpen) {
 
 			RENDER::drawRectFilled(drawPos.x + 8, drawPos.y + 5, 2, 6, COLORS::GREEN);
 			RENDER::drawRect(drawPos.x + 8, drawPos.y + 5, 2, 6, COLORS::BLACK);
 
-			m_pDrawGroup->onRender(true);
+			_drawGroup->onRender(true);
 		}
 		else {
 
@@ -73,20 +73,20 @@ void TextUI_Form::onUpdate() {
 	const auto& pos = getPos();
 
 	// in draggable area
-	if (CONTROL::isPressed(VK_LBUTTON) && CONTROL::mouseInBounds(pos.x, pos.y, m_cSize.x, m_cSize.y)) {
-		m_bDragging = true;
+	if (CONTROL::isPressed(VK_LBUTTON) && CONTROL::mouseInBounds(pos.x, pos.y, _size.x, _size.y)) {
+		_dragging = true;
 		setBlocking(true);
 	}
 
-	if (m_bDragging && CONTROL::isDown(VK_LBUTTON)) {
+	if (_dragging && CONTROL::isDown(VK_LBUTTON)) {
 
 		// move location of menu
 		const auto& mouseDelta = CONTROL::mouseDelta();
 		const auto& screenSize = RENDER::screenSize();
 
 		POINT_INT formPos = {
-			std::clamp<int>(pos.x + mouseDelta.x, 0, screenSize.x - m_cSize.x) ,
-			std::clamp<int>(pos.y + mouseDelta.y, 0, screenSize.y - m_cSize.y) };
+			std::clamp<int>(pos.x + mouseDelta.x, 0, screenSize.x - _size.x) ,
+			std::clamp<int>(pos.y + mouseDelta.y, 0, screenSize.y - _size.y) };
 
 		setPos(formPos);
 		setDrawPos(formPos);
@@ -95,10 +95,10 @@ void TextUI_Form::onUpdate() {
 
 		return;
 	}
-	else if (m_bDragging) {
+	else if (_dragging) {
 
 		// reset
-		m_bDragging = false;
+		_dragging = false;
 		setBlocking(false);
 
 		return;
@@ -112,31 +112,31 @@ void TextUI_Form::processKeys() {
 
 	// where keybinds and shit get processed
 	if (CONTROL::isPressed(CONTROL::K_EXPAND)) {
-		m_bOpen = !m_bOpen;
+		_open = !_open;
 	}
 
-	if (m_bOpen || m_bForceOpen) {
-		m_pDrawGroup->processKeys();
+	if (_open || _forceOpen) {
+		_drawGroup->processKeys();
 	}
 }
 
 void TextUI_Form::addChild(const std::shared_ptr<UI_TextElement>& c) {
 
-	m_pDrawGroup->addChild(c);
+	_drawGroup->addChild(c);
 }
 
 POINT_INT& TextUI_Form::getDrawPos() {
-	return m_cDrawPos;
+	return _drawPos;
 }
 
 void TextUI_Form::setDrawPos(POINT_INT& p) {
 
-	if (m_pDrawGroup->getParent() == NULL) {
-		m_pDrawGroup->setParent(shared_from_this());
+	if (_drawGroup->getParent() == NULL) {
+		_drawGroup->setParent(shared_from_this());
 	}
 
-	m_cDrawPos = { p.x, p.y + UI_TEXT_CONSTANTS::TITLE_SIZE.y + 5 };
-	m_pDrawGroup->setDrawPos(m_cDrawPos);
+	_drawPos = { p.x, p.y + UI_TEXT_CONSTANTS::TITLE_SIZE.y + 5 };
+	_drawGroup->setDrawPos(_drawPos);
 }
 
 // override draw pos and control pos
@@ -145,5 +145,5 @@ POINT_INT& TextUI_Form::getControlPos() {
 }
 
 void TextUI_Form::setControlPos(POINT_INT& p) {
-	m_pDrawGroup->setControlPos(p);
+	_drawGroup->setControlPos(p);
 }

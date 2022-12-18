@@ -19,11 +19,11 @@ namespace CORE {
 		void setControlPos(POINT_INT& pos) override;
 		void addChild(const std::shared_ptr<UI_TextElement>& c) override;
 	public:
-		int* m_pVar;
+		int* _var;
 
-		POINT_INT m_cDrawPos;
-		POINT_INT m_cControlPos;
+		POINT_INT _drawPos;
+		POINT_INT _controlPos;
 
-		INT_CONTROL_TEXT m_aDisplayText;
+		INT_CONTROL_TEXT _displayText;
 	};
 }

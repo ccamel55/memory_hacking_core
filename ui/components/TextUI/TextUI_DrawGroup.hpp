@@ -18,12 +18,12 @@ namespace CORE {
 		POINT_INT& getControlPos() override;
 		void setControlPos(POINT_INT& p) override;
 	private:
-		int m_iCursor;
-		int m_iScroll;
+		int _cursor;
+		int _scroll;
 
-		POINT_INT m_cControlPos;
-		POINT_INT m_cControlOffset;
+		POINT_INT _controlPos;
+		POINT_INT _controlOffset;
 
-		POINT_INT m_cDrawPos;
+		POINT_INT _drawPos;
 	};
 }

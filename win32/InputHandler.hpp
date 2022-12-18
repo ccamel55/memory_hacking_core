@@ -15,21 +15,21 @@ namespace CORE {
 	class C_InputHandler : public Singleton<C_InputHandler> {
 	public:
 		C_InputHandler() {
-			m_pWindowHandle = NULL;
-			m_oWndProc = NULL;
+			_windowHandle = NULL;
+			_wndProcOriginal = NULL;
 
-			m_iScrollState = 0;
+			_scrollState = 0;
 
-			m_cMousePos;
-			m_cMouseDelta;
+			_mousePos;
+			_mouseDelta;
 
-			m_iCurKey = 0;
-			m_curState = 0;
+			_curKey = 0;
+			_curState = 0;
 
-			m_pCallback = NULL;
+			_callback = NULL;
 
-			std::memset(&m_aKeyState, 0, sizeof(m_aKeyState));
-			std::memset(&m_aOldKeyState, 0, sizeof(m_aOldKeyState));
+			std::memset(&_keyState, 0, sizeof(_keyState));
+			std::memset(&_oldKeyState, 0, sizeof(_oldKeyState));
 		}
 
 		~C_InputHandler() {
@@ -52,20 +52,20 @@ namespace CORE {
 		
 		static LRESULT __stdcall HK_WndProc(HWND hwnd, UINT message, WPARAM w_param, LPARAM l_param);
 	private:
-		HWND m_pWindowHandle;
-		WNDPROC m_oWndProc;
+		HWND _windowHandle;
+		WNDPROC _wndProcOriginal;
 
-		int m_iScrollState;
+		int _scrollState;
 
-		POINT m_cMousePos;
-		POINT m_cMouseDelta;
+		POINT _mousePos;
+		POINT _mouseDelta;
 
-		size_t m_iCurKey;
-		bool m_curState;
+		size_t _curKey;
+		bool _curState;
 
-		std::function<bool()> m_pCallback;
+		std::function<bool()> _callback;
 
-		std::array<bool, 256> m_aKeyState;
-		std::array<bool, 256> m_aOldKeyState;
+		std::array<bool, 256> _keyState;
+		std::array<bool, 256> _oldKeyState;
 	};
 }

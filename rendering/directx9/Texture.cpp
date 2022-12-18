@@ -3,7 +3,7 @@
 using namespace CORE::DX9;
 
 C_Texture::C_Texture() {
-	m_pTexture = NULL;
+	_texture = NULL;
 }
 
 C_Texture::~C_Texture() {
@@ -12,21 +12,21 @@ C_Texture::~C_Texture() {
 
 void C_Texture::release() {
 
-	if (m_pTexture) {
-		m_pTexture->Release();
-		m_pTexture = NULL;
+	if (_texture) {
+		_texture->Release();
+		_texture = NULL;
 	}
 }
 
 void C_Texture::bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bitmapWidth, int bitmapHeight) {
 
-	if (FAILED(device->CreateTexture(bitmapWidth, bitmapHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &m_pTexture, NULL))) {
+	if (FAILED(device->CreateTexture(bitmapWidth, bitmapHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &_texture, NULL))) {
 		throw std::exception("Failed to create texture");
 	}
 
 	// map bitmap to texture
 	D3DLOCKED_RECT rect = {};
-	m_pTexture->LockRect(0, &rect, 0, 0);
+	_texture->LockRect(0, &rect, 0, 0);
 
 	// oop D3DFMT_A8R8G8B8 = 4 x 8bits or just 4 bytes
 	auto texData = reinterpret_cast<unsigned int*>(rect.pBits);
@@ -48,9 +48,9 @@ void C_Texture::bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bi
 		}
 	}
 
-	m_pTexture->UnlockRect(0);
+	_texture->UnlockRect(0);
 }
 
 IDirect3DTexture9* C_Texture::getTexture() {
-	return m_pTexture;
+	return _texture;
 }

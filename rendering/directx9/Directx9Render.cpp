@@ -6,40 +6,40 @@ using namespace CORE::DX9;
 void C_DX9Render::bindDevice(IDirect3DDevice9* device) {
 
 	// call once!
-	if (m_bInit || device == NULL) {
+	if (_init || device == NULL) {
 		return;
 	}
 
-	m_bInit = true;
-	m_pDevice = device;
+	_init = true;
+	_device = device;
 
 	// get viewport and set screen size
-	m_pDevice->GetViewport(&m_cViewport);
-	m_cScreenSize = { static_cast<long>(m_cViewport.Width), static_cast<long>(m_cViewport.Height) };
+	_device->GetViewport(&_viewport);
+	_screenSize = { static_cast<long>(_viewport.Width), static_cast<long>(_viewport.Height) };
 
-	m_cOldState.create(m_pDevice, false);
-	m_cNewState.create(m_pDevice, true);
+	_oldState.create(_device, false);
+	_newState.create(_device, true);
 
-	m_cMainBuffer.create(m_pDevice, MAX_VERTICES);
+	_mainBuffer.create(_device, MAX_VERTICES);
 
 	// init all fonts
-	for (auto& font : m_mFonts) {
-		font.second.bind(m_pDevice);
+	for (auto& font : _fonts) {
+		font.second.bind(_device);
 	}
 }
 
 void C_DX9Render::invalidateDevice() {
 
-	if (!m_bInit) {
+	if (!_init) {
 		return;
 	}
 
-	m_pDevice = NULL;
-	m_bInit = false;
+	_device = NULL;
+	_init = false;
 
-	m_aDrawBatchs.clear();
+	_drawBatchs.clear();
 
-	for (auto& font : m_mFonts) {
+	for (auto& font : _fonts) {
 		// only do the texture, no need to recalc bitmap 
 		font.second.m_cFontTexture.release();
 	}
@@ -48,46 +48,46 @@ void C_DX9Render::invalidateDevice() {
 }
 
 void C_DX9Render::release() {
-	m_cMainBuffer.release();
-	m_cOldState.release();
-	m_cNewState.release();
+	_mainBuffer.release();
+	_oldState.release();
+	_newState.release();
 }
 
 void C_DX9Render::startDraw() {
 
 	// make sure we have at least 1 batch to draw into
-	m_aDrawBatchs.emplace_back();
+	_drawBatchs.emplace_back();
 }
 
 void C_DX9Render::finishDraw() {
 
 	// bind our draw data
-	m_cNewState.apply();
-	m_cMainBuffer.apply();
+	_newState.apply();
+	_mainBuffer.apply();
 
-	for (const auto& batch : m_aDrawBatchs) {
+	for (const auto& batch : _drawBatchs) {
 
 		if (batch.m_iVertexCount <= 0) {
 			continue;
 		}
 
 		// bind our draw data to our vertex buffer, write the whole array fuck it
-		m_cMainBuffer.bindData(batch.m_aVertices.data(), MAX_VERTICES);
+		_mainBuffer.bindData(batch.m_aVertices.data(), MAX_VERTICES);
 
 		size_t vertexOffset = 0;
 
 		for (const auto& primitive : batch.m_aPrimitives) {
 
-			m_pDevice->SetTexture(0, primitive.m_pTexture);
-			m_pDevice->DrawPrimitive(primitive.m_iType, vertexOffset, primitive.m_iCount);
+			_device->SetTexture(0, primitive.m_pTexture);
+			_device->DrawPrimitive(primitive.m_iType, vertexOffset, primitive.m_iCount);
 
 			vertexOffset += primitive.m_iSize;
 		}
 	}
 
 	// restore old state
-	m_aDrawBatchs.clear();
-	m_cOldState.apply();
+	_drawBatchs.clear();
+	_oldState.apply();
 }
 
 void C_DX9Render::addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE type, size_t primitiveCount, IDirect3DTexture9* tex) {
@@ -97,11 +97,11 @@ void C_DX9Render::addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE
 	}
 
 	// new lot to accomodate us
-	if (data.size() + m_aDrawBatchs.back().m_iVertexCount > MAX_VERTICES) {
-		m_aDrawBatchs.emplace_back();
+	if (data.size() + _drawBatchs.back().m_iVertexCount > MAX_VERTICES) {
+		_drawBatchs.emplace_back();
 	}
 
-	auto& curBatch = m_aDrawBatchs.back();
+	auto& curBatch = _drawBatchs.back();
 
 	if (curBatch.m_aPrimitives.empty() || curBatch.m_aPrimitives.back().m_iType != type || curBatch.m_aPrimitives.back().m_pTexture != tex) {
 		curBatch.m_aPrimitives.emplace_back(type, tex);
@@ -116,26 +116,26 @@ void C_DX9Render::addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE
 }
 
 void C_DX9Render::breakBatch() {
-	m_aDrawBatchs.back().m_aPrimitives.emplace_back(D3DPT_FORCE_DWORD, static_cast<IDirect3DTexture9*>(NULL));
+	_drawBatchs.back().m_aPrimitives.emplace_back(D3DPT_FORCE_DWORD, static_cast<IDirect3DTexture9*>(NULL));
 }
 
 void C_DX9Render::addFont(hash_t font, const std::string family, size_t height, size_t weight) {
 
-	if (m_mFonts.count(font) != 0) {
+	if (_fonts.count(font) != 0) {
 		return;
 	}
 
 	// add!!!
-	m_mFonts.insert({ font, std::move(T_Font(family, height, weight)) });
+	_fonts.insert({ font, std::move(T_Font(family, height, weight)) });
 
-	if (m_bInit && m_pDevice) {
+	if (_init && _device) {
 		// already initalized so we want to do it manually
-		m_mFonts.at(font).bind(m_pDevice);
+		_fonts.at(font).bind(_device);
 	}
 }
 
 POINT& C_DX9Render::getScreenSize() {
-	return m_cScreenSize;
+	return _screenSize;
 }
 
 void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
@@ -145,7 +145,7 @@ void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std
 		return;
 	}
 
-	auto& myFont = m_mFonts.at(font);
+	auto& myFont = _fonts.at(font);
 	const auto spacing = myFont.m_cFontBitmap.getSpacing();
 
 	float posX = x + 0.5f;
@@ -172,26 +172,26 @@ void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std
 		if (c != ' ') {
 
 			const std::vector<T_Vertex> vertices = {
-				{posX,					posY,					col, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w,	posY,					col, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w,	posY + curMetrics.h,	col, curMetrics.x2, curMetrics.y2},
+				{posX,					posY,					col, curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w,	posY,					col, curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w,	posY + curMetrics._h,	col, curMetrics._x2, curMetrics._y2},
 
-				{posX + curMetrics.w,	posY + curMetrics.h,	col, curMetrics.x2, curMetrics.y2},
-				{posX,					posY + curMetrics.h,	col, curMetrics.x1, curMetrics.y2},
-				{posX,					posY,					col, curMetrics.x1, curMetrics.y1},
+				{posX + curMetrics._w,	posY + curMetrics._h,	col, curMetrics._x2, curMetrics._y2},
+				{posX,					posY + curMetrics._h,	col, curMetrics._x1, curMetrics._y2},
+				{posX,					posY,					col, curMetrics._x1, curMetrics._y1},
 			};
 
 			addToBatch(vertices, D3DPT_TRIANGLELIST, 2, myFont.m_cFontTexture.getTexture());
 		}
 
 		// mmmm premium text spacing!!
-		posX += curMetrics.w - 2.f * spacing;
+		posX += curMetrics._w - 2.f * spacing;
 	}
 }
 
 void C_DX9Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags) {
 
-	auto& myFont = m_mFonts.at(font);
+	auto& myFont = _fonts.at(font);
 	const auto spacing = myFont.m_cFontBitmap.getSpacing();
 
 	float posX = x + 0.5f;
@@ -219,55 +219,55 @@ void C_DX9Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DW
 
 			// big fucking oof
 			const std::vector<T_Vertex> vertices = {
-				{posX - 1.f,				posY,					colOutline, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w - 1.f,	posY,					colOutline, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w - 1.f,	posY + curMetrics.h,	colOutline, curMetrics.x2, curMetrics.y2},
+				{posX - 1.f,				posY,						colOutline, curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w - 1.f,posY,						colOutline, curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w - 1.f,posY + curMetrics._h,		colOutline, curMetrics._x2, curMetrics._y2},
 
 
-				{posX + curMetrics.w - 1.f,	posY + curMetrics.h,	colOutline, curMetrics.x2, curMetrics.y2},
-				{posX - 1.f,				posY + curMetrics.h,	colOutline, curMetrics.x1, curMetrics.y2},
-				{posX - 1.f,				posY,					colOutline, curMetrics.x1, curMetrics.y1},
+				{posX + curMetrics._w - 1.f,posY + curMetrics._h,		colOutline, curMetrics._x2, curMetrics._y2},
+				{posX - 1.f,				posY + curMetrics._h,		colOutline, curMetrics._x1, curMetrics._y2},
+				{posX - 1.f,				posY,						colOutline, curMetrics._x1, curMetrics._y1},
 
-				{posX + 1.f,				posY,					colOutline, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w + 1.f,	posY,					colOutline, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w + 1.f,	posY + curMetrics.h,	colOutline, curMetrics.x2, curMetrics.y2},
-
-
-				{posX + curMetrics.w + 1.f,	posY + curMetrics.h,	colOutline, curMetrics.x2, curMetrics.y2},
-				{posX + 1.f,				posY + curMetrics.h,	colOutline, curMetrics.x1, curMetrics.y2},
-				{posX + 1.f,				posY,					colOutline, curMetrics.x1, curMetrics.y1},
-
-				{posX,					posY + 1.f,					colOutline, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w,	posY + 1.f,					colOutline, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w,	posY + curMetrics.h + 1.f,	colOutline, curMetrics.x2, curMetrics.y2},
-
-				{posX + curMetrics.w,	posY + curMetrics.h + 1.f,	colOutline, curMetrics.x2, curMetrics.y2},
-				{posX,					posY + curMetrics.h + 1.f,	colOutline, curMetrics.x1, curMetrics.y2},
-				{posX,					posY + 1.f,					colOutline, curMetrics.x1, curMetrics.y1},
-
-				{posX,					posY - 1.f,					colOutline, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w,	posY - 1.f,					colOutline, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w,	posY + curMetrics.h - 1.f,	colOutline, curMetrics.x2, curMetrics.y2},
-
-				{posX + curMetrics.w,	posY + curMetrics.h - 1.f,	colOutline, curMetrics.x2, curMetrics.y2},
-				{posX,					posY + curMetrics.h - 1.f,	colOutline, curMetrics.x1, curMetrics.y2},
-				{posX,					posY - 1.f,					colOutline, curMetrics.x1, curMetrics.y1},
+				{posX + 1.f,				posY,						colOutline, curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w + 1.f,posY,						colOutline, curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w + 1.f,posY + curMetrics._h,		colOutline, curMetrics._x2, curMetrics._y2},
 
 
-				{posX,					posY,					col, curMetrics.x1, curMetrics.y1},
-				{posX + curMetrics.w,	posY,					col, curMetrics.x2, curMetrics.y1},
-				{posX + curMetrics.w,	posY + curMetrics.h,	col, curMetrics.x2, curMetrics.y2},
+				{posX + curMetrics._w + 1.f,posY + curMetrics._h,		colOutline, curMetrics._x2, curMetrics._y2},
+				{posX + 1.f,				posY + curMetrics._h,		colOutline, curMetrics._x1, curMetrics._y2},
+				{posX + 1.f,				posY,						colOutline, curMetrics._x1, curMetrics._y1},
 
-				{posX + curMetrics.w,	posY + curMetrics.h,	col, curMetrics.x2, curMetrics.y2},
-				{posX,					posY + curMetrics.h,	col, curMetrics.x1, curMetrics.y2},
-				{posX,					posY,					col, curMetrics.x1, curMetrics.y1},
+				{posX,						posY + 1.f,					colOutline, curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w,		posY + 1.f,					colOutline, curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w,		posY + curMetrics._h + 1.f,	colOutline, curMetrics._x2, curMetrics._y2},
+
+				{posX + curMetrics._w,		posY + curMetrics._h + 1.f,	colOutline, curMetrics._x2, curMetrics._y2},
+				{posX,						posY + curMetrics._h + 1.f,	colOutline, curMetrics._x1, curMetrics._y2},
+				{posX,						posY + 1.f,					colOutline, curMetrics._x1, curMetrics._y1},
+
+				{posX,						posY - 1.f,					colOutline, curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w,		posY - 1.f,					colOutline, curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w,		posY + curMetrics._h - 1.f,	colOutline, curMetrics._x2, curMetrics._y2},
+
+				{posX + curMetrics._w,		posY + curMetrics._h - 1.f,	colOutline, curMetrics._x2, curMetrics._y2},
+				{posX,						posY + curMetrics._h - 1.f,	colOutline, curMetrics._x1, curMetrics._y2},
+				{posX,						posY - 1.f,					colOutline, curMetrics._x1, curMetrics._y1},
+
+
+				{posX,						posY,						col,		curMetrics._x1, curMetrics._y1},
+				{posX + curMetrics._w,		posY,						col,		curMetrics._x2, curMetrics._y1},
+				{posX + curMetrics._w,		posY + curMetrics._h,		col,		curMetrics._x2, curMetrics._y2},
+
+				{posX + curMetrics._w,		posY + curMetrics._h,		col,		curMetrics._x2, curMetrics._y2},
+				{posX,						posY + curMetrics._h,		col,		curMetrics._x1, curMetrics._y2},
+				{posX,						posY,						col,		curMetrics._x1, curMetrics._y1},
 			};
 
 			addToBatch(vertices, D3DPT_TRIANGLELIST, 2 * 5, myFont.m_cFontTexture.getTexture());
 		}
 
 		// mmmm premium text spacing!!
-		posX += curMetrics.w - 2.f * spacing;
+		posX += curMetrics._w - 2.f * spacing;
 	}
 }
 
@@ -340,7 +340,7 @@ void C_DX9Render::drawCircle(float x, float y, float r, DWORD col) {
 	std::vector<T_Vertex> vertices;
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = m_aCircleLookup.at(i);
+		const auto& lookup = _circleLookup.at(i);
 		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, col, 0.f, 0.f);
 	}
 
@@ -354,7 +354,7 @@ void C_DX9Render::drawCircleFill(float x, float y, float r, DWORD col) {
 	vertices.emplace_back(x, y, col, 0.f, 0.f);
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = m_aCircleLookup.at(i);
+		const auto& lookup = _circleLookup.at(i);
 		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, col, 0.f, 0.f);
 	}
 
@@ -368,7 +368,7 @@ void C_DX9Render::drawCircleFillGradient(float x, float y, float r, DWORD colO, 
 	vertices.emplace_back(x, y, colI, 0.f, 0.f);
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = m_aCircleLookup.at(i);
+		const auto& lookup = _circleLookup.at(i);
 		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, colO, 0.f, 0.f);
 	}
 

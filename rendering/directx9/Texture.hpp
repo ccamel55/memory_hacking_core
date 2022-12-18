@@ -13,6 +13,6 @@ namespace CORE::DX9 {
 		void bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bitmapWidth, int bitmapHeight);
 		IDirect3DTexture9* getTexture();
 	private:
-		IDirect3DTexture9* m_pTexture;
+		IDirect3DTexture9* _texture;
 	};
 }

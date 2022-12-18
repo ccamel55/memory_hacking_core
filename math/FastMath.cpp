@@ -1,4 +1,5 @@
 #include "FastMath.hpp"
+#include "MathLib.hpp"
 
 using namespace CORE;
 

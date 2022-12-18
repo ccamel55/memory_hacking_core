@@ -21,14 +21,3 @@ protected:
 	Singleton() { };
 	~Singleton() { };
 };
-
-inline static uintptr_t GET_VIRTUAL(void* classPtr, size_t idx) {
-	return static_cast<uintptr_t>((*static_cast<int**>(classPtr))[idx]);
-}
-
-// general purpose macros
-#define FUNC_ARGS(...) (this, __VA_ARGS__ ); }
-#define OFFSET( type, func, offset ) type& func() { return *reinterpret_cast<type*>( reinterpret_cast<uintptr_t>(this) + offset); }
-
-#define V_FUNC(idx, func, sig) auto func { return reinterpret_cast<sig>((*(uintptr_t**)this)[idx]) FUNC_ARGS
-#define P_FUNC(adr, func, sig) auto func { return reinterpret_cast<sig>(adr) FUNC_ARGS

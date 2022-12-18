@@ -20,12 +20,12 @@ namespace CORE {
 		POINT_INT& getControlPos() override;
 		void setControlPos(POINT_INT& p) override;
 	private:
-		bool m_bOpen;
-		bool m_bForceOpen;
-		bool m_bDragging;
+		bool _open;
+		bool _forceOpen;
+		bool _dragging;
 
-		POINT_INT m_cDrawPos;
+		POINT_INT _drawPos;
 
-		std::shared_ptr<TextUI_DrawGroup> m_pDrawGroup;
+		std::shared_ptr<TextUI_DrawGroup> _drawGroup;
 	};
 }

@@ -3,13 +3,13 @@
 using namespace CORE;
 
 C_BitmapFont::C_BitmapFont() {
-    m_pBitmap = NULL;
-    m_hBitmap = NULL;
+    _bitmapPtr = NULL;
+    _bitmapHandle = NULL;
 
-    m_iWidth = 0;
-    m_iHeight = 0;
+    _width = 0;
+    _height = 0;
 
-    std::memset(&m_aTexCoOrds, 0, sizeof(m_aTexCoOrds));
+    std::memset(&_texCoOrds, 0, sizeof(_texCoOrds));
 }
 
 C_BitmapFont::~C_BitmapFont() {
@@ -17,27 +17,27 @@ C_BitmapFont::~C_BitmapFont() {
 }
 
 void C_BitmapFont::release() {
-    DeleteObject(m_hBitmap);
+    DeleteObject(_bitmapHandle);
 }
 
 void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t weight) {
 
     // super ghetto way, we can fix this laterzzz
     if (height > 60) {
-        m_iWidth = 2048;
-        m_iHeight = 2048;
+        _width = 2048;
+        _height = 2048;
     }
     else if (height > 30) {
-        m_iWidth = 1024;
-        m_iHeight = 1024;
+        _width = 1024;
+        _height = 1024;
     }
     else if (height > 15) {
-        m_iWidth = 512;
-        m_iHeight = 512;
+        _width = 512;
+        _height = 512;
     }
     else {
-        m_iWidth = 256;
-        m_iHeight = 256;
+        _width = 256;
+        _height = 256;
     }
 
     // Prepare to create a bitmap
@@ -45,15 +45,15 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
     ZeroMemory(&bmi.bmiHeader, sizeof(BITMAPINFOHEADER));
 
     bmi.bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
-    bmi.bmiHeader.biWidth = m_iWidth;
-    bmi.bmiHeader.biHeight = -m_iHeight;
+    bmi.bmiHeader.biWidth = _width;
+    bmi.bmiHeader.biHeight = -_height;
     bmi.bmiHeader.biPlanes = 1;
     bmi.bmiHeader.biCompression = BI_RGB;
     bmi.bmiHeader.biBitCount = 32;
 
     // Create a DC and a bitmap for the font
     const auto hDC = CreateCompatibleDC(NULL);
-    const auto hbmBitmap = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, reinterpret_cast<void**>(&m_pBitmap), NULL, 0);
+    const auto hbmBitmap = CreateDIBSection(hDC, &bmi, DIB_RGB_COLORS, reinterpret_cast<void**>(&_bitmapPtr), NULL, 0);
 
     SetMapMode(hDC, MM_TEXT);
 
@@ -79,7 +79,7 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
 
     // Calculate the spacing between characters based on line height
     GetTextExtentPoint32(hDC, TEXT(" "), 1, &size);
-    x = m_iSpacing = static_cast<DWORD>(ceil(size.cy * 0.3f));
+    x = _spacing = static_cast<DWORD>(ceil(size.cy * 0.3f));
 
     for (char c = 32; c < 127; c++) {
 
@@ -89,25 +89,25 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
         const auto charExtentX = size.cx;
         const auto charExtentY = size.cy;
 
-        if (static_cast<int>(x + charExtentX + m_iSpacing) > m_iWidth) {
-            x = m_iSpacing;
+        if (static_cast<int>(x + charExtentX + _spacing) > _width) {
+            x = _spacing;
             y += charExtentY + 1;
         }
 
         ExtTextOut(hDC, x, y, ETO_OPAQUE, NULL, str, 1, NULL);
 
-        auto& texCoord = m_aTexCoOrds[c - 32];
+        auto& texCoord = _texCoOrds[c - 32];
 
-        texCoord.x1 = static_cast<float>(x - m_iSpacing) / m_iWidth;
-        texCoord.y1 = static_cast<float>(y) / m_iHeight;
+        texCoord._x1 = static_cast<float>(x - _spacing) / _width;
+        texCoord._y1 = static_cast<float>(y) / _height;
 
-        texCoord.x2 = static_cast<float>(x + charExtentX + m_iSpacing) / m_iWidth;
-        texCoord.y2 = static_cast<float>(y + charExtentY) / m_iHeight;
+        texCoord._x2 = static_cast<float>(x + charExtentX + _spacing) / _width;
+        texCoord._y2 = static_cast<float>(y + charExtentY) / _height;
 
-        texCoord.w = (texCoord.x2 - texCoord.x1) * m_iWidth;
-        texCoord.h = (texCoord.y2 - texCoord.y1) * m_iHeight;
+        texCoord._w = (texCoord._x2 - texCoord._x1) * _width;
+        texCoord._h = (texCoord._y2 - texCoord._y1) * _height;
 
-        x += charExtentX + (2 * m_iSpacing);
+        x += charExtentX + (2 * _spacing);
     }
 
     SelectObject(hDC, hbmOld);
@@ -117,7 +117,7 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
 }
 
 float C_BitmapFont::getStringHeight() {
-    return (m_aTexCoOrds[0].y2 - m_aTexCoOrds[0].y1) * m_iHeight;
+    return (_texCoOrds[0]._y2 - _texCoOrds[0]._y1) * _height;
 }
 
 float C_BitmapFont::getStringWidth(const std::string& text) {
@@ -134,28 +134,28 @@ float C_BitmapFont::getStringWidth(const std::string& text) {
             continue;
         }
 
-        ret += (m_aTexCoOrds[c - 32].x2 - m_aTexCoOrds[c - 32].x1) * m_iWidth - 2.f * m_iSpacing;
+        ret += (_texCoOrds[c - 32]._x2 - _texCoOrds[c - 32]._x1) * _width - 2.f * _spacing;
     }
 
     return ret;
 }
 
 DWORD* C_BitmapFont::getFontBitmap() {
-    return m_pBitmap;
+    return _bitmapPtr;
 }
 
 int C_BitmapFont::getWidth() {
-    return m_iWidth;
+    return _width;
 }
 
 int C_BitmapFont::getHeight() {
-    return m_iHeight;
+    return _height;
 }
 
 DWORD C_BitmapFont::getSpacing() {
-    return m_iSpacing;
+    return _spacing;
 }
 
 T_TexCoOrd& C_BitmapFont::getTextCoords(size_t c) {
-    return m_aTexCoOrds.at(c);
+    return _texCoOrds.at(c);
 }

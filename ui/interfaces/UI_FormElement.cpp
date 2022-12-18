@@ -4,17 +4,17 @@ using namespace CORE;
 
 UI_FormElement::UI_FormElement() : UI_BaseElement() {
 
-	m_sTitle = "EMPTY";
+	_title = "EMPTY";
 
-	m_bPinned = false;
-	m_bDragging = false;
+	_pinned = false;
+	_dragging = false;
 
-	m_pFocused = NULL;
-	m_aChildren;
+	_focused = NULL;
+	_children;
 
 	// weezers!! make sure to update everytime we change our position!
-	m_cControlPos;
-	m_cControlSize;
+	_controlPos;
+	_controlSize;
 }
 
 UI_FormElement::~UI_FormElement() {
@@ -71,29 +71,29 @@ void UI_FormElement::onUpdate() {
 
 	// in draggable area
 	if (CONTROL::isPressed(VK_LBUTTON) && CONTROL::mouseInBounds(pos.x, pos.y, size.x, UI_FORM_CONSTANTS::TITLE_SIZE.y)) {
-		m_bDragging = true;
+		_dragging = true;
 		setBlocking(true);
 	}
 
-	if (m_bDragging && CONTROL::isDown(VK_LBUTTON)) {
+	if (_dragging && CONTROL::isDown(VK_LBUTTON)) {
 
 		// move current form and children
 		const auto& mouseDelta = CONTROL::mouseDelta();
 		const auto& screenSize = RENDER::screenSize();
 
 		POINT_INT formPos = {
-			std::clamp<int>(pos.x + mouseDelta.x, 0, screenSize.x - m_cSize.x) ,
-			std::clamp<int>(pos.y + mouseDelta.y, 0, screenSize.y - m_cSize.y) };
+			std::clamp<int>(pos.x + mouseDelta.x, 0, screenSize.x - _size.x) ,
+			std::clamp<int>(pos.y + mouseDelta.y, 0, screenSize.y - _size.y) };
 
 		setPos(formPos);
 		setControlPos();
 
 		return;
 	}
-	else if (m_bDragging) {
+	else if (_dragging) {
 
 		// reset
-		m_bDragging = false;
+		_dragging = false;
 		setBlocking(false);
 
 		return;
@@ -101,51 +101,51 @@ void UI_FormElement::onUpdate() {
 }
 
 bool UI_FormElement::getPinned() {
-	return m_bPinned;
+	return _pinned;
 }
 
 void UI_FormElement::setPinned(bool b) {
-	m_bPinned = b;
+	_pinned = b;
 }
 
 POINT_INT& UI_FormElement::getControlPos() {
-	return m_cControlPos;
+	return _controlPos;
 }
 
 void UI_FormElement::setControlPos() {
 
 	// make sure to call everytime we change position
-	m_cControlPos.x = m_cPos.x + UI_FORM_CONSTANTS::CONTENT_POS.x;
-	m_cControlPos.y = m_cPos.y + UI_FORM_CONSTANTS::CONTENT_POS.y;
+	_controlPos.x = _pos.x + UI_FORM_CONSTANTS::CONTENT_POS.x;
+	_controlPos.y = _pos.y + UI_FORM_CONSTANTS::CONTENT_POS.y;
 }
 
 POINT_INT& UI_FormElement::getControlSize() {
-	return m_cControlSize;
+	return _controlSize;
 }
 
 void UI_FormElement::setControlSize() {
 
-	m_cControlSize.x = m_cSize.x + UI_FORM_CONSTANTS::CONTENT_SIZE.x;
-	m_cControlSize.y = m_cSize.y + UI_FORM_CONSTANTS::CONTENT_SIZE.y;
+	_controlSize.x = _size.x + UI_FORM_CONSTANTS::CONTENT_SIZE.x;
+	_controlSize.y = _size.y + UI_FORM_CONSTANTS::CONTENT_SIZE.y;
 }
 
 std::string& UI_FormElement::getTitle() {
-	return m_sTitle;
+	return _title;
 }
 
 void UI_FormElement::setTitle(const std::string& s) {
-	m_sTitle = s;
+	_title = s;
 }
 
 std::shared_ptr<UI_BaseElement>& UI_FormElement::getFocused() {
-	return m_pFocused;
+	return _focused;
 }
 
 void UI_FormElement::setFocused(std::shared_ptr<UI_BaseElement>& f) {
-	m_pFocused = f;
+	_focused = f;
 }
 
 std::vector<std::shared_ptr<UI_BaseElement>>& UI_FormElement::getChildren() {
-	return m_aChildren;
+	return _children;
 }
 

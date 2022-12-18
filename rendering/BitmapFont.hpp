@@ -8,12 +8,12 @@
 namespace CORE {
 
 	struct T_TexCoOrd {
-		float x1;
-		float y1;
-		float x2;
-		float y2;
-		float w;
-		float h;
+		float _x1;
+		float _y1;
+		float _x2;
+		float _y2;
+		float _w;
+		float _h;
 	};
 
 	class C_BitmapFont {
@@ -30,13 +30,13 @@ namespace CORE {
 		DWORD getSpacing();
 		T_TexCoOrd& getTextCoords(size_t c);
 	private:
-		DWORD* m_pBitmap;
-		HBITMAP m_hBitmap;
+		DWORD* _bitmapPtr;
+		HBITMAP _bitmapHandle;
 
-		int m_iWidth;
-		int m_iHeight;
-		DWORD m_iSpacing;
+		int _width;
+		int _height;
+		DWORD _spacing;
 
-		std::array<T_TexCoOrd, 128 - 32> m_aTexCoOrds;
+		std::array<T_TexCoOrd, 128 - 32> _texCoOrds;
 	};
 }
