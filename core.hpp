@@ -1,5 +1,8 @@
 #pragma once
 
+#include "singleton.hpp"
+#include "macos.hpp"
+
 #include "cryptography/fn1v.hpp"
 
 #include "math/FastMath.hpp"

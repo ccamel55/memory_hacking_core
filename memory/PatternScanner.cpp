@@ -34,11 +34,11 @@ uintptr_t C_PatternScanner::addressFromPattern(HMODULE baseAddress, const std::s
 	// baseAddress is base address of the module we want to look in
 	// basic premise of this is, look through all the bytes of the module, and try match it to our pattern
 
-	const auto dosHeaders = reinterpret_cast<PIMAGE_DOS_HEADER>(baseAddress);
-	const auto ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(baseAddress);
-
 	const auto patternByteArray = patternToBytes(pattern);
 	const auto curByte = reinterpret_cast<uint8_t*>(baseAddress);
+
+	const auto dosHeaders = reinterpret_cast<PIMAGE_DOS_HEADER>(baseAddress);
+	const auto ntHeaders = reinterpret_cast<PIMAGE_NT_HEADERS>(curByte + dosHeaders->e_lfanew);
 
 	for (uintptr_t i = 0; i < ntHeaders->OptionalHeader.SizeOfImage - patternByteArray.size(); i++) {
 
@@ -48,17 +48,16 @@ uintptr_t C_PatternScanner::addressFromPattern(HMODULE baseAddress, const std::s
 		for (uintptr_t j = 0; j < patternByteArray.size(); j++) {
 
 			// if pattern isnt "any byte" and current does not equal current pattern leave!
-			if ((patternByteArray.data()[j] != -1) &&
-				(patternByteArray.data()[j] != curByte[i + j])) {
-
+			if (curByte[i + j] != patternByteArray[j] && patternByteArray[j] != -1) {
 				foundAddress = false;
 				break;
 			}
 		}
 
 		// oh look we got it yay!!
-		if (foundAddress)
+		if (foundAddress) {
 			return reinterpret_cast<uintptr_t>(&curByte[i]);
+		}
 	}
 
 	return NULL;

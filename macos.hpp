@@ -8,8 +8,12 @@ inline uintptr_t GET_VIRTUAL(void* classPtr, size_t index) {
 
 inline uintptr_t GET_RELATIVE(uintptr_t address) {
 
+	if (address == NULL) {
+		return NULL;
+	}
+
 	const auto new_address = address + 0x1;
-	const auto relative_offset = *reinterpret_cast<int32_t*>(new_address);
+	const auto relative_offset = *(int32_t*)new_address;
 
 	return new_address + sizeof(uintptr_t) + relative_offset;
 }
