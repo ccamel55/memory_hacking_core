@@ -134,8 +134,8 @@ namespace testVar {
 C_UI::C_UI() {
 
 	BOOL_CONTROL_TEXT boolText = {
-	UI_TEXT_CONSTANTS::CONTROL_TEXT("False", COLORS::WHITE),
-	UI_TEXT_CONSTANTS::CONTROL_TEXT("True", COLORS::GREEN)
+		UI_TEXT_CONSTANTS::CONTROL_TEXT("False", COLORS::WHITE),
+		UI_TEXT_CONSTANTS::CONTROL_TEXT("True", COLORS::GREEN)
 	};
 
 	INT_CONTROL_TEXT intText = {
@@ -202,9 +202,9 @@ C_UI::C_UI() {
 	_mainForm = std::make_shared<UI_MainForm>(); {
 
 		_mainForm->addTextUI(textUI);
-		//m_pMainForm->addChild(std::make_shared<Console_Form>( 600, 400));
+		_mainForm->addChild(std::make_shared<Console_Form>( 600, 400));
 		_mainForm->addChild(std::make_shared<Config_Form>());
-		//m_pMainForm->addChild(std::make_shared<Info_Form>());	
+		_mainForm->addChild(std::make_shared<Info_Form>());
 	}
 }
 

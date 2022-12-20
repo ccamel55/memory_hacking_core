@@ -13,7 +13,7 @@ inline uintptr_t GET_RELATIVE(uintptr_t address) {
 	}
 
 	const auto new_address = address + 0x1;
-	const auto relative_offset = *(int32_t*)new_address;
+	const auto relative_offset = *(int*)new_address; // int must be 4 bytes
 
 	return new_address + sizeof(uintptr_t) + relative_offset;
 }

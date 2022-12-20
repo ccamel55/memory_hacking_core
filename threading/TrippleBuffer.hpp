@@ -7,22 +7,16 @@
 
 namespace CORE {
 
-	// current implementation is a bit shit and slow, need to rewrite!
-
-	/*
 	template<typename T>
 	class C_TrippleBuffer {
 	public:
-		C_TrippleBuffer() {
-			m_aBuffers;
-			m_cReadQueueMutex;
-			m_cReadQueue;
+		C_TrippleBuffer(T& readBuffer, T& writeBuffer, T& readyBuffer) :
+			_reading(&readBuffer),
+			_writing(&writeBuffer),
+			_ready(&readyBuffer) {
 
-			m_pReadBuffer = &m_aBuffers[0];
-			m_pWriteBuffer = &m_aBuffers[1];
-
-			m_pAvaliableBuffer = &m_aBuffers[2];
-			m_pNextReadBuffer = NULL;
+			// dont swap by default
+			_updated.exchange(true);
 		}
 
 		~C_TrippleBuffer() {
@@ -30,65 +24,40 @@ namespace CORE {
 		}
 
 		T* getWriteBuffer() {
-			return m_pWriteBuffer;
+			return _writing.load();
 		}
 
-		void setWriteComplete() {
+		void finishWrite() {
 
-			// give back the write buffer
-			auto written = m_pWriteBuffer;
-			m_pWriteBuffer = m_pAvaliableBuffer.exchange(m_pWriteBuffer);
+			// swap ready and write buffers
+			auto p = _ready.exchange(_writing);
+			_writing.store(p);
 
-			// mark it as written
-			m_pNextReadBuffer.store(written, std::memory_order_release);
-
-			// notify any waiting reader
-			m_cReadQueue.notify_one();
+			// mark updated info
+			_updated.exchange(false);
 		}
 
-		T* getReadBuffer(std::chrono::milliseconds timeout = std::chrono::milliseconds(500)) {
+		const T* getReadBuffer() const {
+			return _reading.load();
+		}
 
-			const auto timeout_time = std::chrono::steady_clock::now() + timeout;
+		void finishRead() {
 
-			// get the written buffer, waiting if necessary
-			auto b = m_pNextReadBuffer.exchange(nullptr);
-
-			while (b != m_pReadBuffer) {
-
-				// it could be the available buffer
-				m_pReadBuffer = m_pAvaliableBuffer.exchange(m_pReadBuffer);
-
-				if (b == m_pReadBuffer) {
-					// yes, that's it
-					return m_pReadBuffer;
-				}
-
-				// else we need to wait for writer
-				b = nullptr;
-				std::unique_lock lock{ m_cReadQueueMutex };
-
-				auto test = [this, &b] { b = m_pNextReadBuffer.exchange(nullptr); return b; };
-
-				if (!m_cReadQueue.wait_until(lock, timeout_time, test)) {
-					return nullptr;
-				}
+			// if we didnt update then dont swap
+			if (_updated.exchange(true)) {
+				return;
 			}
 
-			return m_pReadBuffer;
+			// swap only if we updated
+			auto p = _ready.exchange(_reading);
+			_reading.store(p);
 		}
 
 	private:
-		T m_aBuffers[3];
+		std::atomic<T*> _reading{};
+		std::atomic<T*> _writing{};
 
-		// pointers to read write and avaliable buffer
-		T* m_pReadBuffer;
-		T* m_pWriteBuffer;
-
-		std::atomic<T*> m_pAvaliableBuffer;
-		std::atomic<T*> m_pNextReadBuffer;
-
-		std::mutex m_cReadQueueMutex;
-		std::condition_variable m_cReadQueue;
+		std::atomic<bool> _updated{};
+		std::atomic<T*> _ready{};
 	};
-	*/
 }

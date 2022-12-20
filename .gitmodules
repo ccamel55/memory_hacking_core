@@ -1,0 +1,6 @@
+[submodule "deps/minhook"]
+	path = deps/minhook
+	url = git@github.com:TsudaKageyu/minhook.git
+[submodule "deps/json"]
+	path = deps/json
+	url = git@github.com:nlohmann/json.git
