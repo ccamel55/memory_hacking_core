@@ -11,8 +11,8 @@ namespace CORE {
     class C_FN1V {
     public:
 		// compile time hash
-		constexpr static hash_t get_ct(const char* szString, const hash_t uValue = OFFSET_BASIS) noexcept {
-			return (szString[0] == '\0') ? uValue : get_ct(&szString[1], (uValue ^ hash_t(szString[0])) * FNV_PRIME);
+		constexpr static hash_t getCT(const char* szString, const hash_t uValue = OFFSET_BASIS) noexcept {
+			return (szString[0] == '\0') ? uValue : getCT(&szString[1], (uValue ^ hash_t(szString[0])) * FNV_PRIME);
 		}
 
 		// runtime hash

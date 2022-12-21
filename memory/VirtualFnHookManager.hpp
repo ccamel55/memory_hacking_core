@@ -27,8 +27,8 @@ namespace CORE {
 	};
 
 	struct T_VirtualClass {
-		void hookIndex(int index, void* func);
-		void unhookIndex(int index);
+		void hookIndex(size_t index, void* func);
+		void unhookIndex(size_t index);
 		void unhookAll();
 		size_t getVirtualClassSize();
 
@@ -54,8 +54,8 @@ namespace CORE {
 			_hookedFunctions.clear();
 		}
 
-		T_VirtualClass* attatchVirtualClass(int vmt_id, void* base);
-		T_VirtualClass* getVirtualClass(int vmt_id);
+		T_VirtualClass* attatchVirtualClass(size_t id, void* base);
+		T_VirtualClass* getVirtualClass(size_t id);
 		void unhookAll();
 	private:
 		std::unordered_map<size_t, T_VirtualClass> _hookedFunctions;

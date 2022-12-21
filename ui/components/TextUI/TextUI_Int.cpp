@@ -1,10 +1,12 @@
 #include "TextUI_Int.hpp"
 
+#include "../../../config/Config.hpp"
+
 using namespace CORE;
 
-TextUI_Int::TextUI_Int(const std::string& name, int* var, const INT_CONTROL_TEXT& displayText) {
+TextUI_Int::TextUI_Int(const std::string& name, uint32_t var, const INT_CONTROL_TEXT& displayText) {
 
-	_var = var;
+	_var = &C_Config::get().getVar<int>(var);
 	_title = name;
 
 	_drawPos;

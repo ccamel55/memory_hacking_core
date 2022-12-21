@@ -1,13 +1,20 @@
 #pragma once
 
+#include <algorithm>
+
 #include "../singleton.hpp"
+#include "../threading/TrippleBuffer.hpp"
 
 #include "interfaces/UI_FormElement.hpp"
 #include "interfaces/UI_TextElement.hpp"
 
-#include "../threading/TrippleBuffer.hpp"
+#include "components/TextUI/TextUI_Form.hpp"
+#include "components/TextUI/TextUI_Bool.hpp"
+#include "components/TextUI/TextUI_Int.hpp"
 
-#include <algorithm>
+#include "components/Console/Console_Form.hpp"
+#include "components/Config/Config_Form.hpp"
+#include "components/Info/Info_Form.hpp"
 
 namespace CORE {
 
@@ -45,6 +52,7 @@ namespace CORE {
 		bool isOpen();
 
 		T_UI_Data* getDataBuffer();
+		std::shared_ptr<UI_MainForm> createMainForm();
 	private:
 		std::shared_ptr<UI_MainForm> _mainForm;
 	};

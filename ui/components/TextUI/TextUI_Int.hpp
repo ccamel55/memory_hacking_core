@@ -7,7 +7,7 @@ namespace CORE {
 
 	class TextUI_Int : public UI_TextElement {
 	public:
-		TextUI_Int(const std::string& name, int* var, const INT_CONTROL_TEXT& displayText);
+		TextUI_Int(const std::string& name, uint32_t var, const INT_CONTROL_TEXT& displayText);
 		~TextUI_Int();
 
 		void onRender(bool open) override;

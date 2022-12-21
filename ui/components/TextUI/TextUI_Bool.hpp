@@ -7,7 +7,7 @@ namespace CORE {
 
 	class TextUI_Bool : public UI_TextElement {
 	public:
-		TextUI_Bool(const std::string& name, bool* var, const BOOL_CONTROL_TEXT& displayText);
+		TextUI_Bool(const std::string& name, uint32_t var, const BOOL_CONTROL_TEXT& displayText);
 		~TextUI_Bool();
 
 		void onRender(bool open) override;

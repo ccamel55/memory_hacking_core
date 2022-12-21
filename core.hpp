@@ -5,6 +5,10 @@
 
 #include "cryptography/fn1v.hpp"
 
+#include "config/Config.hpp"
+
+#include "keybinds/Keybinds.hpp"
+
 #include "math/FastMath.hpp"
 #include "math/RayIntersection.hpp"
 #include "math/MathLib.hpp"

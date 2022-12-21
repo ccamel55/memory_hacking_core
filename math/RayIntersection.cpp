@@ -74,8 +74,8 @@ bool C_RayIntersection::rayIntersectCapsule(const Vector3D& origin, const Vector
 
     // https://www.unknowncheats.me/forum/counterstrike-global-offensive/161306-efficient-ray-capsule-intersection-algorithm.html
 
-    auto vecDelta = (max - min).normalize();
-    auto vecCenter = min;
+    const auto& vecDelta = (max - min).normalize();
+    const auto& vecCenter = min;
 
     // run intersection on each sphere
     if (rayIntersectSphere(origin, direction, min, radius) || 

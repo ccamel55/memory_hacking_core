@@ -19,7 +19,8 @@ namespace CORE {
 
 	namespace CONTROL {
 
-		constexpr size_t K_EXPAND = VK_INSERT;
+		constexpr size_t K_EXPAND_TEXTUI = VK_INSERT;
+		constexpr size_t K_EXPAND_FORM = VK_HOME;
 		constexpr size_t K_SELECT = VK_DELETE;
 
 		constexpr size_t K_UP = VK_UP;
@@ -136,7 +137,7 @@ namespace CORE {
 	namespace FONTS {
 
 		// hash_t for fonts
-		constexpr hash_t TEXT_UI_FONT = C_FN1V::get_ct("UI_TEXT_UI_FONT");
-		constexpr hash_t WINDOW_FONT = C_FN1V::get_ct("UI_WINDOW_FONT");
+		constexpr hash_t TEXT_UI_FONT = C_FN1V::getCT("UI_TEXT_UI_FONT");
+		constexpr hash_t WINDOW_FONT = C_FN1V::getCT("UI_WINDOW_FONT");
 	}
 }

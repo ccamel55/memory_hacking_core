@@ -1,10 +1,12 @@
 #include "TextUI_Bool.hpp"
 
+#include "../../../config/Config.hpp"
+
 using namespace CORE;
 
-TextUI_Bool::TextUI_Bool(const std::string& name, bool* var, const BOOL_CONTROL_TEXT& displayText) {
+TextUI_Bool::TextUI_Bool(const std::string& name, uint32_t var, const BOOL_CONTROL_TEXT& displayText) {
 
-	_var = var;
+	_var = &C_Config::get().getVar<bool>(var);
 	_title = name;
 
 	_drawPos;

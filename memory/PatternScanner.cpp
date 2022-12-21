@@ -5,7 +5,7 @@ using namespace CORE;
 std::vector<unsigned long> C_PatternScanner::patternToBytes(const std::string& pattern) {
 	
 	// convert a pattern string to an array of byte values, using short because we need a sign for "any byte" which is -1
-	std::vector<unsigned long> ret;
+	std::vector<unsigned long> ret{};
 
 	// get start and end of character array
 	const auto charStart = pattern.data();
@@ -34,7 +34,7 @@ uintptr_t C_PatternScanner::addressFromPattern(HMODULE baseAddress, const std::s
 	// baseAddress is base address of the module we want to look in
 	// basic premise of this is, look through all the bytes of the module, and try match it to our pattern
 
-	const auto patternByteArray = patternToBytes(pattern);
+	const auto& patternByteArray = patternToBytes(pattern);
 	const auto curByte = reinterpret_cast<uint8_t*>(baseAddress);
 
 	const auto dosHeaders = reinterpret_cast<PIMAGE_DOS_HEADER>(baseAddress);

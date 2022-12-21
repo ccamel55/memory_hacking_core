@@ -2,7 +2,7 @@
 
 using namespace CORE;
 
-T_VirtualClass* C_VirtualFnHookManager::attatchVirtualClass(int vmt_id, void* base) {
+T_VirtualClass* C_VirtualFnHookManager::attatchVirtualClass(size_t id, void* base) {
 	
 	T_VirtualClass curClass{};
 	
@@ -20,13 +20,13 @@ T_VirtualClass* C_VirtualFnHookManager::attatchVirtualClass(int vmt_id, void* ba
 	std::copy(curClass._orig - 1, curClass._orig + curClass._vTableLength, curClass._replace.get());
 	*curClass._vTable = &curClass._replace[1];
 
-	_hookedFunctions.insert({ vmt_id, std::move(curClass) });
+	_hookedFunctions.insert({ id, std::move(curClass) });
 
-	return &_hookedFunctions.at(vmt_id);
+	return &_hookedFunctions.at(id);
 }
 
-T_VirtualClass* C_VirtualFnHookManager::getVirtualClass(int vmt_id) {
-	return &_hookedFunctions.at(vmt_id);
+T_VirtualClass* C_VirtualFnHookManager::getVirtualClass(size_t id) {
+	return &_hookedFunctions.at(id);
 }
 
 void C_VirtualFnHookManager::unhookAll() {
@@ -44,7 +44,7 @@ void C_VirtualFnHookManager::unhookAll() {
 	}
 }
 
-void T_VirtualClass::hookIndex(int index, void* func) 
+void T_VirtualClass::hookIndex(size_t index, void* func)
 {
 	if (index < 0 || index > _vTableLength) {
 		return;
@@ -54,7 +54,7 @@ void T_VirtualClass::hookIndex(int index, void* func)
 	_replace[index + 1] = (uintptr_t)(func);
 }
 
-void T_VirtualClass::unhookIndex(int index) {
+void T_VirtualClass::unhookIndex(size_t index) {
 
 	if (index < 0 || index > _vTableLength) {
 		return;

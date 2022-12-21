@@ -111,7 +111,7 @@ void TextUI_Form::onUpdate() {
 void TextUI_Form::processKeys() {
 
 	// where keybinds and shit get processed
-	if (CONTROL::isPressed(CONTROL::K_EXPAND)) {
+	if (CONTROL::isPressed(CONTROL::K_EXPAND_TEXTUI)) {
 		_open = !_open;
 	}
 
