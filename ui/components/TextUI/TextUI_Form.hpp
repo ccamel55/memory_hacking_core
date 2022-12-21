@@ -17,6 +17,7 @@ namespace CORE {
 		void addChild(const std::shared_ptr<UI_TextElement>& c) override;
 		POINT_INT& getDrawPos() override;
 		void setDrawPos(POINT_INT& p) override;
+
 		POINT_INT& getControlPos() override;
 		void setControlPos(POINT_INT& p) override;
 	private:

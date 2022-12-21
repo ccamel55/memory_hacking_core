@@ -16,6 +16,8 @@
 #include "components/Config/Config_Form.hpp"
 #include "components/Info/Info_Form.hpp"
 
+#include "components/Common/Common_GroupBox.hpp"
+
 namespace CORE {
 
 	struct T_UI_Data {

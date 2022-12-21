@@ -162,6 +162,7 @@ POINT_INT& TextUI_DrawGroup::getDrawPos() {
 }
 
 void TextUI_DrawGroup::setDrawPos(POINT_INT& p) {
+
 	_drawPos = { p.x + _pos.x, p.y + _pos.y };
 
 	for (const auto& c : _children) {

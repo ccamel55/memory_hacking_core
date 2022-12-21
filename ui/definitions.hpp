@@ -87,6 +87,14 @@ namespace CORE {
 			DX9::C_DX9Render::get().drawCircleFillGradient(static_cast<float>(x), static_cast<float>(y), static_cast<float>(r), colO, colI);
 		}
 
+		static __forceinline void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, DWORD col) {
+			DX9::C_DX9Render::get().drawTriangle(static_cast<float>(x1), static_cast<float>(y1), static_cast<float>(x2), static_cast<float>(y2), static_cast<float>(x3), static_cast<float>(y3), col);
+		}
+
+		static __forceinline void drawTriangleFilled(int x1, int y1, int x2, int y2, int x3, int y3, DWORD col) {
+			DX9::C_DX9Render::get().drawTriangleFill(static_cast<float>(x1), static_cast<float>(y1), static_cast<float>(x2), static_cast<float>(y2), static_cast<float>(x3), static_cast<float>(y3), col);
+		}
+
 		static __forceinline void drawText(int x, int y, hash_t font, DWORD col, const std::string& str, uint8_t flags = 0) {
 			DX9::C_DX9Render::get().drawString(static_cast<float>(x), static_cast<float>(y), font, col, str, flags);
 		}
@@ -117,6 +125,8 @@ namespace CORE {
 		constexpr DWORD GREEN = D3DCOLOR_ARGB(255, 20, 195, 55);
 		constexpr DWORD RED = D3DCOLOR_ARGB(255, 215, 40, 25);
 		constexpr DWORD YELLOW = D3DCOLOR_ARGB(255, 245, 245, 60);
+		constexpr DWORD GRAY = D3DCOLOR_ARGB(255, 90, 90, 90);
+		constexpr DWORD LIGHT_GRAY = D3DCOLOR_ARGB(255, 100, 100, 100);
 		constexpr DWORD BLACK = D3DCOLOR_ARGB(255, 0, 0, 0);
 
 		// clickable stuff
@@ -130,14 +140,22 @@ namespace CORE {
 		constexpr DWORD FORM_CONTENTS = D3DCOLOR_ARGB(255, 200, 200, 200);
 		constexpr DWORD FORM_CONTENTS_PINNED = D3DCOLOR_ARGB(120, 70, 70, 70);
 
+		constexpr DWORD CONFIG_TAB_FILL1 = D3DCOLOR_ARGB(255, 200, 200, 200);
+		constexpr DWORD CONFIG_TAB_FILL2 = D3DCOLOR_ARGB(255, 130, 130, 130);
+
 		// text ui stuff
 		constexpr DWORD TEXT_TEXT_LABEL = D3DCOLOR_ARGB(255, 210, 210, 210);
+
+		// console stuff
+		constexpr DWORD CONSOLE_FILL = D3DCOLOR_ARGB(40, 30, 30, 30);
 	}
 
 	namespace FONTS {
 
 		// hash_t for fonts
+		constexpr hash_t CONSOLE_FONT = C_FN1V::getCT("UI_CONSOLE_FONT");
 		constexpr hash_t TEXT_UI_FONT = C_FN1V::getCT("UI_TEXT_UI_FONT");
 		constexpr hash_t WINDOW_FONT = C_FN1V::getCT("UI_WINDOW_FONT");
+		constexpr hash_t TAB_FONT = C_FN1V::getCT("UI_TAB_FONT");
 	}
 }

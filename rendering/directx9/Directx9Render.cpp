@@ -1,5 +1,7 @@
 #include "Directx9Render.hpp"
 
+#include <cmath>
+
 using namespace CORE::DX9;
 
 // called on init and reset
@@ -152,11 +154,11 @@ void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std
 	float posY = y + 0.5f;
 
 	if (flags & CENTER_Y) {
-		posY -= (myFont.m_cFontBitmap.getStringHeight() * 0.5f) + 1.f;
+		posY -= round(myFont.m_cFontBitmap.getStringHeight() * 0.5f) + 1.f;
 	}
 
 	if (flags & CENTER_X) {
-		posX -= (myFont.m_cFontBitmap.getStringWidth(text) * 0.5f);
+		posX -= round(myFont.m_cFontBitmap.getStringWidth(text) * 0.5f);
 	}
 
 	if (flags & ALIGN_R) {
@@ -374,4 +376,31 @@ void C_DX9Render::drawCircleFillGradient(float x, float y, float r, DWORD colO, 
 
 	addToBatch(vertices, D3DPT_TRIANGLEFAN, CIRCLE_SEGMENTS, NULL);
 	breakBatch();
+}
+
+void C_DX9Render::drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col) {
+
+	const std::vector<T_Vertex> vertices = {
+		{x1, y1, col, 0.f, 0.f},
+		{x2, y2, col, 0.f, 0.f},
+
+		{x2, y2, col, 0.f, 0.f},
+		{x3, y3, col, 0.f, 0.f},
+
+		{x3, y3, col, 0.f, 0.f},
+		{x1, y1, col, 0.f, 0.f},
+	};
+
+	addToBatch(vertices, D3DPT_LINELIST, 3, NULL);
+}
+
+void C_DX9Render::drawTriangleFill(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col) {
+
+	const std::vector<T_Vertex> vertices = {
+		{x1, y1, col, 0.f, 0.f},
+		{x2, y2, col, 0.f, 0.f},
+		{x3, y3, col, 0.f, 0.f},
+	};
+
+	addToBatch(vertices, D3DPT_TRIANGLELIST, 1, NULL);
 }

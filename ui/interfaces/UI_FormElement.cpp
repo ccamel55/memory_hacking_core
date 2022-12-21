@@ -46,15 +46,22 @@ void UI_FormElement::onRender(bool open) {
 		// draw pinned circle
 		RENDER::drawCircleGradient(pos.x + size.x + UI_FORM_CONSTANTS::PINNED_OFFSET.x, pos.y + UI_FORM_CONSTANTS::PINNED_OFFSET.y, 4, COLORS::WHITE, getPinned() ? COLORS::GREEN : COLORS::RED);
 
-		// if unfocused draw an overlay
-		if (!isFocused()) {
-			RENDER::drawRectFilled(pos.x, pos.y, size.x, size.y, COLORS::FORM_UNFOCUS);
-		}
+		onRenderFinish(true);
 	}
 	else if (getPinned()) {
 
 		// draw control region but with less background alpha!
 		RENDER::drawRectFilled(controlPos.x, controlPos.y, controlSize.x, controlSize.y, COLORS::FORM_CONTENTS_PINNED);
+	}
+}
+
+void UI_FormElement::onRenderFinish(bool open) {
+
+	const auto& pos = getPos();
+	const auto& size = getSize();
+
+	if (open && !isFocused()) {
+		RENDER::drawRectFilled(pos.x, pos.y, size.x, size.y, COLORS::FORM_UNFOCUS);
 	}
 }
 

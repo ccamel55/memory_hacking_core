@@ -27,13 +27,14 @@ namespace CORE {
 		~UI_FormElement();
 
 		void onRender(bool open) override;
+		void onRenderFinish(bool open);
 		void onUpdate() override;
 	public:
 		bool getPinned();
 		void setPinned(bool b);
 
-		POINT_INT& getControlPos();
-		void setControlPos();
+		virtual POINT_INT& getControlPos();
+		virtual void setControlPos();
 
 		POINT_INT& getControlSize();
 		void setControlSize();
