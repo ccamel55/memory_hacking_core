@@ -140,6 +140,10 @@ void C_InputHandler::wndProcEnd() {
 	_mouseDelta.y = 0;
 }
 
+int C_InputHandler::getScrollState() {
+	return _scrollState;
+}
+
 POINT& C_InputHandler::getMousePos() {
 	return _mousePos;
 }

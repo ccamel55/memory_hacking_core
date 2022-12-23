@@ -42,6 +42,8 @@ namespace CORE {
 		void wndProcStart(UINT uMsg, WPARAM wParam, LPARAM lParam);
 		void wndProcEnd();
 
+		int getScrollState();
+
 		POINT& getMousePos();
 		POINT& getMouseDelta();
 

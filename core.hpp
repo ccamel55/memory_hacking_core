@@ -29,7 +29,7 @@
 #include "type/vector/Vector2D.hpp"
 #include "type/vector/Vector3D.hpp"
 
-#include "ui/Ui.hpp"
+#include "ui/UI.hpp"
 
 #include "win32/Console.hpp"
 #include "win32/InputHandler.hpp"

@@ -58,6 +58,7 @@ namespace CORE {
 		void load(size_t filenameIndex);
 		void save(const std::string& configName);
 		size_t getVarIndex(const hash_t name);
+		const std::vector<std::string>& getConfigs() const;
 
 		template <typename T>
 		T& getVar(const std::uint32_t nIndex) {

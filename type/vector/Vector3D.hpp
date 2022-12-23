@@ -168,14 +168,12 @@ namespace CORE {
 			return !this->IsEqual(vecBase);
 		}
 
-		constexpr Vector3D& operator=(const Vector3D& vecBase)
-		{
+		constexpr Vector3D& operator=(const Vector3D& vecBase) {
 			this->_x = vecBase._x; this->_y = vecBase._y; this->_z = vecBase._z;
 			return *this;
 		}
 
-		constexpr Vector3D& operator=(const Vector2D& vecBase2D)
-		{
+		constexpr Vector3D& operator=(const Vector2D& vecBase2D) {
 			this->_x = vecBase2D._x; this->_y = vecBase2D._y; this->_z = 0.0f;
 			return *this;
 		}

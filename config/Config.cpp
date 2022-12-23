@@ -269,6 +269,8 @@ void C_Config::save(const std::string& configName) {
 
 	outFileStream << config.dump(4);
 	outFileStream.close();
+
+	fetchConfigs();
 }
 
 size_t C_Config::getVarIndex(const hash_t name)
@@ -281,6 +283,10 @@ size_t C_Config::getVarIndex(const hash_t name)
 	}
 
 	return SIZE_MAX;
+}
+
+const std::vector<std::string>& C_Config::getConfigs() const {
+	return _configs;
 }
 
 std::filesystem::path C_Config::getConfigDirectory(const std::string& folderName) {

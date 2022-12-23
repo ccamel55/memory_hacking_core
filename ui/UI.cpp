@@ -1,145 +1,86 @@
 #include "UI.hpp"
 
+#include <algorithm>
+
 using namespace CORE;
 
-UI_MainForm::UI_MainForm() : UI_FormElement() {
+void C_UI::render() {
 
-	_textUI;
+	for (auto it = _windows.rbegin(); it != _windows.rend(); it++) {
 
-	_pos.x = 0;
-	_pos.y = 0;
+		auto w = *it;
 
-	_open = false;
-}
+		if (!_blockInput) {
 
-UI_MainForm::~UI_MainForm() {
+			if ((w->getType() == E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) || (w->getFlags() & E_UI_FLAGS::UI_PINNED)) {
 
-}
+				// setting as not opened will draw without window elements
+				w->getFlags() |= E_UI_FLAGS::UI_INPUT_ONLY;
+				w->render();
+			}
 
-void UI_MainForm::onRender(bool open) {
+			continue;
+		}
 
-	for (auto it = _children.rbegin(); it != _children.rend(); it++) {
-		auto c = *it;
-		c->onRender(_open);
+		w->getFlags() &= ~E_UI_FLAGS::UI_INPUT_ONLY;
+		w->render();
+
+		// draw overlay if not in focus
+		if (w != _focused) {
+			UI_RENDER::drawRectFilled(w->getPosition()._x, w->getPosition()._y, w->getSize()._x, w->getSize()._y, UI_COLORS::FORM_UNFOCUS);
+		}
 	}
 }
 
-void UI_MainForm::onUpdate() {
+void C_UI::input() {
 
-	const auto& focusedPos = _focused->getPos();
-	const auto& focusedSize = _focused->getSize();
+	if (UI_INPUT::isPressed(UI_KEYS::K_EXPAND_CONFIG)) {
+		_blockInput = !_blockInput;
+	}
 
-	if (_open) {
-		
-		// do normal click gui shit when we are open
-		if (CONTROL::mouseInBounds(focusedPos.x, focusedPos.y, focusedSize.x, focusedSize.y) || _focused->isBlocking()) {
-			// only every update our main form if its open or if we have it blocking every other form
-			_focused->onUpdate();
+	if (_blockInput) {
+
+		const auto& focusedSize = _focused->getSize();
+		const auto& focusedPosition = _focused->getPosition();
+
+		if (_focused->getFlags() & E_UI_FLAGS::UI_BLOCKED || UI_INPUT::mouseInBounds(focusedPosition._x, focusedPosition._y, focusedSize._x, focusedSize._y)) {
+
+			// if our window has control or is hovered do that!!
+			_focused->input();
 		}
-		else if (CONTROL::isPressed(VK_LBUTTON)) {
+		else if (UI_INPUT::isPressed(VK_LBUTTON)) {
 
-			// get focused window
-			for (auto it = _children.begin() + 1; it != _children.end(); it++) {
+			for (auto it = _windows.begin() + 1; it != _windows.end(); it++) {
 
 				auto c = *it;
 
-				const auto& pos = c->getPos();
+				const auto& pos = c->getPosition();
 				const auto& size = c->getSize();
 
 				// bring to focus
-				if (CONTROL::mouseInBounds(pos.x, pos.y, size.x, size.y)) {
+				if (UI_INPUT::mouseInBounds(pos._x, pos._y, size._x, size._y)) {
 
 					// move to front
-					std::rotate(_children.begin(), it, it + 1);
-
-					// unfocus last element
-					_focused->setIsFocused(false);
-				
-					// focus new element
-					c->setIsFocused(true);
+					std::rotate(_windows.begin(), it, it + 1);
 					_focused = c;
 
-					return;
+					break;
 				}
 			}
 		}
 	}
 	else {
 
-		// process the elements in our textUI
-		_textUI->processKeys();
+		for (const auto& w : _windows) {
+
+			// handle input for text menu.
+			if (w->getType() == E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) {
+				w->input();
+			}
+		}
 	}
 }
 
-void* UI_MainForm::getDataBuffer() {
-	// pointer to our buffer
-	return &_dataBuffer;
-}
-
-void UI_MainForm::addChild(const std::shared_ptr<UI_BaseElement>& c) {
-
-	c->setParent(shared_from_this());
-
-	if (_children.empty()) {
-		c->setIsFocused(true);
-		_focused = c;
-	}
-
-	_children.push_back(c);
-}
-
-bool UI_MainForm::getOpen() {
-	return _open;
-}
-
-void UI_MainForm::setOpen(bool b) {
-	_open = b;
-}
-
-void UI_MainForm::addTextUI(const std::shared_ptr<UI_TextElement>& t) {
-
-	addChild(t);
-	_textUI = t;
-
-	// force update on textUI pos
-	_textUI->setDrawPos(_textUI->getPos());
-	_textUI->setControlPos(_textUI->getPos());
-}
-
-C_UI::C_UI() {
-
-}
-
-C_UI::~C_UI() {
-
-}
-
-std::shared_ptr<UI_MainForm> C_UI::createMainForm() {
-
-	if (!_mainForm) {
-		_mainForm = std::make_shared<UI_MainForm>();
-	}
-	
-	return _mainForm;
-}
-
-void C_UI::draw() {
-	_mainForm->onRender(false);
-}
-
-void C_UI::input() {
-	
-	if (CONTROL::isPressed(CONTROL::K_EXPAND_FORM)) {
-		_mainForm->setOpen(!_mainForm->getOpen());
-	}
-
-	_mainForm->onUpdate();
-}
-
-bool C_UI::isOpen() {
-	return _mainForm->getOpen();
-}
-
-T_UI_Data* C_UI::getDataBuffer() {
-	return static_cast<T_UI_Data*>(_mainForm->getDataBuffer());
+bool C_UI::shouldBlockInput() {
+	return _blockInput;
 }
