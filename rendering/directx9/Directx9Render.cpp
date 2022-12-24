@@ -19,10 +19,10 @@ void C_DX9Render::bindDevice(IDirect3DDevice9* device) {
 	_device->GetViewport(&_viewport);
 	_screenSize = { static_cast<long>(_viewport.Width), static_cast<long>(_viewport.Height) };
 
-	_oldState.create(_device, false);
-	_newState.create(_device, true);
-
 	_mainBuffer.create(_device, MAX_VERTICES);
+
+	_newState.create(_device, true);
+	_oldState.create(_device, false);
 
 	// init all fonts
 	for (auto& font : _fonts) {

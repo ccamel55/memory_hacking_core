@@ -7,7 +7,7 @@ void C_VertexBuffer::create(IDirect3DDevice9* device, size_t bufferSize) {
 	_device = device;
 
 	// create a new buffer
-	if (FAILED(_device->CreateVertexBuffer(bufferSize * sizeof(T_Vertex), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_CUSTOM, D3DPOOL_DEFAULT, &_vertexBuffer, nullptr))) {
+	if (FAILED(_device->CreateVertexBuffer(bufferSize * sizeof(T_Vertex), D3DUSAGE_DYNAMIC | D3DUSAGE_WRITEONLY, D3DFVF_XYZRHW | D3DFVF_DIFFUSE | D3DFVF_TEX1, D3DPOOL_DEFAULT, &_vertexBuffer, nullptr))) {
 		throw std::exception("failed to create vertex buffer");
 	}
 }

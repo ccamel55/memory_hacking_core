@@ -3,8 +3,16 @@
 #include <Windows.h>
 #include <vector>
 
-inline uintptr_t GET_VIRTUAL(void* classPtr, size_t index) {
-	return static_cast<uintptr_t>((*static_cast<int**>(classPtr))[index]);
+template <typename T = void*>
+constexpr T GET_VIRTUAL_FN(void* thisptr, std::size_t nIndex) {
+	return (*static_cast<T**>(thisptr))[nIndex];
+}
+
+template <typename T, typename ... Args_t>
+constexpr T CALL_VIRTUAL_FN(void* thisptr, size_t nIndex, Args_t... argList)
+{
+	using VirtualFn = T(__thiscall*)(void*, decltype(argList)...);
+	return (*static_cast<VirtualFn**>(thisptr))[nIndex](thisptr, argList...);
 }
 
 inline uintptr_t GET_RELATIVE(uintptr_t address) {
@@ -20,17 +28,10 @@ inline uintptr_t GET_RELATIVE(uintptr_t address) {
 }
 
 template <typename T, std::size_t S>
-std::vector<T> FILLED_VECTOR(const T& fill) {
+inline std::vector<T> FILLED_VECTOR(const T& fill) {
 
 	std::vector<T> ret(S);
 	std::fill(ret.begin(), ret.begin() + S, fill);
 
 	return ret;
 }
-
-// general purpose macros
-#define FUNC_ARGS(...) (this, __VA_ARGS__ ); }
-#define OFFSET( type, func, offset ) type& func() { return *reinterpret_cast<type*>( reinterpret_cast<uintptr_t>(this) + offset); }
-
-#define V_FUNC(idx, func, sig) auto func { return reinterpret_cast<sig>((*(uintptr_t**)this)[idx]) FUNC_ARGS
-#define P_FUNC(adr, func, sig) auto func { return reinterpret_cast<sig>(adr) FUNC_ARGS
