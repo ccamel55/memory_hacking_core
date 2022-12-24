@@ -10,6 +10,3 @@ This repo does not have to be used for memory hacking, it has a bunch of other t
 - add keybinds
 - add console UI
 - add settings UI
-
-## Note:
-UI code is pretty garbage, needs to be rewritten once i finalize how its going to look and opperate. 

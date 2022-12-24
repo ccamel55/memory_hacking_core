@@ -144,6 +144,10 @@ int C_InputHandler::getScrollState() {
 	return _scrollState;
 }
 
+size_t C_InputHandler::getLastKey() {
+	return _curKey;
+}
+
 POINT& C_InputHandler::getMousePos() {
 	return _mousePos;
 }

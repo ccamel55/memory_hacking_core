@@ -3,7 +3,7 @@
 
 using namespace CORE;
 
-Form_Button::Form_Button(const std::string name, std::function<void()> callback) {
+Form_Button::Form_Button(const std::string& name, std::function<void()> callback) {
 
 	_name = name;
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_CONTROL;

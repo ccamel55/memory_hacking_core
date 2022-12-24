@@ -43,6 +43,7 @@ namespace CORE {
 		void wndProcEnd();
 
 		int getScrollState();
+		size_t getLastKey();
 
 		POINT& getMousePos();
 		POINT& getMouseDelta();

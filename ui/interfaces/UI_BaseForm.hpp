@@ -11,6 +11,7 @@
 #include "../form_common/Form_Slider.hpp"
 #include "../form_common/Form_TextInput.hpp"
 #include "../form_common/Form_Listbox.hpp"
+#include "../form_common/Form_Splitter.hpp"
 
 namespace CORE {
 

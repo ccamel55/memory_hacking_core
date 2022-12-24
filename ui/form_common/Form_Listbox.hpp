@@ -14,7 +14,7 @@ namespace CORE {
 		void render();
 		void update();
 		void input();
-	private:
+	protected:
 		int _cursor{};
 		int _scroll{};
 		int _selected{};

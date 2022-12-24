@@ -17,10 +17,11 @@ namespace CORE {
 
 		void addControl(std::shared_ptr<UI_BaseControl> control);
 		const POINT_INT& getControlPosition();
-	private:
+	protected:
 		POINT_INT _controlPosition{};
 		POINT_INT _controlOffset{};
 
+		std::shared_ptr<UI_BaseControl> _blocked{};
 		std::vector<std::shared_ptr<UI_BaseControl>> _controls{};
 	};
 }

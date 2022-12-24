@@ -39,6 +39,10 @@ void C_Config::fetchConfigs() {
 
 void C_Config::remove(size_t filenameIndex) {
 
+	if (_configs.empty()) {
+		return;
+	}
+
 	const auto& fileName = _configs.at(filenameIndex);
 	const auto filePath = std::filesystem::path(_directory / fileName).string();
 
@@ -50,6 +54,10 @@ void C_Config::remove(size_t filenameIndex) {
 }
 
 void C_Config::load(size_t filenameIndex) {
+
+	if (_configs.empty()) {
+		return;
+	}
 
 	const auto& fileName = _configs.at(filenameIndex);
 	const auto filePath = std::filesystem::path(_directory / fileName).string();

@@ -1,8 +1,10 @@
 #pragma once
 
 #include <map>
-
 #include "../../interfaces/UI_BaseForm.hpp"
+
+#include "Console_Input.hpp"
+#include "Console_Log.hpp"
 
 namespace CORE {
 
@@ -23,28 +25,28 @@ namespace CORE {
 
 	struct T_ConsoleVar {
 
-		T_ConsoleVar(E_CONSOLE_VAR_TYPE type, std::string_view name, std::string_view description, float min = 0.f, float max = 0.f, float defaultVal = 0.f, void* varPtr = nullptr) :
-			_name(name),
-			_description(description),
-			_min(min),
-			_max(max),
-			_default(defaultVal),
-			_varPtr(varPtr),
-			_type(type) {
-
-		}
-
 		std::string_view _name{};
 		std::string_view _description{};
 
-		float _min{}; // min val
-		float _max{}; // max val
-
-		float _default{};
 		E_CONSOLE_VAR_TYPE _type{};
+	
+		union U_DATA {
+			
+			struct T_DATA_INT {
+				int _min{};
+				int _max{};
+				int* _data{};
+			}_int;
 
-		// can be callback, can be pointer to int, etc.
-		void* _varPtr{};
+			struct T_DATA_FLOAT {
+				float _min{};
+				float _max{};
+				float* _data{};
+			}_float;
+
+		} _data{};
+
+		std::function<void()> _callback{};
 	};
 
 	class Console_Form : public UI_BaseForm {
@@ -56,14 +58,15 @@ namespace CORE {
 		void update();
 		void input();
 
-		void addCommand(std::string_view name, T_ConsoleVar var);
+		void addCommand(std::string_view name, std::string_view description);
+		void setData(std::string_view name, uint32_t var, float min, float max);
+		void setData(std::string_view name, uint32_t var, int min, int max);
+		void setData(std::string_view name, std::function<void()> callback);
 	protected:
+		size_t _selectorIdx{};
 
-		POINT_INT _logPos{};
-		POINT_INT _logSize{};
-
-		POINT_INT _inputPos{};
-		POINT_INT _inputSize{};
+		std::shared_ptr<Console_Input> _inputBox{};
+		std::shared_ptr<Console_Log> _logBox{};
 
 		std::map<std::string_view, T_ConsoleVar> _commands{};
 	}; 

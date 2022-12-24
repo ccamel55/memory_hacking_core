@@ -141,6 +141,8 @@ namespace CORE::DX9 {
 		void finishDraw();
 		void addFont(hash_t font, const std::string family, size_t height, size_t weight);
 		POINT& getScreenSize();
+		size_t getStringWidth(hash_t font, const std::string& text);
+		size_t getStringHeight(hash_t font);
 		void addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE type, size_t primitiveCount, IDirect3DTexture9* tex = NULL);
 		void breakBatch();
 	public:

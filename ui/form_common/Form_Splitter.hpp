@@ -6,18 +6,16 @@
 
 namespace CORE {
 
-	class Form_Button : public UI_BaseControl {
+	class Form_Splitter : public UI_BaseControl {
 	public:
-		Form_Button(const std::string& name, std::function<void()> callback);
-		~Form_Button();
+		Form_Splitter(const std::string& name);
+		~Form_Splitter();
 
 		void render();
 		void update();
 		void input();
 	protected:
-		bool _clicked = false;
-
 		POINT_INT _absolutePosition{};
-		std::function<void()> _callback{};
+		POINT_INT _drawSize{};
 	};
 }

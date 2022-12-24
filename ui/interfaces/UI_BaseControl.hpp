@@ -20,6 +20,13 @@ namespace CORE {
 
 		// spacing between controls within groupboxes
 		constexpr POINT_INT CONTROL_SPACING = { 20, 10 };
+
+		// console logger stuff
+		constexpr POINT_INT CONSOLE_LOG_PADDING = { 10, 10 };
+		constexpr POINT_INT CONSOLE_LOG_SPACING = { 0, 12 };
+
+		// numer of suggested to choose from
+		constexpr size_t CONSOLE_INPUT_COUNT = 10;
 	}
 
 	namespace UI_TEXTUI {

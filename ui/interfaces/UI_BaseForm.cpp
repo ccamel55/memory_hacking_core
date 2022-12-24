@@ -136,7 +136,15 @@ void UI_BaseForm::input() {
 	}
 
 	if (getFocused()) {
+
 		getFocused()->input();
+
+		if (getFocused()->getFlags() & E_UI_FLAGS::UI_BLOCKED) {
+			getFlags() |= E_UI_FLAGS::UI_BLOCKED;
+		}
+		else {
+			getFlags() &= ~E_UI_FLAGS::UI_BLOCKED;
+		}
 	}
 }
 

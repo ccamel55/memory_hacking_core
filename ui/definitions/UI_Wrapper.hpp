@@ -35,6 +35,10 @@ namespace CORE {
 		static __forceinline int scrollState() {
 			return C_InputHandler::get().getScrollState();
 		}
+
+		static __forceinline size_t lastKey() {
+			return C_InputHandler::get().getLastKey();
+		}
 	}
 
 	namespace UI_RENDER {
@@ -105,6 +109,14 @@ namespace CORE {
 			else {
 				DX9::C_DX9Render::get().drawString(static_cast<float>(x), static_cast<float>(y), font, col, str, drawFlags);
 			}
+		}
+
+		static __forceinline size_t textWidth(hash_t hash, const std::string& str) {
+			return DX9::C_DX9Render::get().getStringWidth(hash, str);
+		}
+
+		static __forceinline size_t textHeight(hash_t hash) {
+			return DX9::C_DX9Render::get().getStringHeight(hash);
 		}
 	}
 }
