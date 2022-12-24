@@ -21,9 +21,9 @@ namespace CORE {
 		}
 
 	public:
-		uint32_t _size = 0;
-		DWORD _flags = 0x0;
-		LPVOID _address = nullptr;
+		uint32_t _size{};
+		DWORD _flags{};
+		LPVOID _address{};
 	};
 
 	struct T_VirtualClass {
@@ -37,17 +37,16 @@ namespace CORE {
 			return reinterpret_cast<T>(_orig[index]);
 		}
 
-		uintptr_t* _orig = nullptr;
-		uintptr_t** _vTable = nullptr;
+		uintptr_t* _orig{};
+		uintptr_t** _vTable{};
 
-		uintptr_t _vTableLength = 0;
-		std::unique_ptr<uintptr_t[]> _replace = nullptr;
+		uintptr_t _vTableLength{};
+		std::unique_ptr<uintptr_t[]> _replace{};
 	};
 
 	class C_VirtualFnHookManager : public Singleton<C_VirtualFnHookManager> {
 	public:
 		C_VirtualFnHookManager() {
-			_hookedFunctions;
 		}
 
 		~C_VirtualFnHookManager() {
@@ -58,6 +57,6 @@ namespace CORE {
 		T_VirtualClass* getVirtualClass(size_t id);
 		void unhookAll();
 	private:
-		std::unordered_map<size_t, T_VirtualClass> _hookedFunctions;
+		std::unordered_map<size_t, T_VirtualClass> _hookedFunctions{};
 	};
 }

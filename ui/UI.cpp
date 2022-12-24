@@ -27,7 +27,7 @@ void C_UI::render() {
 
 		// draw overlay if not in focus
 		if (w != _focused) {
-			UI_RENDER::drawRectFilled(w->getPosition()._x, w->getPosition()._y, w->getSize()._x, w->getSize()._y, UI_COLORS::FORM_UNFOCUS);
+			UI_RenderFactory::get().getImpl()->drawRectFill(w->getPosition()._x, w->getPosition()._y, w->getSize()._x, w->getSize()._y, UI_COLORS::FORM_UNFOCUS);
 		}
 	}
 }
@@ -83,4 +83,14 @@ void C_UI::input() {
 
 bool C_UI::shouldBlockInput() {
 	return _blockInput;
+}
+
+void C_UI::registerFonts() {
+
+	// register UI fonts, must be called after setting implementation
+	CORE::UI_RenderFactory::get().getImpl()->addFont(CORE::UI_FONTS::CONSOLE_FONT, "Tahoma", 12, 40);
+	CORE::UI_RenderFactory::get().getImpl()->addFont(CORE::UI_FONTS::TEXT_UI_FONT, "Tahoma", 14, 800);
+	CORE::UI_RenderFactory::get().getImpl()->addFont(CORE::UI_FONTS::WINDOW_FONT, "Tahoma", 14, 800);
+	CORE::UI_RenderFactory::get().getImpl()->addFont(CORE::UI_FONTS::CONTROL_FONT, "Tahoma", 12, 800);
+	CORE::UI_RenderFactory::get().getImpl()->addFont(CORE::UI_FONTS::TAB_FONT, "Tahoma", 12, 400);
 }

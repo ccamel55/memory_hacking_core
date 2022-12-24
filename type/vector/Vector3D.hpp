@@ -218,8 +218,8 @@ namespace CORE {
 		}
 
 	public:
-		float _x;
-		float _y;
-		float _z;
+		float _x{};
+		float _y{};
+		float _z{};
 	};
 }

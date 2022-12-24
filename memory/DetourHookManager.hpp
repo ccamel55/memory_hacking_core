@@ -16,7 +16,6 @@ namespace CORE {
 	class C_DetourHookManager : public Singleton<C_DetourHookManager> {
 	public:
 		C_DetourHookManager() {
-			_hookedFunctions = {};
 
 			// Initialize MinHook.
 			MH_Initialize();
@@ -39,6 +38,6 @@ namespace CORE {
 		}
 
 	private:
-		std::unordered_map<size_t, T_HookedFunction> _hookedFunctions;
+		std::unordered_map<size_t, T_HookedFunction> _hookedFunctions{};
 	};
 }

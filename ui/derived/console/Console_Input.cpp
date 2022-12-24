@@ -26,11 +26,11 @@ void Console_Input::render() {
 	// draw input suggestions
 	if (!_useHistory && !_suggestedInputs.empty()) {
 
-		UI_RENDER::drawRectFilled(_suggestionPos._x - 2, _suggestionPos._y, getSize()._x / 2, (_suggestedInputs.size() * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 2 + 2, UI_COLORS::CONTROL_FILL);
-		UI_RENDER::drawRect(_suggestionPos._x - 2, _suggestionPos._y, getSize()._x / 2, (_suggestedInputs.size() * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 2 + 2, UI_COLORS::GRAY);
+		UI_RenderFactory::get().getImpl()->drawRectFill(_suggestionPos._x - 2, _suggestionPos._y, getSize()._x / 2, (_suggestedInputs.size() * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 2 + 2, UI_COLORS::CONTROL_FILL);
+		UI_RenderFactory::get().getImpl()->drawRect(_suggestionPos._x - 2, _suggestionPos._y, getSize()._x / 2, (_suggestedInputs.size() * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 2 + 2, UI_COLORS::GRAY);
 
 		for (size_t i = 0; i < _suggestedInputs.size(); i++) {
-			UI_RENDER::drawText(_suggestionPos._x + 5, _suggestionPos._y + (i * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 1, UI_FONTS::CONSOLE_FONT, (i == _suggestedIndex) ? UI_COLORS::LIGHT_BLUE : UI_COLORS::WHITE, _suggestedInputs.at(i));
+			UI_RenderFactory::get().getImpl()->drawString(_suggestionPos._x + 5, _suggestionPos._y + (i * UI_CONTROL::CONSOLE_LOG_SPACING._y) + 1, UI_FONTS::CONSOLE_FONT, (i == _suggestedIndex) ? UI_COLORS::LIGHT_BLUE : UI_COLORS::WHITE, _suggestedInputs.at(i));
 		}
 	}
 }
@@ -90,7 +90,7 @@ void Console_Input::input() {
 
 			if (_useHistory) {
 		
-				if (_historyIndex >= _inputHistory.size() - 1) {
+				if (_historyIndex >= static_cast<int>(_inputHistory.size() - 1)) {
 					_historyIndex = 0;
 				}
 				else {

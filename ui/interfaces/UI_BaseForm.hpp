@@ -50,6 +50,9 @@ namespace CORE {
 		POINT_INT _controlSize{};
 		POINT_INT _controlPosition{};
 
+		POINT_INT _leftPosition{};
+		POINT_INT _rightPosition{};
+
 		bool _dragging{};
 		size_t _focusedIdx{};
 

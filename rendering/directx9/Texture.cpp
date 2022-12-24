@@ -2,14 +2,6 @@
 
 using namespace CORE::DX9;
 
-C_Texture::C_Texture() {
-	_texture = NULL;
-}
-
-C_Texture::~C_Texture() {
-	release();
-}
-
 void C_Texture::release() {
 
 	if (_texture) {

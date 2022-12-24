@@ -7,6 +7,14 @@
 
 namespace CORE {
 
+	enum E_FONT_FLAGS : char {
+		FONT_ALIGN_L = 1 << 0,
+		FONT_ALIGN_R = 1 << 1,
+		FONT_OUTLINE = 1 << 2,
+		FONT_CENTER_X = 1 << 3,
+		FONT_CENTER_Y = 1 << 4,
+	};
+
 	struct T_TexCoOrd {
 		float _x1;
 		float _y1;

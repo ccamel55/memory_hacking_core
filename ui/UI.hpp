@@ -17,6 +17,7 @@ namespace CORE {
 		void render();
 		void input();
 		bool shouldBlockInput();
+		void registerFonts();
 
 		template<class T>
 		std::shared_ptr<T> addWindow(std::shared_ptr<T>&& newWindow) {

@@ -4,6 +4,7 @@
 #include "../../cryptography/fn1v.hpp"
 
 #include "../BitmapFont.hpp"
+#include "../RenderImpl.hpp"
 
 #include "StateManager.hpp"
 #include "VertexBuffer.hpp"
@@ -16,18 +17,9 @@
 #include <vector>
 #include <unordered_map>
 
-
 namespace CORE::DX9 {
 
 	constexpr size_t MAX_VERTICES = 2048 * 6;
-
-	enum E_FONT_FLAGS : char {
-		ALIGN_L = 1 << 0,
-		ALIGN_R = 1 << 1,
-		OUTLINE = 1 << 2,
-		CENTER_X = 1 << 3,
-		CENTER_Y = 1 << 4,
-	};
 
 	struct T_Primitive {
 
@@ -100,22 +92,9 @@ namespace CORE::DX9 {
 		float sin;
 	};
 
-	class C_DX9Render : public Singleton< C_DX9Render> {
+	class C_DX9Render : public Singleton< C_DX9Render>, public C_RenderImpl {
 	public:
 		C_DX9Render() {
-
-			_device = NULL;
-			_init = false;
-
-			_screenSize = { 0, 0 };
-			_viewport = { 0, 0, 0, 0 };
-
-			_oldState = {};
-			_newState = {};
-			_mainBuffer = {};
-
-			_drawBatchs.clear();
-			_fonts;
 
 			// build lookup circle
 			for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
@@ -125,13 +104,7 @@ namespace CORE::DX9 {
 		}
 
 		~C_DX9Render() {
-
-			for (auto& font : _fonts) {
-				font.second.m_cFontTexture.release();
-				font.second.m_cFontBitmap.release();
-			}
-
-			release();
+			invalidateDevice();
 		}
 
 		void bindDevice(IDirect3DDevice9* device);
@@ -139,39 +112,42 @@ namespace CORE::DX9 {
 		void release();
 		void startDraw();
 		void finishDraw();
-		void addFont(hash_t font, const std::string family, size_t height, size_t weight);
-		POINT& getScreenSize();
-		size_t getStringWidth(hash_t font, const std::string& text);
-		size_t getStringHeight(hash_t font);
 		void addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE type, size_t primitiveCount, IDirect3DTexture9* tex = NULL);
 		void breakBatch();
 	public:
-		void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags = 0);
-		void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags = 0);
-		void drawRect(float x, float y, float w, float h, DWORD col);
+		/* render API functions */
+		void addFont(hash_t font, const std::string& family, size_t height, size_t weight) override;
+		POINT& getScreenSize() override;
+
+		size_t getStringWidth(hash_t font, const std::string& text) override;
+		size_t getStringHeight(hash_t font) override;
+
+		void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags = 0) override;
+		void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags = 0) override;
+		void drawRect(float x, float y, float w, float h, DWORD col) override;
 		void drawRectFill(float x, float y, float w, float h, DWORD col);
-		void drawRectFillGradientH(float x, float y, float w, float h, DWORD colL, DWORD colR);
-		void drawRectFillGradientV(float x, float y, float w, float h, DWORD colT, DWORD colB);
-		void drawCircle(float x, float y, float r, DWORD col);
-		void drawCircleFill(float x, float y, float r, DWORD col);
-		void drawCircleFillGradient(float x, float y, float r, DWORD colO, DWORD colI);
-		void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col);
-		void drawTriangleFill(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col);
+		void drawRectFillGradientH(float x, float y, float w, float h, DWORD colL, DWORD colR) override;
+		void drawRectFillGradientV(float x, float y, float w, float h, DWORD colT, DWORD colB) override;
+		void drawCircle(float x, float y, float r, DWORD col) override;
+		void drawCircleFill(float x, float y, float r, DWORD col) override;
+		void drawCircleFillGradient(float x, float y, float r, DWORD colO, DWORD colI) override;
+		void drawTriangle(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col) override;
+		void drawTriangleFill(float x1, float y1, float x2, float y2, float x3, float y3, DWORD col) override;
 	private:
-		bool _init;
-		IDirect3DDevice9* _device;
+		bool _init{};
+		IDirect3DDevice9* _device{};
 
-		POINT _screenSize;
-		D3DVIEWPORT9 _viewport;
+		POINT _screenSize{};
+		D3DVIEWPORT9 _viewport{};
 
-		C_RenderState _oldState;
-		C_RenderState _newState;
-		C_VertexBuffer _mainBuffer;
+		C_RenderState _oldState{};
+		C_RenderState _newState{};
+		C_VertexBuffer _mainBuffer{};
 
-		std::vector<T_RenderBatch> _drawBatchs;
-		std::unordered_map<hash_t, T_Font> _fonts;
+		std::vector<T_RenderBatch> _drawBatchs{};
+		std::unordered_map<hash_t, T_Font> _fonts{};
 
 		static constexpr size_t CIRCLE_SEGMENTS = 64;
-		std::array<T_Circle, CIRCLE_SEGMENTS + 1> _circleLookup;
+		std::array<T_Circle, CIRCLE_SEGMENTS + 1> _circleLookup{};
 	};
 }

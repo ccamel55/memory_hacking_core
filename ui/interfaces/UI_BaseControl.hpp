@@ -27,6 +27,10 @@ namespace CORE {
 
 		// numer of suggested to choose from
 		constexpr size_t CONSOLE_INPUT_COUNT = 10;
+
+		// size and position of groupbox selector
+		constexpr POINT_INT COMBO_SELECTOR_OFFSET = { 14, 0 };
+		constexpr POINT_INT COMBO_SELECTOR_RADIUS = { 6, 4 };
 	}
 
 	namespace UI_TEXTUI {

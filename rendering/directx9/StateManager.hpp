@@ -8,8 +8,7 @@ namespace CORE::DX9 {
 	class C_RenderState {
 	public:
 		C_RenderState() {
-			_device = NULL;
-			_stateBlock = NULL;
+		
 		}
 
 		~C_RenderState() {
@@ -20,7 +19,7 @@ namespace CORE::DX9 {
 		void apply();
 		void release();
 	private:
-		IDirect3DDevice9* _device;
-		IDirect3DStateBlock9* _stateBlock;
+		IDirect3DDevice9* _device{};
+		IDirect3DStateBlock9* _stateBlock{};
 	};
 }

@@ -1,13 +1,29 @@
 #pragma once
 
-#include "../../win32/InputHandler.hpp"
-
 #include "UI_Definitions.hpp"
+
+#include "../../rendering/directx9/Directx9Render.hpp"
+#include "../../rendering/directx11/Directx11Render.hpp"
+#include "../../rendering/opengl3/OpenGL3Render.hpp"
 
 namespace CORE {
 
+	class UI_RenderFactory : public Singleton<UI_RenderFactory> {
+	public:
+		void setImpl(C_RenderImpl& impl) {
+			_renderImpl = &impl;
+		}
+
+		C_RenderImpl* getImpl() {
+			return _renderImpl;
+		}
+	private:
+		C_RenderImpl* _renderImpl{};
+	};
+
 	namespace UI_INPUT {
 
+		/* maybe do the same thing we did with the renderer? but doubt there wil be different render systems */
 		static __forceinline POINT& mousePos() {
 			return C_InputHandler::get().getMousePos();
 		}
@@ -38,85 +54,6 @@ namespace CORE {
 
 		static __forceinline size_t lastKey() {
 			return C_InputHandler::get().getLastKey();
-		}
-	}
-
-	namespace UI_RENDER {
-
-		static __forceinline POINT& screenSize() {
-			return DX9::C_DX9Render::get().getScreenSize();
-		}
-
-		static __forceinline void addFont(hash_t hash, const std::string& family, size_t height, size_t weight) {
-			return DX9::C_DX9Render::get().addFont(hash, family, height, weight);
-		}
-
-		static __forceinline void drawRect(int x, int y, int w, int h, DWORD col) {
-			DX9::C_DX9Render::get().drawRect(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h), col);
-		}
-
-		static __forceinline void drawRectFilled(int x, int y, int w, int h, DWORD col) {
-			DX9::C_DX9Render::get().drawRectFill(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h), col);
-		}
-
-		static __forceinline void drawRectGradientH(int x, int y, int w, int h, DWORD colL, DWORD colR) {
-			DX9::C_DX9Render::get().drawRectFillGradientH(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h), colL, colR);
-		}
-
-		static __forceinline void drawRectGradientV(int x, int y, int w, int h, DWORD colT, DWORD colB) {
-			DX9::C_DX9Render::get().drawRectFillGradientV(static_cast<float>(x), static_cast<float>(y), static_cast<float>(w), static_cast<float>(h), colT, colB);
-		}
-
-		static __forceinline void drawCircle(int x, int y, int r, DWORD col) {
-			DX9::C_DX9Render::get().drawCircle(static_cast<float>(x), static_cast<float>(y), static_cast<float>(r), col);
-		}
-
-		static __forceinline void drawCircleFilled(int x, int y, int r, DWORD col) {
-			DX9::C_DX9Render::get().drawCircleFill(static_cast<float>(x), static_cast<float>(y), static_cast<float>(r), col);
-		}
-
-		static __forceinline void drawCircleGradient(int x, int y, int r, DWORD colI, DWORD colO) {
-			DX9::C_DX9Render::get().drawCircleFillGradient(static_cast<float>(x), static_cast<float>(y), static_cast<float>(r), colO, colI);
-		}
-
-		static __forceinline void drawTriangle(int x1, int y1, int x2, int y2, int x3, int y3, DWORD col) {
-			DX9::C_DX9Render::get().drawTriangle(static_cast<float>(x1), static_cast<float>(y1), static_cast<float>(x2), static_cast<float>(y2), static_cast<float>(x3), static_cast<float>(y3), col);
-		}
-
-		static __forceinline void drawTriangleFilled(int x1, int y1, int x2, int y2, int x3, int y3, DWORD col) {
-			DX9::C_DX9Render::get().drawTriangleFill(static_cast<float>(x1), static_cast<float>(y1), static_cast<float>(x2), static_cast<float>(y2), static_cast<float>(x3), static_cast<float>(y3), col);
-		}
-
-		static __forceinline void drawText(int x, int y, hash_t font, DWORD col, const std::string& str, uint8_t flags = E_UI_FONT_FLAGS::UI_FONT_NONE) {
-			
-			uint8_t drawFlags = 0;
-
-			if (flags & UI_FONT_CENTER_X) {
-				drawFlags |= DX9::E_FONT_FLAGS::CENTER_X;
-			}
-
-			if (flags & UI_FONT_CENTER_Y) {
-				drawFlags |= DX9::E_FONT_FLAGS::CENTER_Y;
-			}
-
-			if (flags & UI_FONT_RIGHT_ALIGN) {
-				drawFlags |= DX9::E_FONT_FLAGS::ALIGN_R;
-			}
-
-			if (flags & UI_FONT_OUTLINE) {
-				DX9::C_DX9Render::get().drawStringOutline(static_cast<float>(x), static_cast<float>(y), font, col, D3DCOLOR_ARGB(255, 0, 0, 0), str, drawFlags);
-			}
-			else {
-				DX9::C_DX9Render::get().drawString(static_cast<float>(x), static_cast<float>(y), font, col, str, drawFlags);
-			}
-		}
-
-		static __forceinline size_t textWidth(hash_t hash, const std::string& str) {
-			return DX9::C_DX9Render::get().getStringWidth(hash, str);
-		}
-
-		static __forceinline size_t textHeight(hash_t hash) {
-			return DX9::C_DX9Render::get().getStringHeight(hash);
 		}
 	}
 }

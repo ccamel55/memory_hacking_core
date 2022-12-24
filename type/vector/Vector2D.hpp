@@ -24,7 +24,7 @@ namespace CORE {
 		}
 
 	public:
-		float _x;
-		float _y;
+		float _x{};
+		float _y{};
 	};
 }

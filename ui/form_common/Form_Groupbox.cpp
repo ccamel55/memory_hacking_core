@@ -16,7 +16,7 @@ void Form_Groupbox::render() {
 	const auto& size = getSize();
 	const auto& pos = getPosition();
 
-	UI_RENDER::drawRect(pos._x, pos._y, _size._x, _size._y, UI_COLORS::GRAY);
+	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, _size._x, _size._y, UI_COLORS::GRAY);
 
 	for (const auto& c : _controls) {
 		c->render();

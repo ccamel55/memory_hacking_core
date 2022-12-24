@@ -50,6 +50,7 @@ void C_DX9Render::invalidateDevice() {
 }
 
 void C_DX9Render::release() {
+
 	_mainBuffer.release();
 	_oldState.release();
 	_newState.release();
@@ -121,7 +122,7 @@ void C_DX9Render::breakBatch() {
 	_drawBatchs.back().m_aPrimitives.emplace_back(D3DPT_FORCE_DWORD, static_cast<IDirect3DTexture9*>(NULL));
 }
 
-void C_DX9Render::addFont(hash_t font, const std::string family, size_t height, size_t weight) {
+void C_DX9Render::addFont(hash_t font, const std::string& family, size_t height, size_t weight) {
 
 	if (_fonts.count(font) != 0) {
 		return;
@@ -150,7 +151,7 @@ size_t C_DX9Render::getStringHeight(hash_t font) {
 
 void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
 
-	if (flags & OUTLINE) {
+	if (flags & E_FONT_FLAGS::FONT_OUTLINE) {
 		drawStringOutline(x, y, font, col, 0xFF000000, text, flags);
 		return;
 	}
@@ -161,15 +162,15 @@ void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std
 	float posX = x + 0.5f;
 	float posY = y + 0.5f;
 
-	if (flags & CENTER_Y) {
+	if (flags & E_FONT_FLAGS::FONT_CENTER_Y) {
 		posY -= round(myFont.m_cFontBitmap.getStringHeight() * 0.5f) + 1.f;
 	}
 
-	if (flags & CENTER_X) {
+	if (flags & E_FONT_FLAGS::FONT_CENTER_X) {
 		posX -= round(myFont.m_cFontBitmap.getStringWidth(text) * 0.5f);
 	}
 
-	if (flags & ALIGN_R) {
+	if (flags & E_FONT_FLAGS::FONT_ALIGN_R) {
 		posX -= myFont.m_cFontBitmap.getStringWidth(text);
 	}
 
@@ -207,15 +208,15 @@ void C_DX9Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DW
 	float posX = x + 0.5f;
 	float posY = y + 0.5f;
 
-	if (flags & CENTER_Y) {
+	if (flags & E_FONT_FLAGS::FONT_CENTER_Y) {
 		posY -= (myFont.m_cFontBitmap.getStringHeight() * 0.5f) + 1.f;
 	}
 
-	if (flags & CENTER_X) {
+	if (flags & E_FONT_FLAGS::FONT_CENTER_X) {
 		posX -= (myFont.m_cFontBitmap.getStringWidth(text) * 0.5f);
 	}
 
-	if (flags & ALIGN_R) {
+	if (flags & E_FONT_FLAGS::FONT_ALIGN_R) {
 		posX -= myFont.m_cFontBitmap.getStringWidth(text);
 	}
 
