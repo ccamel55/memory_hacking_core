@@ -7,4 +7,3 @@ This repo does not have to be used for memory hacking, it has a bunch of other t
 ## Todo:
 - convert everything into CMakeLists
 - add support for MAC OS and 64 bit window
-- add keybinds
