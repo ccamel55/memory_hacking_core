@@ -25,19 +25,19 @@ void Form_Combobox::render() {
 	const auto& pos = _absolutePosition;
 	const auto& size = getSize();
 
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
+	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
 
 	if (_curItem > 0) {
-		UI_RenderFactory::get().getImpl()->drawTriangleFill(_leftPosition._x - UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _leftPosition._y, _leftPosition._x, _leftPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _leftPosition._x, _leftPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
+		UI_RENDER::drawTriangleFill(_leftPosition._x - UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _leftPosition._y, _leftPosition._x, _leftPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _leftPosition._x, _leftPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
 	}
 
 	if (_curItem < _comboItems->size() - 1) {
-		UI_RenderFactory::get().getImpl()->drawTriangleFill(_rightPosition._x + UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _rightPosition._y, _rightPosition._x, _rightPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _rightPosition._x, _rightPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
+		UI_RENDER::drawTriangleFill(_rightPosition._x + UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _rightPosition._y, _rightPosition._x, _rightPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _rightPosition._x, _rightPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
 	}
 
 	// changes depending on hover etc
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? _comboItems->at(_curItem) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? _comboItems->at(_curItem) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
 
 void Form_Combobox::update() {

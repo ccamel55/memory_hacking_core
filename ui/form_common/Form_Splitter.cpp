@@ -17,8 +17,8 @@ Form_Splitter::~Form_Splitter() {
 void Form_Splitter::render() {
 
 	// draw heheh
-	UI_RenderFactory::get().getImpl()->drawString(_absolutePosition._x, _absolutePosition._y - 2, UI_FONTS::TAB_FONT, UI_COLORS::WHITE, getName());
-	UI_RenderFactory::get().getImpl()->drawRectFill(_absolutePosition._x, _absolutePosition._y + 14, _drawSize._x, _drawSize._y, UI_COLORS::CONTROL_FILL_2);
+	UI_RENDER::drawString(_absolutePosition._x, _absolutePosition._y - 2, UI_FONTS::TAB_FONT, UI_COLORS::WHITE, getName());
+	UI_RENDER::drawRectFill(_absolutePosition._x, _absolutePosition._y + 14, _drawSize._x, _drawSize._y, UI_COLORS::CONTROL_FILL_2);
 }
 
 void Form_Splitter::update() {

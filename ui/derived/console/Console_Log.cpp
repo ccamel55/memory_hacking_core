@@ -17,13 +17,13 @@ void Console_Log::render() {
 	const auto& pos = getPosition();
 	const auto& size = getSize();
 
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
+	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
 
 	for (size_t i = 0; i < _consoleLog.size(); i++) {
 
 		auto& val = _consoleLog.at(i);
-		UI_RenderFactory::get().getImpl()->drawString(pos._x + UI_CONTROL::CONSOLE_LOG_PADDING._x, pos._y + UI_CONTROL::CONSOLE_LOG_PADDING._y + (i * UI_CONTROL::CONSOLE_LOG_SPACING._y), UI_FONTS::CONSOLE_FONT, val._col, val._log);
+		UI_RENDER::drawString(pos._x + UI_CONTROL::CONSOLE_LOG_PADDING._x, pos._y + UI_CONTROL::CONSOLE_LOG_PADDING._y + (i * UI_CONTROL::CONSOLE_LOG_SPACING._y), UI_FONTS::CONSOLE_FONT, val._col, val._log);
 	}
 }
 

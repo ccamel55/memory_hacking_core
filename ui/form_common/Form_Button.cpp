@@ -21,10 +21,10 @@ void Form_Button::render() {
 	const auto& pos = _absolutePosition;
 	const auto& size = getSize();
 	
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, size._x, size._y, _clicked ? UI_COLORS::CONTROL_FILL_2 : UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_OUTLINE);
+	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, _clicked ? UI_COLORS::CONTROL_FILL_2 : UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_OUTLINE);
 
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
 
 void Form_Button::update() {

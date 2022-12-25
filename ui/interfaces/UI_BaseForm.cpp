@@ -12,35 +12,35 @@ void UI_BaseForm::render() {
 	if (!(getFlags() & E_UI_FLAGS::UI_INPUT_ONLY)) {
 
 		// draw main form
-		UI_RenderFactory::get().getImpl()->drawRectFill(position._x, position._y, size._x, size._y, UI_COLORS::FORM_BORDER);
+		UI_RENDER::drawRectFill(position._x, position._y, size._x, size._y, UI_COLORS::FORM_BORDER);
 
 		// draw gradient bar for the title
-		UI_RenderFactory::get().getImpl()->drawRectFillGradientV(position._x, position._y, size._x, UI_FORM::TITLE_SIZE._y, UI_COLORS::FORM_BORDER_GRADIENT, UI_COLORS::FORM_BORDER);
+		UI_RENDER::drawRectFillGradientV(position._x, position._y, size._x, UI_FORM::TITLE_SIZE._y, UI_COLORS::FORM_BORDER_GRADIENT, UI_COLORS::FORM_BORDER);
 
 		// draw control render regin
-		UI_RenderFactory::get().getImpl()->drawRectFill(_controlPosition._x, _controlPosition._y, _controlSize._x, _controlSize._y, UI_COLORS::FORM_CONTENTS);
+		UI_RENDER::drawRectFill(_controlPosition._x, _controlPosition._y, _controlSize._x, _controlSize._y, UI_COLORS::FORM_CONTENTS);
 
 		// form name pinned box
-		UI_RenderFactory::get().getImpl()->drawString(position._x + UI_FORM::PINNED_OFFSET._x + UI_FORM::CONTENT_POS._x + 4, position._y + (UI_FORM::CONTENT_POS._y / 2), UI_FONTS::WINDOW_FONT, UI_COLORS::FORM_TEXT_LABEL, getName(), E_FONT_FLAGS::FONT_CENTER_Y);
+		UI_RENDER::drawString(position._x + UI_FORM::PINNED_OFFSET._x + UI_FORM::CONTENT_POS._x + 4, position._y + (UI_FORM::CONTENT_POS._y / 2), UI_FONTS::WINDOW_FONT, UI_COLORS::FORM_TEXT_LABEL, getName(), E_FONT_FLAGS::FONT_CENTER_Y);
 
 		// draw pinned circle
-		UI_RenderFactory::get().getImpl()->drawCircleFillGradient(position._x + UI_FORM::PINNED_OFFSET._x, position._y + UI_FORM::PINNED_OFFSET._y, 4, (getFlags() & E_UI_FLAGS::UI_PINNED) ? UI_COLORS::GREEN : UI_COLORS::RED, UI_COLORS::WHITE);
+		UI_RENDER::drawCircleFillGradient(position._x + UI_FORM::PINNED_OFFSET._x, position._y + UI_FORM::PINNED_OFFSET._y, 4, (getFlags() & E_UI_FLAGS::UI_PINNED) ? UI_COLORS::GREEN : UI_COLORS::RED, UI_COLORS::WHITE);
 
 		// draw groupbox selection
 		if (_groupboxes.size() > 1) {
 
 			// left and right arrow
-			UI_RenderFactory::get().getImpl()->drawTriangleFill(_leftPosition._x - UI_FORM::SELECTOR_RADIUS._x, _leftPosition._y, _leftPosition._x, _leftPosition._y + UI_FORM::SELECTOR_RADIUS._y, _leftPosition._x, _leftPosition._y - UI_FORM::SELECTOR_RADIUS._y, _focusedIdx == 0 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::CONFIG_TAB_FILL1);
-			UI_RenderFactory::get().getImpl()->drawTriangleFill(_rightPosition._x + UI_FORM::SELECTOR_RADIUS._x, _rightPosition._y, _rightPosition._x, _rightPosition._y + UI_FORM::SELECTOR_RADIUS._y, _rightPosition._x, _rightPosition._y - UI_FORM::SELECTOR_RADIUS._y, _focusedIdx == _groupboxes.size() - 1 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::CONFIG_TAB_FILL1);
+			UI_RENDER::drawTriangleFill(_leftPosition._x - UI_FORM::SELECTOR_RADIUS._x, _leftPosition._y, _leftPosition._x, _leftPosition._y + UI_FORM::SELECTOR_RADIUS._y, _leftPosition._x, _leftPosition._y - UI_FORM::SELECTOR_RADIUS._y, _focusedIdx == 0 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::CONFIG_TAB_FILL1);
+			UI_RENDER::drawTriangleFill(_rightPosition._x + UI_FORM::SELECTOR_RADIUS._x, _rightPosition._y, _rightPosition._x, _rightPosition._y + UI_FORM::SELECTOR_RADIUS._y, _rightPosition._x, _rightPosition._y - UI_FORM::SELECTOR_RADIUS._y, _focusedIdx == _groupboxes.size() - 1 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::CONFIG_TAB_FILL1);
 
 			// name of current tab
-			UI_RenderFactory::get().getImpl()->drawString(_leftPosition._x + (UI_FORM::SELECTOR_SPACING._x / 2), _leftPosition._y, UI_FONTS::TAB_FONT, UI_COLORS::WHITE, _groupboxNames.at(_focusedIdx), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+			UI_RENDER::drawString(_leftPosition._x + (UI_FORM::SELECTOR_SPACING._x / 2), _leftPosition._y, UI_FONTS::TAB_FONT, UI_COLORS::WHITE, _groupboxNames.at(_focusedIdx), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 		}
 	}
 	else if (getFlags() & E_UI_FLAGS::UI_PINNED) {
 
 		// draw control region but with less background alpha!
-		UI_RenderFactory::get().getImpl()->drawRectFill(_controlPosition._x, _controlPosition._y, _controlSize._x, _controlSize._y, UI_COLORS::FORM_CONTENTS_PINNED);
+		UI_RENDER::drawRectFill(_controlPosition._x, _controlPosition._y, _controlSize._x, _controlSize._y, UI_COLORS::FORM_CONTENTS_PINNED);
 	}
 
 	if (getFocused()) {
@@ -114,7 +114,7 @@ void UI_BaseForm::input() {
 
 			// move current form and children
 			const auto& mouseDelta = UI_INPUT::mouseDelta();
-			const auto& screenSize = UI_RenderFactory::get().getImpl()->getScreenSize();
+			const auto& screenSize = UI_RENDER::getScreenSize();
 
 			POINT_INT formPos = {
 				std::clamp<int>(pos._x + mouseDelta.x, 0, screenSize.x - _size._x) ,

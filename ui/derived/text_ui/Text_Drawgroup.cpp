@@ -27,13 +27,13 @@ void Text_Drawgroup::render() {
 		//draw active indicator
 		const auto cursorOffsetY = UI_TEXTUI::CONTROL_SPACING._y * (_cursor - _scroll);
 
-		UI_RenderFactory::get().getImpl()->drawRectFill(pos._x - 8, pos._y + cursorOffsetY + 1, 3, 13, UI_COLORS::LIGHT_BLUE);
-		UI_RenderFactory::get().getImpl()->drawRect(pos._x - 8, pos._y + cursorOffsetY + 1, 3, 13, UI_COLORS::BLACK);
+		UI_RENDER::drawRectFill(pos._x - 8, pos._y + cursorOffsetY + 1, 3, 13, UI_COLORS::LIGHT_BLUE);
+		UI_RENDER::drawRect(pos._x - 8, pos._y + cursorOffsetY + 1, 3, 13, UI_COLORS::BLACK);
 	}
 
 	// element counter
 	const auto drawStr = std::string("[" + std::to_string(_cursor + 1) + "/" + std::to_string(_controls.size()) + "]");
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + UI_TEXTUI::CONTROL_SPACING._x, pos._y + (UI_TEXTUI::CONTROL_SPACING._y * std::min<size_t>(UI_TEXTUI::DRAWGROUP_ITEM_COUNT, _controls.size())), UI_FONTS::TEXT_UI_FONT, UI_COLORS::LIGHT_BLUE, drawStr, E_FONT_FLAGS::FONT_ALIGN_R | E_FONT_FLAGS::FONT_OUTLINE);
+	UI_RENDER::drawString(pos._x + UI_TEXTUI::CONTROL_SPACING._x, pos._y + (UI_TEXTUI::CONTROL_SPACING._y * std::min<size_t>(UI_TEXTUI::DRAWGROUP_ITEM_COUNT, _controls.size())), UI_FONTS::TEXT_UI_FONT, UI_COLORS::LIGHT_BLUE, drawStr, E_FONT_FLAGS::FONT_ALIGN_R | E_FONT_FLAGS::FONT_OUTLINE);
 }
 
 void Text_Drawgroup::update() {

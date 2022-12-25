@@ -36,7 +36,7 @@ namespace CORE {
 
 		}
 
-		void attatch(const std::string& windowName, std::function<bool()> callback);
+		void attatch(HWND windowHandle, std::function<bool()> callback);
 		void detatch();
 
 		void wndProcStart(UINT uMsg, WPARAM wParam, LPARAM lParam);

@@ -142,11 +142,11 @@ POINT& C_DX9Render::getScreenSize() {
 }
 
 size_t C_DX9Render::getStringWidth(hash_t font, const std::string& text) {
-	return _fonts.at(font).m_cFontBitmap.getStringWidth(text);
+	return static_cast<size_t>(_fonts.at(font).m_cFontBitmap.getStringWidth(text));
 }
 
 size_t C_DX9Render::getStringHeight(hash_t font) {
-	return _fonts.at(font).m_cFontBitmap.getStringHeight();
+	return static_cast<size_t>(_fonts.at(font).m_cFontBitmap.getStringHeight());
 }
 
 void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {

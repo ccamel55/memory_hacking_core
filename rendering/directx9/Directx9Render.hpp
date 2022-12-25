@@ -1,4 +1,5 @@
 #pragma once
+#pragma comment(lib, "d3d9.lib")
 
 #include "../../singleton.hpp"
 #include "../../cryptography/fn1v.hpp"

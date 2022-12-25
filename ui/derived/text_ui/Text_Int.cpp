@@ -22,8 +22,8 @@ void Text_Int::render() {
 	const auto controlIdx = static_cast<int>(*_var);
 
 	// only text lol
-	UI_RenderFactory::get().getImpl()->drawString(pos._x, pos._y, UI_FONTS::TEXT_UI_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_OUTLINE);
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + UI_TEXTUI::CONTROL_SPACING._x, pos._y, UI_FONTS::TEXT_UI_FONT, _displayText.at(controlIdx)._color, _displayText.at(controlIdx)._name, E_FONT_FLAGS::FONT_ALIGN_R | E_FONT_FLAGS::FONT_OUTLINE);
+	UI_RENDER::drawString(pos._x, pos._y, UI_FONTS::TEXT_UI_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_OUTLINE);
+	UI_RENDER::drawString(pos._x + UI_TEXTUI::CONTROL_SPACING._x, pos._y, UI_FONTS::TEXT_UI_FONT, _displayText.at(controlIdx)._color, _displayText.at(controlIdx)._name, E_FONT_FLAGS::FONT_ALIGN_R | E_FONT_FLAGS::FONT_OUTLINE);
 
 	if ((getFlags() & E_UI_FLAGS::UI_ACTIVE) && getDrawGroup()) {
 		getDrawGroup()->render();

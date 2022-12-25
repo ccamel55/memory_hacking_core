@@ -23,11 +23,11 @@ void Form_Checkbox::render() {
 	const auto& pos = _absolutePosition;
 	const auto& size = _drawSize;
 
-	UI_RenderFactory::get().getImpl()->drawRectFill(_boxPosition._x, _boxPosition._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRectFill(_boxPosition._x + 2, _boxPosition._y + 2, size._x - 3, size._y - 3, *_var ? UI_COLORS::GREEN : UI_COLORS::RED);
+	UI_RENDER::drawRectFill(_boxPosition._x, _boxPosition._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRectFill(_boxPosition._x + 2, _boxPosition._y + 2, size._x - 3, size._y - 3, *_var ? UI_COLORS::GREEN : UI_COLORS::RED);
 
-	UI_RenderFactory::get().getImpl()->drawString(pos._x, pos._y - 1, UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, getName());
-	UI_RenderFactory::get().getImpl()->drawRect(_boxPosition._x, _boxPosition._y, size._x, size._y, UI_COLORS::GRAY);
+	UI_RENDER::drawString(pos._x, pos._y - 1, UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, getName());
+	UI_RENDER::drawRect(_boxPosition._x, _boxPosition._y, size._x, size._y, UI_COLORS::GRAY);
 }
 
 void Form_Checkbox::update() {

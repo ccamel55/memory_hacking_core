@@ -23,17 +23,17 @@ void Form_TextInput::render() {
 	const auto& pos = _absolutePosition;
 	const auto& size = getSize();
 
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, size._x, size._y, (getFlags() & E_UI_FLAGS::UI_BLOCKED) ? UI_COLORS::CONTROL_FILL_2 : UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_OUTLINE);
+	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, (getFlags() & E_UI_FLAGS::UI_BLOCKED) ? UI_COLORS::CONTROL_FILL_2 : UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_OUTLINE);
 
 	// draw text
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + 8, pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, *_data, E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(pos._x + 8, pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, *_data, E_FONT_FLAGS::FONT_CENTER_Y);
 
 	// draw cursor
 	if (getFlags() & E_UI_FLAGS::UI_BLOCKED) {
 		
-		const auto cursorPos = POINT_INT(pos._x + 8 + UI_RenderFactory::get().getImpl()->getStringWidth(UI_FONTS::CONTROL_FONT, _data->substr(0, _inputPos)), pos._y + (size._y / 2) + (UI_RenderFactory::get().getImpl()->getStringHeight(UI_FONTS::CONTROL_FONT) / 2));
-		UI_RenderFactory::get().getImpl()->drawRectFill(cursorPos._x, cursorPos._y, 4, 1, UI_COLORS::LIGHT_GRAY);
+		const auto cursorPos = POINT_INT(pos._x + 8 + UI_RENDER::getStringWidth(UI_FONTS::CONTROL_FONT, _data->substr(0, _inputPos)), pos._y + (size._y / 2) + (UI_RENDER::getStringHeight(UI_FONTS::CONTROL_FONT) / 2));
+		UI_RENDER::drawRectFill(cursorPos._x, cursorPos._y, 4, 1, UI_COLORS::LIGHT_GRAY);
 	}
 }
 

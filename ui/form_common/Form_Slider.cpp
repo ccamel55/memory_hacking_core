@@ -28,12 +28,12 @@ void Form_Slider::render() {
 	const auto& pos = _absolutePosition;
 	const auto& size = getSize();
 
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
-	UI_RenderFactory::get().getImpl()->drawRectFill(pos._x, pos._y, _fillWidth, size._y, UI_COLORS::LIGHT_BLUE);
+	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
+	UI_RENDER::drawRectFill(pos._x, pos._y, _fillWidth, size._y, UI_COLORS::LIGHT_BLUE);
 
 	// changes depending on hover etc
-	UI_RenderFactory::get().getImpl()->drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
-	UI_RenderFactory::get().getImpl()->drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? std::format("{}", *_var) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
+	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? std::format("{}", *_var) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
 
 void Form_Slider::update() {
@@ -69,9 +69,9 @@ void Form_Slider::input() {
 		_hovered = true;
 
 		// dragging stuff
-		const auto slider_mouse_delta = std::clamp<float>(UI_INPUT::mousePos().x - pos._x, 0, (size._x - 1));
+		const auto slider_mouse_delta = std::clamp<int>(UI_INPUT::mousePos().x - pos._x, 0, (size._x - 1));
 
-		_sliderDelta = slider_mouse_delta / (size._x - 1);
+		_sliderDelta = slider_mouse_delta / (size._x - 1.f);
 		_fillWidth = static_cast<int>(_sliderDelta * size._x);
 
 		*_var = static_cast<int>(_sliderDelta * (_max - _min) + _min);

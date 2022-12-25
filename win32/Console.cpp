@@ -4,10 +4,12 @@ using namespace CORE;
 
 void C_Console::attatch() {
 
+#ifdef MEMORY_CORE_LOGGING
+
 	if (!AllocConsole()) {
 		return;
 	}
-	
+
 	// map stdin, stdout and stderr to our console
 	freopen_s(reinterpret_cast<_iobuf**>(stdin), "CONIN$", "r", stdin);
 	freopen_s(reinterpret_cast<_iobuf**>(stdout), "CONOUT$", "w", stdout);
@@ -17,9 +19,14 @@ void C_Console::attatch() {
 
 	// set console attribtes
 	SetConsoleTitleA("sdk");
+
+#endif // MEMORY_CORE_LOGGING
+
 }
 
 void C_Console::detatch() {
+
+#ifdef MEMORY_CORE_LOGGING
 
 	// unmap stdin, stdout, stderr from console
 	fclose(static_cast<_iobuf*>(stdin));
@@ -27,9 +34,16 @@ void C_Console::detatch() {
 	fclose(static_cast<_iobuf*>(stderr));
 
 	FreeConsole();
+
+#endif // MEMORY_CORE_LOGGING
 }
 
 void C_Console::println(const std::string& str) {
+
+#ifdef MEMORY_CORE_LOGGING
+
 	// just print with new line
 	std::cout << str << "\n";
+
+#endif // MEMORY_CORE_LOGGING
 }

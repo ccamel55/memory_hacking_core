@@ -6,13 +6,15 @@
 
 using namespace CORE;
 
-void C_InputHandler::attatch(const std::string& windowName, std::function<bool()> callback) {
+void C_InputHandler::attatch(HWND windowHandle, std::function<bool()> callback) {
 
-	while (!(_windowHandle = FindWindowA(windowName.c_str(), NULL))) {
-		std::this_thread::sleep_for(std::chrono::milliseconds(500));
+	if (windowHandle == nullptr) {
+		throw std::exception("window handle invalid!");
 	}
-	
+
 	_callback = callback;
+	_windowHandle = windowHandle;
+
 	_wndProcOriginal = reinterpret_cast<WNDPROC>(SetWindowLongW(_windowHandle, GWLP_WNDPROC, reinterpret_cast<LONG_PTR>(HK_WndProc)));
 }
 
