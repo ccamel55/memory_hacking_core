@@ -6,6 +6,7 @@
 
 #include "../BitmapFont.hpp"
 #include "../RenderImpl.hpp"
+#include "../CircleCache.hpp"
 
 #include "StateManager.hpp"
 #include "VertexBuffer.hpp"
@@ -88,20 +89,10 @@ namespace CORE::DX9 {
 		C_BitmapFont m_cFontBitmap;
 	};
 
-	struct T_Circle {
-		float cos;
-		float sin;
-	};
-
 	class C_DX9Render : public Singleton< C_DX9Render>, public C_RenderImpl {
 	public:
 		C_DX9Render() {
-
-			// build lookup circle
-			for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-				_circleLookup.at(i).cos = std::cos(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
-				_circleLookup.at(i).sin = std::sin(6.283185f * (i / static_cast<float>(CIRCLE_SEGMENTS)));
-			}
+			C_CircleCache::get().cache();
 		}
 
 		~C_DX9Render() {
@@ -147,8 +138,5 @@ namespace CORE::DX9 {
 
 		std::vector<T_RenderBatch> _drawBatchs{};
 		std::unordered_map<hash_t, T_Font> _fonts{};
-
-		static constexpr size_t CIRCLE_SEGMENTS = 64;
-		std::array<T_Circle, CIRCLE_SEGMENTS + 1> _circleLookup{};
 	};
 }

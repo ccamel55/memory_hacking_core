@@ -1,5 +1,7 @@
 #include "UI.hpp"
 
+#include "../win32/Console.hpp"
+
 #include <algorithm>
 
 using namespace CORE;
@@ -93,4 +95,6 @@ void C_UI::registerFonts() {
 	UI_RENDER::addFont(UI_FONTS::WINDOW_FONT, "Tahoma", 14, 800);
 	UI_RENDER::addFont(UI_FONTS::CONTROL_FONT, "Tahoma", 12, 800);
 	UI_RENDER::addFont(UI_FONTS::TAB_FONT, "Tahoma", 12, 400);
+
+	C_Console::get().println("C_UI -> registered UI fonts");
 }

@@ -7,7 +7,7 @@
 
 namespace CORE {
 
-	enum E_BIND_TYPE {
+	enum E_BIND_TYPE : size_t{
 		BIND_INVALID,
 		BIND_HOLD,
 		BIND_TOGGLE

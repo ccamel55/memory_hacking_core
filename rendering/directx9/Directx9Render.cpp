@@ -348,11 +348,12 @@ void C_DX9Render::drawRectFillGradientV(float x, float y, float w, float h, DWOR
 
 void C_DX9Render::drawCircle(float x, float y, float r, DWORD col) {
 
-	std::vector<T_Vertex> vertices;
+	std::vector<T_Vertex> vertices{};
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = _circleLookup.at(i);
-		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, col, 0.f, 0.f);
+
+		const auto& lookup = C_CircleCache::get().getLookup(i);
+		vertices.emplace_back(x + r * lookup._cos, y + r * lookup._sin, col, 0.f, 0.f);
 	}
 
 	addToBatch(vertices, D3DPT_LINESTRIP, CIRCLE_SEGMENTS, NULL);
@@ -361,12 +362,13 @@ void C_DX9Render::drawCircle(float x, float y, float r, DWORD col) {
 
 void C_DX9Render::drawCircleFill(float x, float y, float r, DWORD col) {
 
-	std::vector<T_Vertex> vertices;
+	std::vector<T_Vertex> vertices{};
 	vertices.emplace_back(x, y, col, 0.f, 0.f);
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = _circleLookup.at(i);
-		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, col, 0.f, 0.f);
+
+		const auto& lookup = C_CircleCache::get().getLookup(i);
+		vertices.emplace_back(x + r * lookup._cos, y + r * lookup._sin, col, 0.f, 0.f);
 	}
 
 	addToBatch(vertices, D3DPT_TRIANGLEFAN, CIRCLE_SEGMENTS, NULL);
@@ -375,12 +377,13 @@ void C_DX9Render::drawCircleFill(float x, float y, float r, DWORD col) {
 
 void C_DX9Render::drawCircleFillGradient(float x, float y, float r, DWORD colO, DWORD colI) {
 
-	std::vector<T_Vertex> vertices;
+	std::vector<T_Vertex> vertices{};
 	vertices.emplace_back(x, y, colI, 0.f, 0.f);
 
 	for (size_t i = 0; i <= CIRCLE_SEGMENTS; i++) {
-		const auto& lookup = _circleLookup.at(i);
-		vertices.emplace_back(x + r * lookup.cos, y + r * lookup.sin, colO, 0.f, 0.f);
+
+		const auto& lookup = C_CircleCache::get().getLookup(i);
+		vertices.emplace_back(x + r * lookup._cos, y + r * lookup._sin, colO, 0.f, 0.f);
 	}
 
 	addToBatch(vertices, D3DPT_TRIANGLEFAN, CIRCLE_SEGMENTS, NULL);
