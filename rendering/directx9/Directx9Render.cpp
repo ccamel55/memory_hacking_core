@@ -20,9 +20,7 @@ void C_DX9Render::bindDevice(IDirect3DDevice9* device) {
 	_screenSize = { static_cast<long>(_viewport.Width), static_cast<long>(_viewport.Height) };
 
 	_mainBuffer.create(_device, MAX_VERTICES);
-
-	_newState.create(_device, true);
-	_oldState.create(_device, false);
+	_oldState.create(_device);
 
 	// init all fonts
 	for (auto& font : _fonts) {
@@ -53,10 +51,14 @@ void C_DX9Render::release() {
 
 	_mainBuffer.release();
 	_oldState.release();
-	_newState.release();
 }
 
 void C_DX9Render::startDraw() {
+
+	_oldState.capture();
+
+	// apply new render state
+	applyRenderState();
 
 	// make sure we have at least 1 batch to draw into
 	_drawBatchs.emplace_back();
@@ -65,7 +67,6 @@ void C_DX9Render::startDraw() {
 void C_DX9Render::finishDraw() {
 
 	// bind our draw data
-	_newState.apply();
 	_mainBuffer.apply();
 
 	for (const auto& batch : _drawBatchs) {
@@ -120,6 +121,45 @@ void C_DX9Render::addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE
 
 void C_DX9Render::breakBatch() {
 	_drawBatchs.back().m_aPrimitives.emplace_back(D3DPT_FORCE_DWORD, static_cast<IDirect3DTexture9*>(NULL));
+}
+
+void C_DX9Render::applyRenderState() {
+
+	_device->SetPixelShader(nullptr);
+	_device->SetVertexShader(nullptr);
+
+	_device->SetRenderState(D3DRS_FILLMODE, D3DFILL_SOLID);
+	_device->SetRenderState(D3DRS_SHADEMODE, D3DSHADE_GOURAUD);
+	_device->SetRenderState(D3DRS_ZWRITEENABLE, FALSE);
+	_device->SetRenderState(D3DRS_ALPHATESTENABLE, FALSE);
+	_device->SetRenderState(D3DRS_CULLMODE, D3DCULL_NONE);
+	_device->SetRenderState(D3DRS_ZENABLE, FALSE);
+	_device->SetRenderState(D3DRS_ALPHABLENDENABLE, TRUE);
+	_device->SetRenderState(D3DRS_BLENDOP, D3DBLENDOP_ADD);
+	_device->SetRenderState(D3DRS_SRCBLEND, D3DBLEND_SRCALPHA);
+	_device->SetRenderState(D3DRS_DESTBLEND, D3DBLEND_INVSRCALPHA);
+	_device->SetRenderState(D3DRS_SEPARATEALPHABLENDENABLE, TRUE);
+	_device->SetRenderState(D3DRS_SRCBLENDALPHA, D3DBLEND_ONE);
+	_device->SetRenderState(D3DRS_DESTBLENDALPHA, D3DBLEND_INVSRCALPHA);
+	_device->SetRenderState(D3DRS_SCISSORTESTENABLE, TRUE);
+	_device->SetRenderState(D3DRS_FOGENABLE, FALSE);
+	_device->SetRenderState(D3DRS_RANGEFOGENABLE, FALSE);
+	_device->SetRenderState(D3DRS_SPECULARENABLE, FALSE);
+	_device->SetRenderState(D3DRS_STENCILENABLE, FALSE);
+	_device->SetRenderState(D3DRS_CLIPPING, TRUE);
+	_device->SetRenderState(D3DRS_LIGHTING, FALSE);
+
+	_device->SetTextureStageState(0, D3DTSS_COLOROP, D3DTOP_MODULATE);
+	_device->SetTextureStageState(0, D3DTSS_COLORARG1, D3DTA_TEXTURE);
+	_device->SetTextureStageState(0, D3DTSS_COLORARG2, D3DTA_DIFFUSE);
+	_device->SetTextureStageState(0, D3DTSS_ALPHAOP, D3DTOP_MODULATE);
+	_device->SetTextureStageState(0, D3DTSS_ALPHAARG1, D3DTA_TEXTURE);
+	_device->SetTextureStageState(0, D3DTSS_ALPHAARG2, D3DTA_DIFFUSE);
+	_device->SetTextureStageState(1, D3DTSS_COLOROP, D3DTOP_DISABLE);
+	_device->SetTextureStageState(1, D3DTSS_ALPHAOP, D3DTOP_DISABLE);
+
+	_device->SetSamplerState(0, D3DSAMP_MINFILTER, D3DTEXF_LINEAR);
+	_device->SetSamplerState(0, D3DSAMP_MAGFILTER, D3DTEXF_LINEAR);
 }
 
 void C_DX9Render::addFont(hash_t font, const std::string& family, size_t height, size_t weight) {

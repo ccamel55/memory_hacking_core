@@ -15,7 +15,8 @@ namespace CORE::DX9 {
 			release();
 		}
 
-		void create(IDirect3DDevice9* device, bool buildCustom);
+		void create(IDirect3DDevice9* device);
+		void capture();
 		void apply();
 		void release();
 	private:

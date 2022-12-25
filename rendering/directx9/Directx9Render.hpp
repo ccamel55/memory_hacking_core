@@ -96,7 +96,7 @@ namespace CORE::DX9 {
 		}
 
 		~C_DX9Render() {
-			invalidateDevice();
+			
 		}
 
 		void bindDevice(IDirect3DDevice9* device);
@@ -106,6 +106,7 @@ namespace CORE::DX9 {
 		void finishDraw();
 		void addToBatch(const std::vector<T_Vertex>& data, D3DPRIMITIVETYPE type, size_t primitiveCount, IDirect3DTexture9* tex = NULL);
 		void breakBatch();
+		void applyRenderState();
 	public:
 		/* render API functions */
 		void addFont(hash_t font, const std::string& family, size_t height, size_t weight) override;
@@ -133,7 +134,6 @@ namespace CORE::DX9 {
 		D3DVIEWPORT9 _viewport{};
 
 		C_RenderState _oldState{};
-		C_RenderState _newState{};
 		C_VertexBuffer _mainBuffer{};
 
 		std::vector<T_RenderBatch> _drawBatchs{};
