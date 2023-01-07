@@ -49,9 +49,6 @@ namespace CORE {
 
 	class C_Config : public Singleton<C_Config> {
 	public:
-		C_Config();
-		~C_Config();
-
 		void setup(const std::string& folder);
 		void fetchConfigs();
 		void remove(size_t filenameIndex);

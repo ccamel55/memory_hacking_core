@@ -15,18 +15,8 @@ namespace CORE {
 
 	class C_DetourHookManager : public Singleton<C_DetourHookManager> {
 	public:
-		C_DetourHookManager() {
-
-			// Initialize MinHook.
-			MH_Initialize();
-		}
-
-		~C_DetourHookManager() {
-			_hookedFunctions.clear();
-
-			// destroy the min the hook!!!
-			MH_Uninitialize();
-		}
+		C_DetourHookManager();
+		~C_DetourHookManager();
 
 		void hookFunction(size_t id, void* func, void* replace);
 		void unhookFunction(size_t id);

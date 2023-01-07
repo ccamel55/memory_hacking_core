@@ -41,7 +41,7 @@ LRESULT __stdcall C_InputHandler::HK_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 	C_InputHandler::get().wndProcEnd();
 
 	if (result) {
-		return FALSE;
+		return TRUE;
 	}
 
 	return C_InputHandler::get()._wndProcOriginal(hwnd, uMsg, wParam, lParam);

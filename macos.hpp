@@ -1,6 +1,5 @@
 #pragma once
 
-#include <Windows.h>
 #include <vector>
 
 template <typename T = void*>
@@ -13,6 +12,13 @@ constexpr T CALL_VIRTUAL_FN(void* thisptr, size_t nIndex, Args_t... argList)
 {
 	using VirtualFn = T(__thiscall*)(void*, decltype(argList)...);
 	return (*static_cast<VirtualFn**>(thisptr))[nIndex](thisptr, argList...);
+}
+
+template <typename T, typename ... Args_t>
+constexpr T CALL_FN(void* thisptr, uintptr_t offset, Args_t... argList)
+{
+	using Fn = T(__thiscall*)(void*, decltype(argList)...);
+	return reinterpret_cast<Fn>(offset)(thisptr, argList...);
 }
 
 inline uintptr_t GET_RELATIVE(uintptr_t address) {

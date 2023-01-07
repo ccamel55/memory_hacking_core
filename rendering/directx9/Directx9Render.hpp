@@ -95,10 +95,6 @@ namespace CORE::DX9 {
 			C_CircleCache::get().cache();
 		}
 
-		~C_DX9Render() {
-			
-		}
-
 		void bindDevice(IDirect3DDevice9* device);
 		void invalidateDevice();
 		void release();

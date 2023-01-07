@@ -4,9 +4,9 @@
 
 using namespace CORE;
 
-Text_Form::Text_Form() {
+Text_Form::Text_Form(const std::string& name) {
 
-	_name = "Text UI";
+	_name = name;
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT;
 
 	_size = { 100, UI_FORM::TITLE_SIZE._y }; // default position

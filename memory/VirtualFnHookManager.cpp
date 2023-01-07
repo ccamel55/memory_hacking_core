@@ -3,11 +3,11 @@
 using namespace CORE;
 
 T_VirtualClass* C_VirtualFnHookManager::attatchVirtualClass(size_t id, void* base) {
-	
+
 	T_VirtualClass curClass{};
-	
+
 	//copy current vtable over 
-	curClass._vTable = (uintptr_t**)base;
+	curClass._vTable = static_cast<uintptr_t**>(base);
 	curClass._orig = *curClass._vTable;
 
 	auto protect = C_MEM_PROC(curClass._vTable, sizeof(uintptr_t), PAGE_READWRITE);
@@ -20,7 +20,7 @@ T_VirtualClass* C_VirtualFnHookManager::attatchVirtualClass(size_t id, void* bas
 	std::copy(curClass._orig - 1, curClass._orig + curClass._vTableLength, curClass._replace.get());
 	*curClass._vTable = &curClass._replace[1];
 
-	_hookedFunctions.insert({ id, std::move(curClass) });
+	_hookedFunctions.insert({id, std::move(curClass)});
 
 	return &_hookedFunctions.at(id);
 }
@@ -36,7 +36,7 @@ void C_VirtualFnHookManager::unhookAll() {
 		if (!vmt.second._orig) {
 			continue;
 		}
-	
+
 		auto protect = C_MEM_PROC(vmt.second._vTable, sizeof(uintptr_t), PAGE_READWRITE);
 
 		//replace new table with old table
@@ -44,12 +44,11 @@ void C_VirtualFnHookManager::unhookAll() {
 	}
 }
 
-void T_VirtualClass::hookIndex(size_t index, void* func)
-{
+void T_VirtualClass::hookIndex(size_t index, void* func) {
 	if (index < 0 || index > _vTableLength) {
 		return;
 	}
-		
+
 	//swap function in new replacement table with our own
 	_replace[index + 1] = (uintptr_t)(func);
 }
@@ -76,8 +75,8 @@ void T_VirtualClass::unhookAll() {
 	*_vTable = _orig;
 }
 
-size_t T_VirtualClass::getVirtualClassSize()
-{
+size_t T_VirtualClass::getVirtualClassSize() {
+
 	size_t length = 0;
 
 	for (length = 0; _orig[length]; length++) {

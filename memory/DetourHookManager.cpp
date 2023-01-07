@@ -6,6 +6,19 @@
 
 using namespace CORE;
 
+C_DetourHookManager::C_DetourHookManager() {
+
+	// Initialize MinHook.
+	MH_Initialize();
+}
+
+C_DetourHookManager::~C_DetourHookManager() {
+	_hookedFunctions.clear();
+
+	// destroy the min the hook!!!
+	MH_Uninitialize();
+}
+
 void C_DetourHookManager::hookFunction(size_t id, void* func, void* replace) {
 
 	T_HookedFunction curFunc{};

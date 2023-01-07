@@ -9,14 +9,6 @@
 
 using namespace CORE;
 
-C_Config::C_Config() {
-
-}
-
-C_Config::~C_Config() {
-
-}
-
 void C_Config::setup(const std::string& folder) {
 
 	_folder_name = folder;

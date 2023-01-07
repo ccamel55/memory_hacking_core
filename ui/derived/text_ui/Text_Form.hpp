@@ -10,7 +10,7 @@ namespace CORE {
 
 	class Text_Form : public UI_BaseText {
 	public:
-		Text_Form();
+		Text_Form(const std::string& name);
 		~Text_Form();
 
 		void render();

@@ -46,13 +46,6 @@ namespace CORE {
 
 	class C_VirtualFnHookManager : public Singleton<C_VirtualFnHookManager> {
 	public:
-		C_VirtualFnHookManager() {
-		}
-
-		~C_VirtualFnHookManager() {
-			_hookedFunctions.clear();
-		}
-
 		T_VirtualClass* attatchVirtualClass(size_t id, void* base);
 		T_VirtualClass* getVirtualClass(size_t id);
 		void unhookAll();

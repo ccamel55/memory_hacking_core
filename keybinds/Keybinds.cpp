@@ -4,14 +4,6 @@
 
 using namespace CORE;
 
-C_Keybinds::C_Keybinds() {
-
-}
-
-C_Keybinds::~C_Keybinds() {
-
-}
-
 void C_Keybinds::input() {
 
 	// handle the inputs!!!
