@@ -3,7 +3,7 @@
 #include <vector>
 
 template <typename T = void*>
-constexpr T GET_VIRTUAL_FN(void* thisptr, std::size_t nIndex) {
+constexpr T GET_VIRTUAL_FN(void* thisptr, size_t nIndex) {
 	return (*static_cast<T**>(thisptr))[nIndex];
 }
 
@@ -33,7 +33,7 @@ inline uintptr_t GET_RELATIVE(uintptr_t address) {
 	return new_address + sizeof(uintptr_t) + relative_offset;
 }
 
-template <typename T, std::size_t S>
+template <typename T, size_t S>
 inline std::vector<T> FILLED_VECTOR(const T& fill) {
 
 	std::vector<T> ret(S);

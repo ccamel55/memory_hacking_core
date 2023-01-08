@@ -6,15 +6,6 @@ namespace CORE::GL3 {
 
 	class C_GL3Render : public Singleton< C_GL3Render>, public C_RenderImpl {
 	public:
-		C_GL3Render() {
-
-
-		}
-
-		~C_GL3Render() {
-
-		}
-	public:
 		/* render API functions */
 		void addFont(hash_t font, const std::string& family, size_t height, size_t weight) override;
 		POINT& getScreenSize() override;

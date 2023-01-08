@@ -2,7 +2,7 @@
 
 using namespace CORE;
 
-//https://github.com/bshoshany/thread-pool/blob/master/BS_thread_pool_light.hpp
+// https://stackoverflow.com/questions/15752659/thread-pooling-in-c11
 
 void C_ThreadPool::spawnThreads() {
 

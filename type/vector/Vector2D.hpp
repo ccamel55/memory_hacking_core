@@ -5,14 +5,150 @@ namespace CORE {
 	class Vector2D {
 	public:
 
-		Vector2D() {
+		constexpr Vector2D() {
 			_x = 0.f;
 			_y = 0.f;
 		}
 
-		Vector2D(float x, float y) {
+		constexpr Vector2D(float x, float y) {
 			_x = x;
 			_y = y;
+		}
+
+		const Vector2D operator+(const Vector2D& in) const {
+			return Vector2D(
+				_x + in._x,
+				_y + in._y
+			);
+		}
+
+		constexpr Vector2D& operator+=(const Vector2D& in) {
+
+			this->_x += in._x;
+			this->_y += in._y;
+
+			return *this;
+		}
+
+		const Vector2D operator+(float in) const {
+			return Vector2D(
+				_x + in,
+				_y + in
+			);
+		}
+
+		constexpr Vector2D& operator+=(float in) {
+
+			this->_x += in;
+			this->_y += in;
+
+			return *this;
+		}
+
+		const Vector2D operator-(const Vector2D& in) const {
+			return Vector2D(
+				_x - in._x,
+				_y - in._y
+			);
+		}
+
+		constexpr Vector2D& operator-=(const Vector2D& in) {
+
+			this->_x -= in._x;
+			this->_y -= in._y;
+
+			return *this;
+		}
+
+		const Vector2D operator-(float in) const {
+			return Vector2D(
+				_x - in,
+				_y - in
+			);
+		}
+
+		constexpr Vector2D& operator-=(float in) {
+
+			this->_x -= in;
+			this->_y -= in;
+
+			return *this;
+		}
+
+		const Vector2D operator*(const Vector2D& in) const {
+			return Vector2D(
+				_x * in._x,
+				_y * in._y
+			);
+		}
+
+		constexpr Vector2D& operator*=(const Vector2D& in) {
+
+			this->_x *= in._x;
+			this->_y *= in._y;
+
+			return *this;
+		}
+
+		const Vector2D operator*(float in) const {
+			return Vector2D(
+				_x * in,
+				_y * in
+			);
+		}
+
+		constexpr Vector2D& operator*=(float in) {
+
+			this->_x *= in;
+			this->_y *= in;
+
+			return *this;
+		}
+
+		const Vector2D operator/(const Vector2D& in) const {
+			return Vector2D(
+				_x / in._x,
+				_y / in._y
+			);
+		}
+
+		constexpr Vector2D& operator/=(const Vector2D& in) {
+
+			this->_x /= in._x;
+			this->_y /= in._y;
+
+			return *this;
+		}
+
+		const Vector2D operator/(float in) const {
+			return Vector2D(
+				_x / in,
+				_y / in
+			);
+		}
+
+		constexpr Vector2D& operator/=(float in) {
+
+			this->_x /= in;
+			this->_y /= in;
+
+			return *this;
+		}
+
+		bool operator==(const Vector2D& vecBase) const {
+			return this->IsEqual(vecBase);
+		}
+
+		bool operator!=(const Vector2D& vecBase) const {
+			return !this->IsEqual(vecBase);
+		}
+
+
+		bool IsEqual(const Vector2D& vecEqual, const float flErrorMargin = std::numeric_limits<float>::epsilon()) const {
+
+			return
+				(std::fabsf(this->_x - vecEqual._x) < flErrorMargin &&
+					std::fabsf(this->_y - vecEqual._y) < flErrorMargin);
 		}
 
 		float length() const {

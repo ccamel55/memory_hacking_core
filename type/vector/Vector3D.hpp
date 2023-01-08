@@ -190,8 +190,16 @@ namespace CORE {
 			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(_x * _x + _y * _y + _z * _z)));
 		}
 
+		float length2D() const {
+			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(_x * _x + _y * _y)));
+		}
+
 		float lengthSqr() const {
 			return (_x * _x + _y * _y + _z * _z);
+		}
+
+		float length2DSqr() const {
+			return (_x * _x + _y * _y);
 		}
 
 		const Vector3D normalize() const {

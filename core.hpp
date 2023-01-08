@@ -9,9 +9,9 @@
 
 #include "keybinds/Keybinds.hpp"
 
-#include "math/FastMath.hpp"
 #include "math/RayIntersection.hpp"
 #include "math/MathLib.hpp"
+#include "math/AVXMath.hpp"
 
 #include "memory/DetourHookManager.hpp"
 #include "memory/PatternScanner.hpp"

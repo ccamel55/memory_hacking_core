@@ -5,6 +5,9 @@ using namespace CORE;
 Text_Drawgroup::Text_Drawgroup() {
 
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_CONTROL;
+
+	_cursor = 0;
+	_scroll = 0;
 }
 
 Text_Drawgroup::~Text_Drawgroup() {

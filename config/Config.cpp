@@ -118,7 +118,7 @@ void C_Config::load(size_t filenameIndex) {
 			const nlohmann::json vector = nlohmann::json::parse(variable["value"].get<std::string>());
 			auto& vecBools = entry.get<std::vector<bool>>();
 
-			for (std::size_t i = 0U; i < vector.size(); i++) {
+			for (size_t i = 0U; i < vector.size(); i++) {
 		
 				if (i < vecBools.size()) {
 					vecBools.at(i) = vector.at(i).get<bool>();
@@ -132,7 +132,7 @@ void C_Config::load(size_t filenameIndex) {
 			const nlohmann::json vector = nlohmann::json::parse(variable["value"].get<std::string>());
 			auto& vecInts = entry.get<std::vector<int>>();
 
-			for (std::size_t i = 0U; i < vector.size(); i++) {
+			for (size_t i = 0U; i < vector.size(); i++) {
 
 				if (i < vecInts.size()) {
 					vecInts.at(i) = vector.at(i).get<int>();
@@ -146,7 +146,7 @@ void C_Config::load(size_t filenameIndex) {
 			const nlohmann::json vector = nlohmann::json::parse(variable["value"].get<std::string>());
 			auto& vecFloats = entry.get<std::vector<float>>();
 
-			for (std::size_t i = 0U; i < vector.size(); i++) {
+			for (size_t i = 0U; i < vector.size(); i++) {
 
 				if (i < vecFloats.size()) {
 					vecFloats.at(i) = vector.at(i).get<float>();
@@ -275,7 +275,7 @@ void C_Config::save(const std::string& configName) {
 
 size_t C_Config::getVarIndex(const hash_t name)
 {
-	for (std::size_t i = 0; i < _vars.size(); i++) {
+	for (size_t i = 0; i < _vars.size(); i++) {
 
 		if (_vars.at(i)._name == name) {
 			return i;

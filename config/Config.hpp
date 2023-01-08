@@ -13,8 +13,8 @@
 #include <string>
 #include <filesystem>
 
-#define C_ADD_VARIABLE( Type, szName, pDefault ) const std::uint32_t szName = CORE::C_Config::get().addVar<Type>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT(#Type), pDefault);
-#define C_ADD_VARIABLE_VECTOR( Type, uSize, szName, pDefault ) const std::uint32_t szName = CORE::C_Config::get().addVar<std::vector<Type>>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT("std::vector<" #Type ">"), FILLED_VECTOR<Type, uSize>(pDefault));
+#define C_ADD_VARIABLE( Type, szName, pDefault ) const uint32_t szName = CORE::C_Config::get().addVar<Type>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT(#Type), pDefault);
+#define C_ADD_VARIABLE_VECTOR( Type, uSize, szName, pDefault ) const uint32_t szName = CORE::C_Config::get().addVar<std::vector<Type>>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT("std::vector<" #Type ">"), FILLED_VECTOR<Type, uSize>(pDefault));
 
 namespace CORE {
 
@@ -58,13 +58,13 @@ namespace CORE {
 		const std::vector<std::string>& getConfigs() const;
 
 		template <typename T>
-		T& getVar(const std::uint32_t nIndex) {
+		T& getVar(const uint32_t nIndex) {
 			return _vars.at(nIndex).get<T>();
 		}
 
 		/* add new configuration variable to massive, and return index of it */
 		template <typename T>
-		std::uint32_t addVar(hash_t name, hash_t type, T defaultVal) {
+		uint32_t addVar(hash_t name, hash_t type, T defaultVal) {
 			_vars.emplace_back(name, type, std::make_any<T>(defaultVal));
 			return _vars.size() - 1U;
 		}

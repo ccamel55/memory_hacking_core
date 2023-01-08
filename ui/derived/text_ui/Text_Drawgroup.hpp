@@ -18,8 +18,10 @@ namespace CORE {
 
 			auto control = _controls.emplace_back(std::move(newControl));
 
-			if (_controls.size() == 1) {
+			if (_controls.size() <= 1) {
+
 				_active = control;
+				_active->getFlags() |= E_UI_FLAGS::UI_ACTIVE;
 			}
 
 			control->setParent(dynamic_pointer_cast<UI_BaseText>(shared_from_this()));
