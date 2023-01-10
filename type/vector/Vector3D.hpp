@@ -1,7 +1,5 @@
 #pragma once
 
-#include <xmmintrin.h>
-
 #include <limits>
 #include <cmath>
 
@@ -187,11 +185,19 @@ namespace CORE {
 		}
 
 		float length() const {
-			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(_x * _x + _y * _y + _z * _z)));
+
+			__m256 v{};
+			v.m256_f32[0] = _x * _x + _y * _y + _z * _z;
+
+			return C_AVXMath::sqrt(v).m256_f32[0];
 		}
 
 		float length2D() const {
-			return _mm_cvtss_f32(_mm_sqrt_ss(_mm_set_ss(_x * _x + _y * _y)));
+
+			__m256 v{};
+			v.m256_f32[0] = _x * _x + _y * _y;
+
+			return C_AVXMath::sqrt(v).m256_f32[0];
 		}
 
 		float lengthSqr() const {
