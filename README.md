@@ -1,12 +1,7 @@
 # memory_hacking_core
-Iv been getting into memory hacking recently. Instead of rewritting every component over and over again for every 
-project why not make a general purpose repository that contains alot of the things needed for memory hacking?
 
-This repo does not have to be used for memory hacking, it has a bunch of other things that can also be useful for any project!
+This repo was initially intented for memory hacking however over time, more general features have been added. Everything is designed to be as modular as possible.
 
-## Todo:
-- convert everything into CMakeLists
-- add support for MAC OS and 64 bit window
-- add thread pool
-- add dx11 renderer
-- add opengl renderer
+## Notes
+- This library only supports windows at the moment, however in the future mac os and linux support will be added.
+- This library only support 32bit applications at the moment, 64bit support is being added.

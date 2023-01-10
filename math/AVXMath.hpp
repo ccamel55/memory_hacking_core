@@ -7,6 +7,9 @@
 #error AVX2 Instructions must be enabled!
 #endif // !__AVX2__
 
+// fast but not very accuary trig functions
+// https://github.com/peihunglin/TSVC_benchmark/blob/master/rosesimd.c
+
 namespace CORE {
 
 	namespace

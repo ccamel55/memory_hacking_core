@@ -13,7 +13,7 @@ namespace CORE {
 
 	class C_Console : public Singleton<C_Console> {
 	public:
-		void attatch();
+		void attatch(const std::string& title);
 		void detatch();
 		void println(const std::string& str);
 	private:

@@ -14,7 +14,7 @@
 #include <filesystem>
 
 #define C_ADD_VARIABLE( Type, szName, pDefault ) const uint32_t szName = CORE::C_Config::get().addVar<Type>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT(#Type), pDefault);
-#define C_ADD_VARIABLE_VECTOR( Type, uSize, szName, pDefault ) const uint32_t szName = CORE::C_Config::get().addVar<std::vector<Type>>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT("std::vector<" #Type ">"), FILLED_VECTOR<Type, uSize>(pDefault));
+#define C_ADD_VARIABLE_VECTOR( Type, uSize, szName, pDefault ) const uint32_t szName = CORE::C_Config::get().addVar<std::vector<Type>>(CORE::C_FN1V::getCT(#szName), CORE::C_FN1V::getCT("std::vector<" #Type ">"), CORE::MEMORY::FILLED_VECTOR<Type, uSize>(pDefault));
 
 namespace CORE {
 

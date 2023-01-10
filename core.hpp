@@ -1,5 +1,7 @@
 #pragma once
 
+// uncomment defines depending on which features and implementations you would like to use
+
 #include "singleton.hpp"
 #include "macos.hpp"
 

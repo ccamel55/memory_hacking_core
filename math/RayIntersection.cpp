@@ -72,8 +72,6 @@ bool C_RayIntersection::rayIntersectAABB(const Vector3D& origin, const Vector3D&
 
 bool C_RayIntersection::rayIntersectCapsule(const Vector3D& origin, const Vector3D& direction, const Vector3D& min, const Vector3D& max, float radius) {
 
-    // https://www.unknowncheats.me/forum/counterstrike-global-offensive/161306-efficient-ray-capsule-intersection-algorithm.html
-
     const auto& vecDelta = (max - min).normalize();
     const auto& vecCenter = min;
 

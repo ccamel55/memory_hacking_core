@@ -2,7 +2,7 @@
 
 using namespace CORE;
 
-void C_Console::attatch() {
+void C_Console::attatch(const std::string& title) {
 
 #ifdef MEMORY_CORE_LOGGING
 
@@ -18,7 +18,7 @@ void C_Console::attatch() {
 	_handle = GetStdHandle(STD_OUTPUT_HANDLE);
 
 	// set console attribtes
-	SetConsoleTitleA("sdk");
+	SetConsoleTitleA(title.c_str());
 
 #endif // MEMORY_CORE_LOGGING
 
