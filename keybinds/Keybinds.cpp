@@ -13,7 +13,8 @@ void C_Keybinds::input() {
 	if (curBind._type == E_BIND_TYPE::BIND_INVALID) {
 		return;
 	}
-	else if (curBind._type == E_BIND_TYPE::BIND_TOGGLE) {
+
+	if (curBind._type == E_BIND_TYPE::BIND_TOGGLE) {
 		
 		if (CORE::C_InputHandler::get().keyPressed(lastKey)) {
 

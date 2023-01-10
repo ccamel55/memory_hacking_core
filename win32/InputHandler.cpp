@@ -1,6 +1,9 @@
 #include "InputHandler.hpp"
 #include "Console.hpp"
 
+#include "../ui/UI.hpp"
+#include "../keybinds/Keybinds.hpp"
+
 #include <thread>
 #include <chrono>
 
@@ -31,11 +34,23 @@ void C_InputHandler::detatch() {
 LRESULT __stdcall C_InputHandler::HK_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	
 	bool result = false;
+
 	C_InputHandler::get().wndProcStart(uMsg, wParam, lParam); 
 	{
-		// call our input callback
-		if (C_InputHandler::get()._callback) {
-			result = C_InputHandler::get()._callback();
+		// handle all inputs for core first
+		C_UI::get().input();
+	
+		if (C_UI::get().shouldBlockInput()) {
+			result = true;
+		}
+		else {
+
+			// only process callbacks and binds if menu isnt blocking inputs
+			C_Keybinds::get().input();
+
+			if (C_InputHandler::get()._callback) {
+				result = C_InputHandler::get()._callback();
+			}
 		}
 	}
 	C_InputHandler::get().wndProcEnd();

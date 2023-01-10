@@ -36,6 +36,11 @@ void C_UI::render() {
 
 void C_UI::input() {
 
+	// dont try block if we have no windows open
+	if (_windows.empty()) {
+		return;
+	}
+
 	if (UI_INPUT::isPressed(UI_KEYS::K_EXPAND_CONFIG)) {
 		_blockInput = !_blockInput;
 	}
@@ -89,7 +94,7 @@ bool C_UI::shouldBlockInput() {
 
 void C_UI::registerFonts() {
 
-	// register UI fonts, must be called after setting implementation
+	// register UI fonts, must be called after setting render implementation
 	UI_RENDER::addFont(UI_FONTS::CONSOLE_FONT, "Tahoma", 12, 40);
 	UI_RENDER::addFont(UI_FONTS::TEXT_UI_FONT, "Tahoma", 14, 800);
 	UI_RENDER::addFont(UI_FONTS::WINDOW_FONT, "Tahoma", 14, 800);
