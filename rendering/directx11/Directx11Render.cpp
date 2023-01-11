@@ -18,6 +18,10 @@ size_t C_DX11Render::getStringHeight(hash_t font) {
 	return 0;
 }
 
+float C_DX11Render::getFrameTime() {
+	return 0.f;
+}
+
 void C_DX11Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
 
 }

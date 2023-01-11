@@ -189,6 +189,10 @@ size_t C_DX9Render::getStringHeight(hash_t font) {
 	return static_cast<size_t>(_fonts.at(font).m_cFontBitmap.getStringHeight());
 }
 
+float C_DX9Render::getFrameTime() {
+	return 0.f;
+}
+
 void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
 
 	if (flags & E_FONT_FLAGS::FONT_OUTLINE) {

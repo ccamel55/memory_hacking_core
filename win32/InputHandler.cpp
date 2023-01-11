@@ -65,7 +65,7 @@ LRESULT __stdcall C_InputHandler::HK_WndProc(HWND hwnd, UINT uMsg, WPARAM wParam
 void C_InputHandler::wndProcStart(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 
 	// reset
-	_curKey = INT_MAX;
+	_curKey = 0;
 	_curState = false;
 
 	switch (uMsg) {
@@ -139,7 +139,7 @@ void C_InputHandler::wndProcStart(UINT uMsg, WPARAM wParam, LPARAM lParam) {
 	}
 
 	// update key state if its a keyboard key
-	if (_curKey != INT_MAX) {
+	if (_curKey != 0) {
 		_keyState.at(_curKey) = _curState;
 	}
 }

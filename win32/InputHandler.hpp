@@ -36,13 +36,13 @@ namespace CORE {
 		HWND _windowHandle{};
 		WNDPROC _wndProcOriginal{};
 
-		int _scrollState{};
+		int _scrollState = 0;
 
 		POINT _mousePos{};
 		POINT _mouseDelta{};
 
-		size_t _curKey{};
-		bool _curState{};
+		size_t _curKey = 0;
+		bool _curState = false;
 
 		std::function<bool()> _callback{};
 

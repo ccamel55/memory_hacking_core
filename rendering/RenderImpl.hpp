@@ -16,6 +16,7 @@ namespace CORE {
 
 		virtual size_t getStringWidth(hash_t font, const std::string& text) = 0;
 		virtual size_t getStringHeight(hash_t font) = 0;
+		virtual float getFrameTime() = 0;
 
 		virtual void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags = 0) = 0;
 		virtual void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags = 0) = 0;

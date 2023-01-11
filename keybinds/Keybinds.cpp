@@ -7,7 +7,7 @@ using namespace CORE;
 void C_Keybinds::input() {
 
 	// handle the inputs!!!
-	const auto lastKey = CORE::C_InputHandler::get().getLastKey();
+	const auto lastKey = C_InputHandler::get().getLastKey();
 	const auto& curBind = _keyBind.at(lastKey);
 
 	if (curBind._type == E_BIND_TYPE::BIND_INVALID) {
@@ -16,7 +16,7 @@ void C_Keybinds::input() {
 
 	if (curBind._type == E_BIND_TYPE::BIND_TOGGLE) {
 		
-		if (CORE::C_InputHandler::get().keyPressed(lastKey)) {
+		if (C_InputHandler::get().keyPressed(lastKey)) {
 
 			// flip flop here comes the flip flops
 			*curBind._var ^= 1;
@@ -24,12 +24,12 @@ void C_Keybinds::input() {
 	}
 	else if (curBind._type == E_BIND_TYPE::BIND_HOLD) {
 
-		if (CORE::C_InputHandler::get().keyPressed(lastKey)) {
+		if (C_InputHandler::get().keyPressed(lastKey)) {
 
 			// on down we toggle on
 			*curBind._var = true;
 		}
-		else if (CORE::C_InputHandler::get().keyReleased(lastKey)) {
+		else if (C_InputHandler::get().keyReleased(lastKey)) {
 
 			// on up we toggle off
 			*curBind._var = false;
