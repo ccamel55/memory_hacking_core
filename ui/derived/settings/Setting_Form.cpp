@@ -18,17 +18,14 @@ Settings_Form::~Settings_Form() {
 void Settings_Form::render() {
 
 	UI_BaseForm::render();
-
 }
 
 void Settings_Form::update() {
 
 	UI_BaseForm::update();
-
 }
 
 void Settings_Form::input() {
 
 	UI_BaseForm::input();
-
 }

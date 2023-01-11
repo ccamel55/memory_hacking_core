@@ -1,6 +1,7 @@
 #pragma once
 
 #include <vector>
+#include <string>
 
 namespace CORE {
 
@@ -48,6 +49,26 @@ namespace CORE {
 
 			return ret;
 		}
+	}
+
+	namespace STRING {
+
+		static std::string TRUNCATE(const std::string& str, size_t maxLength, bool show_ellipsis = true) {
+
+			if (str.length() > maxLength) {
+
+				if (show_ellipsis) {
+					return str.substr(0, maxLength) + "...";
+				}
+				else {
+					return str.substr(0, maxLength);
+				}		
+			}
+				
+			return str;
+		}
+
+
 	}
 };
 

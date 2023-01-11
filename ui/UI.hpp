@@ -9,6 +9,7 @@
 #include "derived/console/Console_Form.hpp"
 #include "derived/settings/Setting_Form.hpp"
 #include "derived/text_ui/Text_Form.hpp"
+#include "derived/notifications/Notifications_Form.hpp"
 
 namespace CORE {
 

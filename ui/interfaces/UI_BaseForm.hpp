@@ -38,6 +38,9 @@ namespace CORE {
 
 	class UI_BaseForm : public UI_BaseControl {
 	public:
+		UI_BaseForm() = default;
+		UI_BaseForm(const std::string& name, const POINT_INT& size);
+
 		void render() override;
 		void update() override;
 		void input() override;

@@ -66,7 +66,7 @@ void Text_Form::render() {
 
 void Text_Form::update() {
 
-	const auto tmpPos = POINT_INT(_position._x + 25, _position._y + UI_TEXTUI::GRAB_SIZE._y);
+	const auto tmpPos = POINT_INT(_position._x + 25, _position._y + UI_TEXTUI::TITLE_SIZE._y);
 
 	if (getDrawGroup()) {
 

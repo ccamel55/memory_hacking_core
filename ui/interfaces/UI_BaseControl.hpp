@@ -35,9 +35,6 @@ namespace CORE {
 
 	namespace UI_TEXTUI {
 
-		// size of grab box
-		constexpr POINT_INT GRAB_SIZE = { 100, 20 };
-
 		// number of items we can draw per group without scrolling
 		constexpr size_t DRAWGROUP_ITEM_COUNT = 12;
 

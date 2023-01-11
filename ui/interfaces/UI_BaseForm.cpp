@@ -4,6 +4,15 @@
 
 using namespace CORE;
 
+UI_BaseForm::UI_BaseForm(const std::string& name, const POINT_INT& size) {
+
+	_name = name;
+	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_FORM;
+
+	_size = size;
+	_position = { 50, 50 }; // default position
+}
+
 void UI_BaseForm::render() {
 
 	const auto& size = getSize();
