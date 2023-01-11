@@ -115,7 +115,7 @@ void Text_Drawgroup::input() {
 		else if (UI_INPUT::isPressed(UI_KEYS::K_LEFT)) {
 
 			// if we are not the parent drawgroup go back
-			if (!(getParent()->getType() & E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) && getParent()->getParent()) {
+			if (getParent()->getType() != E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT && getParent()->getParent()) {
 
 				getFlags() &= ~E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
 				getParent()->getParent()->getFlags() |= E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
