@@ -68,7 +68,36 @@ namespace CORE {
 			return str;
 		}
 
+		inline void LTRIM(std::string& s) {
+			s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
+				return !std::isspace(ch);
+				}));
+		}
 
+		inline void RTRIM(std::string& s) {
+			s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
+				return !std::isspace(ch);
+				}).base(), s.end());
+		}
+
+		inline void TRIM(std::string& s) {
+			RTRIM(s);
+			LTRIM(s);
+		}
+
+		inline void SPLIT_STRING(std::string s, std::vector<std::string> ret, const std::string& split = " ") {
+
+			size_t pos = 0;
+			std::string token{};
+
+			while ((pos = s.find(split)) != std::string::npos) {
+
+				token = s.substr(0, pos);
+				ret.push_back(token);
+
+				s.erase(0, pos + split.length());
+			}
+		}
 	}
 };
 
