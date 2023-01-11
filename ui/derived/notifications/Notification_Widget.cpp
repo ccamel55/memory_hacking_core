@@ -10,7 +10,7 @@ Notifications_Widget::Notifications_Widget(const std::shared_ptr<Notifications_F
 	_name = "Notifications";
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_NOTIFICATION_WIDGET;
 
-	_size = { 130, UI_FORM::TITLE_SIZE._y }; // default position
+	_size = { 150, UI_FORM::TITLE_SIZE._y }; // default position
 	_position = { 50, 50 }; // default position
 
 	_flags |= E_UI_FLAGS::UI_PINNED;

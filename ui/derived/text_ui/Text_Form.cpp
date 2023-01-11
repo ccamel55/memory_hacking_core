@@ -9,7 +9,7 @@ Text_Form::Text_Form(const std::string& name) {
 	_name = name;
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT;
 
-	_size = { 100, UI_FORM::TITLE_SIZE._y }; // default position
+	_size = { 150, UI_FORM::TITLE_SIZE._y }; // default position
 	_position = { 50, 50 }; // default position
 
 	_flags |= E_UI_FLAGS::UI_PINNED;
