@@ -1,6 +1,7 @@
 #include "Notifications_Form.hpp"
 
 #include "../../../macos.hpp"
+#include "../../../notifications/Notifications.hpp"
 
 using namespace CORE;
 
@@ -85,8 +86,8 @@ void Notifications_Form::render() {
 	}
 
 	// render arrow and page count
-	UI_RENDER::drawString(_scrollArrowPositionL._x, _scrollArrowPositionL._y, UI_FONTS::CONTROL_FONT, _curPage == 0 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::TEXT_TEXT_LABEL, "prev", E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
-	UI_RENDER::drawString(_scrollArrowPositionR._x, _scrollArrowPositionR._y, UI_FONTS::CONTROL_FONT, _curPage == _numPages ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::TEXT_TEXT_LABEL, "next", E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(_scrollArrowPositionL._x, _scrollArrowPositionL._y, UI_FONTS::CONTROL_FONT, _curPage <= 0 ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::TEXT_TEXT_LABEL, "prev", E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(_scrollArrowPositionR._x, _scrollArrowPositionR._y, UI_FONTS::CONTROL_FONT, _curPage >= (_numPages - 1) ? UI_COLORS::CONFIG_TAB_FILL2 : UI_COLORS::TEXT_TEXT_LABEL, "next", E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 
 	UI_RENDER::drawString(_scrollPositionL._x + (_logSize._x / 2), _scrollPositionL._y + (UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _pageCount, E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
@@ -112,14 +113,14 @@ void Notifications_Form::input() {
 	// handle scroll clicks
 	if (UI_INPUT::mouseInBounds(_scrollPositionL._x, _scrollPositionL._y, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._x, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._y)) {
 
-		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage != 0) {
+		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage > 0) {
 			_pageCount = std::format("{} / {}", --_curPage, _numPages);
 			_scroll = _curPage * UI_NOTIFICATIONS::LOG_COUNT;
 		}
 	}
 	else if (UI_INPUT::mouseInBounds(_scrollPositionR._x, _scrollPositionR._y, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._x, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._y)) {
 
-		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage != _numPages) {
+		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage < _numPages - 1) {
 			_pageCount = std::format("{} / {}", ++_curPage, _numPages);
 			_scroll = _curPage * UI_NOTIFICATIONS::LOG_COUNT;
 		}
@@ -135,7 +136,7 @@ void Notifications_Form::addNotification(const T_Notification& notification) {
 	}
 
 	// update notification count
-	_numPages = std::ceil(_notifications.size() / UI_NOTIFICATIONS::LOG_COUNT);
+	_numPages = static_cast<size_t>(std::ceil(_notifications.size() / UI_NOTIFICATIONS::LOG_COUNT));
 	_pageCount = std::format("{} / {}", _curPage, _numPages);
 }
 
