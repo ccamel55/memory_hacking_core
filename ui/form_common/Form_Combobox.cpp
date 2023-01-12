@@ -28,16 +28,16 @@ void Form_Combobox::render() {
 	UI_RENDER::drawRectFill(pos._x, pos._y, size._x, size._y, UI_COLORS::CONTROL_FILL);
 	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
 
-	if (_curItem > 0) {
+	if (*_var > 0u) {
 		UI_RENDER::drawTriangleFill(_leftPosition._x - UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _leftPosition._y, _leftPosition._x, _leftPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _leftPosition._x, _leftPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
 	}
 
-	if (_curItem < _comboItems->size() - 1) {
+	if (*_var < static_cast<int>(_comboItems->size() - 1)) {
 		UI_RENDER::drawTriangleFill(_rightPosition._x + UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _rightPosition._y, _rightPosition._x, _rightPosition._y + UI_CONTROL::COMBO_SELECTOR_RADIUS._y, _rightPosition._x, _rightPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_COLORS::CONFIG_TAB_FILL1);
 	}
 
 	// changes depending on hover etc
-	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? _comboItems->at(_curItem) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? _comboItems->at(*_var) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
 
 void Form_Combobox::update() {
@@ -60,16 +60,16 @@ void Form_Combobox::input() {
 
 		if (UI_INPUT::isPressed(VK_LBUTTON) && UI_INPUT::mouseInBounds(_leftPosition._x - UI_CONTROL::COMBO_SELECTOR_RADIUS._x, _leftPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_CONTROL::COMBO_SELECTOR_RADIUS._x, UI_CONTROL::COMBO_SELECTOR_RADIUS._y * 2)) {
 
-			if (_curItem > 0) {
-				_curItem--;
+			if (*_var > 0) {
+				(*_var)--;
 			}
 
 			return;
 		}
 		else if (UI_INPUT::isPressed(VK_LBUTTON) && UI_INPUT::mouseInBounds(_rightPosition._x, _rightPosition._y - UI_CONTROL::COMBO_SELECTOR_RADIUS._y, UI_CONTROL::COMBO_SELECTOR_RADIUS._x, UI_CONTROL::COMBO_SELECTOR_RADIUS._y * 2)) {
 
-			if (_curItem < _comboItems->size() - 1) {
-				_curItem++;
+			if (*_var < static_cast<int>(_comboItems->size() - 1)) {
+				(*_var)++;
 			}
 
 			return;

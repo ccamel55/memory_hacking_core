@@ -26,8 +26,6 @@ namespace CORE {
 	class C_AVXMath {
 	public:	
 
-		// defined in header because we shouldnt really be inlining static functions, and compiler knows that :P
-
 		__forceinline static __m256 sqrt(__m256 x) {
 			return _mm256_sqrt_ps(x);
 		}

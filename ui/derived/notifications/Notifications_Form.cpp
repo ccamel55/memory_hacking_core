@@ -3,6 +3,9 @@
 #include "../../../macos.hpp"
 #include "../../../notifications/Notifications.hpp"
 
+#define FMT_HEADER_ONLY
+#include "../../../deps/fmt/include/fmt/core.h"
+
 using namespace CORE;
 
 Notifications_Form::Notifications_Form() {
@@ -16,7 +19,7 @@ Notifications_Form::Notifications_Form() {
 	_numPages = 0;
 	_curPage = 0;
 
-	_pageCount = std::format("{} / {}", _curPage, _numPages);
+	_pageCount = fmt::format("{} / {}", _curPage, _numPages);
 }
 
 Notifications_Form::~Notifications_Form() {
@@ -114,14 +117,14 @@ void Notifications_Form::input() {
 	if (UI_INPUT::mouseInBounds(_scrollPositionL._x, _scrollPositionL._y, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._x, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._y)) {
 
 		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage > 0) {
-			_pageCount = std::format("{} / {}", --_curPage, _numPages);
+			_pageCount = fmt::format("{} / {}", --_curPage, _numPages);
 			_scroll = _curPage * UI_NOTIFICATIONS::LOG_COUNT;
 		}
 	}
 	else if (UI_INPUT::mouseInBounds(_scrollPositionR._x, _scrollPositionR._y, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._x, UI_NOTIFICATIONS::SCROLL_BUTTON_SIZE._y)) {
 
 		if (UI_INPUT::isPressed(VK_LBUTTON) && _curPage < _numPages) {
-			_pageCount = std::format("{} / {}", ++_curPage, _numPages);
+			_pageCount = fmt::format("{} / {}", ++_curPage, _numPages);
 			_scroll = _curPage * UI_NOTIFICATIONS::LOG_COUNT;
 		}
 	}
@@ -137,7 +140,7 @@ void Notifications_Form::addNotification(const T_Notification& notification) {
 
 	// update notification count
 	_numPages = static_cast<size_t>(std::floor(_notifications.size() / UI_NOTIFICATIONS::LOG_COUNT));
-	_pageCount = std::format("{} / {}", _curPage, _numPages);
+	_pageCount = fmt::format("{} / {}", _curPage, _numPages);
 }
 
 const std::deque<T_Notification>* Notifications_Form::getNotifications() const {

@@ -6,7 +6,7 @@ void C_Notifications::addNotification(const std::string& name, E_NOTIFICATION_TY
 
 	_notificationForm->addNotification(T_Notification{
 		._text = name,
-		._creationTime = std::format("{:%H:%M:%S}", std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())),
+		._creationTime = std::format("{:%H:%M:%S}", std::chrono::floor<std::chrono::seconds>(std::chrono::system_clock::now())), // using std::format because fmt::format has an msvc erro
 		._type = type,
 	});
 }

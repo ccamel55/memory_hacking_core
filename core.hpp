@@ -26,6 +26,7 @@
 #include "threading/TrippleBuffer.hpp"
 
 #include "type/Color.hpp"
+#include "type/Bitflag.hpp"
 #include "type/matrix/Matrix3x4.hpp"
 #include "type/matrix/Matrix4x4.hpp"
 #include "type/vector/Vector2D.hpp"

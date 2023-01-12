@@ -23,7 +23,6 @@ namespace CORE {
 
 		POINT_INT _absolutePosition{};
 
-		size_t _curItem{};
 		std::vector<std::string>* _comboItems{};
 	};
 }

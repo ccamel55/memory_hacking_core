@@ -3,6 +3,9 @@
 
 #include "../../config/Config.hpp"
 
+#define FMT_HEADER_ONLY
+#include "../../deps/fmt/include/fmt/core.h"
+
 using namespace CORE;
 
 Form_Slider::Form_Slider(const std::string& name, uint32_t var, int min, int max) {
@@ -33,7 +36,7 @@ void Form_Slider::render() {
 
 	// changes depending on hover etc
 	UI_RENDER::drawRect(pos._x, pos._y, size._x, size._y, UI_COLORS::GRAY);
-	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? std::format("{}", *_var) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
+	UI_RENDER::drawString(pos._x + (size._x / 2), pos._y + (size._y / 2), UI_FONTS::CONTROL_FONT, UI_COLORS::WHITE, _hovered ? fmt::format("{}", *_var) : getName(), E_FONT_FLAGS::FONT_CENTER_X | E_FONT_FLAGS::FONT_CENTER_Y);
 }
 
 void Form_Slider::update() {

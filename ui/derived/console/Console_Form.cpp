@@ -2,6 +2,9 @@
 
 #include "../../../config/Config.hpp"
 
+#define FMT_HEADER_ONLY
+#include "../../../deps/fmt/include/fmt/core.h"
+
 #include <sstream>
 #include <algorithm> 
 #include <cctype>
@@ -130,13 +133,18 @@ void Console_Form::input() {
 
 						if (stringSplit.size() > 1) {
 
-							const auto val = std::stof(stringSplit.at(1));
+							try {
+								const auto val = std::stof(stringSplit.at(1));
 
-							if (val >= cmd._data._float._min && val <= cmd._data._float._max) {
-								*cmd._data._float._data = val;
+								if (val >= cmd._data._float._min && val <= cmd._data._float._max) {
+									*cmd._data._float._data = val;
+								}
+								else {
+									_logBox->addToLog(fmt::format("out of range (min: {}, max{})", cmd._data._float._min, cmd._data._float._max), E_CONSOLE_LOG_TYPE::LOG_ERROR);
+								}
 							}
-							else {
-								_logBox->addToLog(std::format("out of range (min: {}, max{})", cmd._data._float._min, cmd._data._float._max), E_CONSOLE_LOG_TYPE::LOG_ERROR);
+							catch (...) {
+								_logBox->addToLog("invalid type (expected float)", E_CONSOLE_LOG_TYPE::LOG_ERROR);
 							}
 						}
 
@@ -145,14 +153,19 @@ void Console_Form::input() {
 
 						if (stringSplit.size() > 1) {
 
-							const auto val = std::stoi(stringSplit.at(1));
+							try {
+								const auto val = std::stoi(stringSplit.at(1));
 
-							if (val >= cmd._data._int._min && val <= cmd._data._int._max) {
-								*cmd._data._int._data = val;
+								if (val >= cmd._data._int._min && val <= cmd._data._int._max) {
+									*cmd._data._int._data = val;
+								}
+								else {
+									_logBox->addToLog(fmt::format("out of range (min: {}, max{})", cmd._data._int._min, cmd._data._int._max), E_CONSOLE_LOG_TYPE::LOG_ERROR);
+								}
 							}
-							else {
-								_logBox->addToLog(std::format("out of range (min: {}, max{})", cmd._data._int._min, cmd._data._int._max), E_CONSOLE_LOG_TYPE::LOG_ERROR);
-							}
+							catch (...) {
+								_logBox->addToLog("invalid type (expected int)", E_CONSOLE_LOG_TYPE::LOG_ERROR);
+							}				
 						}
 
 						break;
