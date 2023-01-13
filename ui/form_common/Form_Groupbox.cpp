@@ -40,9 +40,9 @@ void Form_Groupbox::input() {
 		_blocked->input();
 
 		// unblocked so lets unlock!
-		if (!(_blocked->getFlags() & E_UI_FLAGS::UI_BLOCKED)) {
+		if (!(_blocked->getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED))) {
 
-			getFlags() &= ~E_UI_FLAGS::UI_BLOCKED;
+			getFlags().removeFlag(E_UI_FLAGS::UI_BLOCKED);
 			_blocked = nullptr;
 
 			return;
@@ -55,10 +55,10 @@ void Form_Groupbox::input() {
 
 		c->input();
 
-		if (c->getFlags() & E_UI_FLAGS::UI_BLOCKED) {
+		if (c->getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED)) {
 	
 			// if our current control is blocking, set
-			getFlags() |= E_UI_FLAGS::UI_BLOCKED;
+			getFlags().setFlag(E_UI_FLAGS::UI_BLOCKED);
 			_blocked = c;
 
 			break;

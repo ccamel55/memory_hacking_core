@@ -6,6 +6,8 @@
 #include "../singleton.hpp"
 #include "../cryptography/fn1v.hpp"
 
+#include "../type/Bitflag.hpp"
+
 namespace CORE {
 
 	/* contians API functions for drawing specefic geomerty */
@@ -18,8 +20,8 @@ namespace CORE {
 		virtual size_t getStringHeight(hash_t font) = 0;
 		virtual float getFrameTime() = 0;
 
-		virtual void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags = 0) = 0;
-		virtual void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags = 0) = 0;
+		virtual void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, bit_flag_t flags = 0) = 0;
+		virtual void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, bit_flag_t flags = 0) = 0;
 
 		virtual void drawRect(float x, float y, float w, float h, DWORD col) = 0;
 		virtual void drawRectFill(float x, float y, float w, float h, DWORD col) = 0;

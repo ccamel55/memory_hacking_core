@@ -32,12 +32,12 @@ namespace CORE {
 		void setPosition(const POINT_INT& position);
 		const POINT_INT& getPosition() const;
 
-		size_t& getFlags();
+		BIT_FLAG& getFlags();
 	protected:
 		std::string _name{};
 
 		size_t _type{};
-		size_t _flags{};
+		BIT_FLAG _flags{};
 
 		POINT_INT _size{};
 		POINT_INT _position{};

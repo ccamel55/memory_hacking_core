@@ -22,11 +22,11 @@ float C_DX11Render::getFrameTime() {
 	return 0.f;
 }
 
-void C_DX11Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
+void C_DX11Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, bit_flag_t flags) {
 
 }
 
-void C_DX11Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags) {
+void C_DX11Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, bit_flag_t flags) {
 
 }
 

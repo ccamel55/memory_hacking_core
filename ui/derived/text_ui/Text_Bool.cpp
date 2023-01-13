@@ -25,7 +25,7 @@ void Text_Bool::render() {
 	UI_RENDER::drawString(pos._x, pos._y, UI_FONTS::TEXT_UI_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_OUTLINE);
 	UI_RENDER::drawString(pos._x + UI_TEXTUI::CONTROL_SPACING._x, pos._y, UI_FONTS::TEXT_UI_FONT, _displayText.at(controlIdx)._color, _displayText.at(controlIdx)._name, E_FONT_FLAGS::FONT_ALIGN_R | E_FONT_FLAGS::FONT_OUTLINE);
 
-	if ((getFlags() & E_UI_FLAGS::UI_ACTIVE) && getDrawGroup()) {
+	if ((getFlags().hasFlag(E_UI_FLAGS::UI_ACTIVE)) && getDrawGroup()) {
 		getDrawGroup()->render();
 	}
 }
@@ -35,7 +35,7 @@ void Text_Bool::update() {
 	auto parent = dynamic_pointer_cast<UI_BaseText>(getParent());
 	_drawPosition = parent->getPosition() + getPosition();
 
-	if ((getFlags() & E_UI_FLAGS::UI_ACTIVE) && getDrawGroup()) {
+	if ((getFlags().hasFlag(E_UI_FLAGS::UI_ACTIVE)) && getDrawGroup()) {
 
 		const auto tmpPos = POINT_INT(_drawGroupPosition._x + UI_TEXTUI::DRAWGROUP_SPACING._x, _drawGroupPosition._y);
 
@@ -49,14 +49,14 @@ void Text_Bool::update() {
 
 void Text_Bool::input() {
 
-	if (getParent()->getFlags() & E_UI_FLAGS::UI_DRAWGROUP_ACTIVE) {
+	if (getParent()->getFlags().hasFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE)) {
 
 		// toggle
 		if (UI_INPUT::isPressed(UI_KEYS::K_SELECT)) {
 			*_var ^= 1;
 		}
 	}
-	else if ((getFlags() & E_UI_FLAGS::UI_ACTIVE) && getDrawGroup()) {
+	else if ((getFlags().hasFlag(E_UI_FLAGS::UI_ACTIVE)) && getDrawGroup()) {
 		getDrawGroup()->input();
 	}
 }

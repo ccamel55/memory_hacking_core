@@ -25,7 +25,7 @@ void Text_Drawgroup::render() {
 	}
 
 	// if we can control this drawGroup, show selection cursor
-	if (!_controls.empty() && (getFlags() & E_UI_FLAGS::UI_DRAWGROUP_ACTIVE)) {
+	if (!_controls.empty() && (getFlags().hasFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE))) {
 
 		//draw active indicator
 		const auto cursorOffsetY = UI_TEXTUI::CONTROL_SPACING._y * (_cursor - _scroll);
@@ -54,11 +54,11 @@ void Text_Drawgroup::update() {
 
 void Text_Drawgroup::input() {
 
-	if (getFlags() & E_UI_FLAGS::UI_DRAWGROUP_ACTIVE) {
+	if (getFlags().hasFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE)) {
 
 		if (UI_INPUT::isPressed(UI_KEYS::K_UP)) {
 
-			_active->getFlags() &= ~E_UI_FLAGS::UI_ACTIVE;
+			_active->getFlags().removeFlag(E_UI_FLAGS::UI_ACTIVE);
 
 			if (_cursor <= 0) {
 				_cursor = _controls.size() - 1;
@@ -68,7 +68,7 @@ void Text_Drawgroup::input() {
 			}
 
 			_active = _controls.at(_cursor);
-			_active->getFlags() |= E_UI_FLAGS::UI_ACTIVE;
+			_active->getFlags().setFlag(E_UI_FLAGS::UI_ACTIVE);
 
 			// check if we need to change scrollStart
 			if (_controls.size() > UI_TEXTUI::DRAWGROUP_ITEM_COUNT) {
@@ -86,7 +86,7 @@ void Text_Drawgroup::input() {
 		}
 		else if (UI_INPUT::isPressed(UI_KEYS::K_DOWN)) {
 
-			_active->getFlags() &= ~E_UI_FLAGS::UI_ACTIVE;
+			_active->getFlags().removeFlag(E_UI_FLAGS::UI_ACTIVE);
 
 			if (_cursor >= static_cast<int>(_controls.size() - 1)) {
 				_cursor = 0;
@@ -96,7 +96,7 @@ void Text_Drawgroup::input() {
 			}
 
 			_active = _controls.at(_cursor);
-			_active->getFlags() |= E_UI_FLAGS::UI_ACTIVE;
+			_active->getFlags().setFlag(E_UI_FLAGS::UI_ACTIVE);
 
 			// check if we need to change scrollStart
 			if (_controls.size() > UI_TEXTUI::DRAWGROUP_ITEM_COUNT) {
@@ -117,8 +117,8 @@ void Text_Drawgroup::input() {
 			// if we are not the parent drawgroup go back
 			if (getParent()->getType() != E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT && getParent()->getParent()) {
 
-				getFlags() &= ~E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
-				getParent()->getParent()->getFlags() |= E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
+				getFlags().removeFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE);
+				getParent()->getParent()->getFlags().setFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE);
 			}
 
 			return;
@@ -128,8 +128,8 @@ void Text_Drawgroup::input() {
 			// if we are not the end drawgroup go right
 			if (_active->getDrawGroup()) {
 
-				getFlags() &= ~E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
-				_active->getDrawGroup()->getFlags() |= E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
+				getFlags().removeFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE);
+				_active->getDrawGroup()->getFlags().setFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE);
 			}
 
 			return;

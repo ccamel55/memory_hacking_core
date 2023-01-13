@@ -14,8 +14,8 @@ namespace CORE::GL3 {
 		size_t getStringHeight(hash_t font) override;
 		float getFrameTime() override;
 
-		void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags = 0) override;
-		void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags = 0) override;
+		void drawString(float x, float y, hash_t font, DWORD col, const std::string& text, bit_flag_t flags = 0) override;
+		void drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, bit_flag_t flags = 0) override;
 		void drawRect(float x, float y, float w, float h, DWORD col) override;
 		void drawRectFill(float x, float y, float w, float h, DWORD col);
 		void drawRectFillGradientH(float x, float y, float w, float h, DWORD colL, DWORD colR) override;

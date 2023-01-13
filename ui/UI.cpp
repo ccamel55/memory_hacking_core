@@ -14,17 +14,17 @@ void C_UI::render() {
 
 		if (!_blockInput) {
 
-			if ((w->getType() == E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) || (w->getFlags() & E_UI_FLAGS::UI_PINNED)) {
+			if ((w->getType() == E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) || (w->getFlags().hasFlag(E_UI_FLAGS::UI_PINNED))) {
 
 				// setting as not opened will draw without window elements
-				w->getFlags() |= E_UI_FLAGS::UI_INPUT_ONLY;
+				w->getFlags().setFlag(E_UI_FLAGS::UI_INPUT_ONLY);
 				w->render();
 			}
 
 			continue;
 		}
 
-		w->getFlags() &= ~E_UI_FLAGS::UI_INPUT_ONLY;
+		w->getFlags().removeFlag(E_UI_FLAGS::UI_INPUT_ONLY);
 		w->render();
 
 		// draw overlay if not in focus
@@ -50,7 +50,7 @@ void C_UI::input() {
 		const auto& focusedSize = _focused->getSize();
 		const auto& focusedPosition = _focused->getPosition();
 
-		if (_focused->getFlags() & E_UI_FLAGS::UI_BLOCKED || UI_INPUT::mouseInBounds(focusedPosition._x, focusedPosition._y, focusedSize._x, focusedSize._y)) {
+		if (_focused->getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED) || UI_INPUT::mouseInBounds(focusedPosition._x, focusedPosition._y, focusedSize._x, focusedSize._y)) {
 
 			// if our window has control or is hovered do that!!
 			_focused->input();

@@ -193,7 +193,7 @@ float C_DX9Render::getFrameTime() {
 	return 0.f;
 }
 
-void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, uint8_t flags) {
+void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std::string& text, bit_flag_t flags) {
 
 	if (flags & E_FONT_FLAGS::FONT_OUTLINE) {
 		drawStringOutline(x, y, font, col, 0xFF000000, text, flags);
@@ -244,7 +244,7 @@ void C_DX9Render::drawString(float x, float y, hash_t font, DWORD col, const std
 	}
 }
 
-void C_DX9Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, uint8_t flags) {
+void C_DX9Render::drawStringOutline(float x, float y, hash_t font, DWORD col, DWORD colOutline, const std::string& text, bit_flag_t flags) {
 
 	auto& myFont = _fonts.at(font);
 	const auto spacing = myFont.m_cFontBitmap.getSpacing();

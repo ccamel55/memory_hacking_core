@@ -12,7 +12,7 @@ Text_Form::Text_Form(const std::string& name) {
 	_size = { 150, UI_FORM::TITLE_SIZE._y }; // default position
 	_position = { 50, 50 }; // default position
 
-	_flags |= E_UI_FLAGS::UI_PINNED;
+	_flags.setFlag(E_UI_FLAGS::UI_PINNED);
 }
 
 Text_Form::~Text_Form() {
@@ -25,7 +25,7 @@ void Text_Form::render() {
 	const auto& size = getSize();
 	const auto& position = getPosition();
 
-	if (!(getFlags() & E_UI_FLAGS::UI_INPUT_ONLY)) {
+	if (!(getFlags().hasFlag(E_UI_FLAGS::UI_INPUT_ONLY))) {
 
 		// draw main form
 		UI_RENDER::drawRectFill(position._x, position._y, size._x, size._y, UI_COLORS::FORM_BORDER);
@@ -37,9 +37,9 @@ void Text_Form::render() {
 		UI_RENDER::drawString(position._x + UI_FORM::PINNED_OFFSET._x + UI_FORM::CONTENT_POS._x + 8, position._y + (UI_FORM::CONTENT_POS._y / 2), UI_FONTS::WINDOW_FONT, UI_COLORS::FORM_TEXT_LABEL, getName(), E_FONT_FLAGS::FONT_CENTER_Y);
 
 		// draw pinned circle
-		UI_RENDER::drawCircleFillGradient(position._x + UI_FORM::PINNED_OFFSET._x, position._y + UI_FORM::PINNED_OFFSET._y, 4, (getFlags() & E_UI_FLAGS::UI_PINNED) ? UI_COLORS::GREEN : UI_COLORS::RED, UI_COLORS::WHITE);
+		UI_RENDER::drawCircleFillGradient(position._x + UI_FORM::PINNED_OFFSET._x, position._y + UI_FORM::PINNED_OFFSET._y, 4, (getFlags().hasFlag(E_UI_FLAGS::UI_PINNED)) ? UI_COLORS::GREEN : UI_COLORS::RED, UI_COLORS::WHITE);
 	}
-	else if (getFlags() & E_UI_FLAGS::UI_PINNED) {
+	else if (getFlags().hasFlag(E_UI_FLAGS::UI_PINNED)) {
 
 		UI_RENDER::drawString(position._x, position._y, UI_FONTS::TEXT_UI_FONT, UI_COLORS::WHITE, "[  ]", E_FONT_FLAGS::FONT_OUTLINE);
 		UI_RENDER::drawString(position._x + 25, position._y, UI_FONTS::TEXT_UI_FONT, UI_COLORS::WHITE, getName(), E_FONT_FLAGS::FONT_OUTLINE);
@@ -56,7 +56,7 @@ void Text_Form::render() {
 		}
 	}
 
-	if ((!(getFlags() & E_UI_FLAGS::UI_INPUT_ONLY) || (getFlags() & E_UI_FLAGS::UI_PINNED)) && _expanded) {
+	if ((!(getFlags().hasFlag(E_UI_FLAGS::UI_INPUT_ONLY)) || (getFlags().hasFlag(E_UI_FLAGS::UI_PINNED))) && _expanded) {
 
 		if (getDrawGroup()) {
 			getDrawGroup()->render();
@@ -83,19 +83,19 @@ void Text_Form::input() {
 	const auto& pos = getPosition();
 	const auto& size = getSize();
 
-	if (!(getFlags() & E_UI_FLAGS::UI_INPUT_ONLY)) {
+	if (!(getFlags().hasFlag(E_UI_FLAGS::UI_INPUT_ONLY))) {
 	
 		if (UI_INPUT::isPressed(VK_LBUTTON)) {
 
 			if (UI_INPUT::mouseInBounds(pos._x + UI_FORM::PINNED_OFFSET._x - 5, pos._y + UI_FORM::PINNED_OFFSET._y - 5, 10, 10)) {
 
 				// pinned stuff here
-				getFlags() ^= E_UI_FLAGS::UI_PINNED;
+				getFlags().toggleFlag(E_UI_FLAGS::UI_PINNED);
 			}
 			else if (UI_INPUT::mouseInBounds(pos._x, pos._y, size._x, UI_FORM::TITLE_SIZE._y)) {
 
 				_dragging = true;
-				getFlags() |= E_UI_FLAGS::UI_BLOCKED;
+				getFlags().setFlag(E_UI_FLAGS::UI_BLOCKED);
 			}
 		}
 		else if (_dragging) {
@@ -116,12 +116,12 @@ void Text_Form::input() {
 			else {
 
 				_dragging = false;
-				getFlags() &= ~E_UI_FLAGS::UI_BLOCKED;
+				getFlags().removeFlag(E_UI_FLAGS::UI_BLOCKED);
 			}
 		}
 	}
 
-	if (!(getFlags() & E_UI_FLAGS::UI_INPUT_ONLY) || (getFlags() & E_UI_FLAGS::UI_PINNED)) {
+	if (!(getFlags().hasFlag(E_UI_FLAGS::UI_INPUT_ONLY)) || (getFlags().hasFlag(E_UI_FLAGS::UI_PINNED))) {
 
 		if (UI_INPUT::isPressed(UI_KEYS::K_EXPAND_TEXTUI)) {
 			_expanded = !_expanded;
@@ -137,7 +137,7 @@ std::shared_ptr<Text_Drawgroup> Text_Form::addDrawgroup() {
 	_drawGroup = std::make_shared<Text_Drawgroup>();
 	_drawGroup->setParent(dynamic_pointer_cast<UI_BaseText>(shared_from_this()));
 
-	_drawGroup->getFlags() |= E_UI_FLAGS::UI_DRAWGROUP_ACTIVE;
+	_drawGroup->getFlags().setFlag(E_UI_FLAGS::UI_DRAWGROUP_ACTIVE);
 
 	update();
 

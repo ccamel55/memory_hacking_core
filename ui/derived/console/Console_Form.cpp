@@ -100,7 +100,7 @@ void Console_Form::input() {
 	_inputBox->input();
 	_logBox->input();
 
-	if (_inputBox->getFlags() & E_UI_FLAGS::UI_BLOCKED) {
+	if (_inputBox->getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED)) {
 
 		// if input we have entered a command 
 		if (UI_INPUT::isPressed(VK_RETURN)) {

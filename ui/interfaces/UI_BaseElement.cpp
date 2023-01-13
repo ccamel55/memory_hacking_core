@@ -34,6 +34,6 @@ const POINT_INT& UI_BaseElement::getPosition() const {
 	return _position;
 }
 
-size_t& UI_BaseElement::getFlags() {
+BIT_FLAG& UI_BaseElement::getFlags() {
 	return _flags;
 }

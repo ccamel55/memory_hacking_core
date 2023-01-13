@@ -48,7 +48,7 @@ void Console_Input::input() {
 
 	const auto lastKey = UI_INPUT::lastKey();
 
-	if ((getFlags() & E_UI_FLAGS::UI_BLOCKED) && lastKey < 223 && lastKey >= 0 && UI_INPUT::isPressed(lastKey)) {
+	if ((getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED)) && lastKey < 223 && lastKey >= 0 && UI_INPUT::isPressed(lastKey)) {
 
 		if (lastKey == VK_UP) {
 

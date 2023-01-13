@@ -59,14 +59,14 @@ void Form_Slider::input() {
 
 		if (UI_INPUT::isPressed(VK_LBUTTON)) {
 			// start dragging
-			getFlags() |= E_UI_FLAGS::UI_BLOCKED;
+			getFlags().setFlag(E_UI_FLAGS::UI_BLOCKED);
 		}
 	}
 	else {
 		_hovered = false;
 	}
 
-	if (UI_INPUT::isDown(VK_LBUTTON) && (getFlags() & E_UI_FLAGS::UI_BLOCKED)) {
+	if (UI_INPUT::isDown(VK_LBUTTON) && (getFlags().hasFlag(E_UI_FLAGS::UI_BLOCKED))) {
 
 		// force draw of current value
 		_hovered = true;
@@ -80,6 +80,6 @@ void Form_Slider::input() {
 		*_var = static_cast<int>(_sliderDelta * (_max - _min) + _min);
 	}
 	else {
-		getFlags() &= ~E_UI_FLAGS::UI_BLOCKED;
+		getFlags().removeFlag(E_UI_FLAGS::UI_BLOCKED);
 	}
 }

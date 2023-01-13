@@ -5,13 +5,16 @@
 #include "../../cryptography/fn1v.hpp"
 #include "../../win32/InputHandler.hpp"
 
+#include "../../type/Bitflag.hpp"
+#include "../../type/point/Point_Int.hpp"
+
 namespace CORE {
 
 	constexpr DWORD ARGB_DWORD(uint8_t a, uint8_t r, uint8_t g, uint8_t b) {
 		return (((a) & 0xff) << 24) | (((r) & 0xff) << 16) | (((g) & 0xff) << 8) | ((b) & 0xff);
 	}
 
-	enum E_UI_FLAGS : uint8_t {
+	enum E_UI_FLAGS : bit_flag_t {
 		UI_NONE = 0,
 		UI_PINNED = 1 << 0,
 		UI_BLOCKED = 1 << 1,
@@ -29,39 +32,6 @@ namespace CORE {
 		UI_ELEMENT_NOTIFICATION_WIDGET,
 		UI_ELEMENT_TEXT,
 		UI_ELEMENT_CONTROL,
-	};
-
-	class POINT_INT {
-	public:
-		constexpr POINT_INT() : _x(0), _y(0) {
-
-		}
-
-		constexpr POINT_INT(int x, int y) : _x(x), _y(y) {
-
-		}
-
-		const POINT_INT operator+(const POINT_INT& in) const {
-			return POINT_INT(
-				_x + in._x,
-				_y + in._y
-			);
-		}
-
-		const POINT_INT operator-(const POINT_INT& in) const {
-			return POINT_INT(
-				_x - in._x,
-				_y - in._y
-			);
-		}
-
-		constexpr POINT_INT& operator=(const POINT_INT& in) {
-			this->_x = in._x; this->_y = in._y;
-			return *this;
-		}
-
-		int _x{};
-		int _y{};
 	};
 
 	namespace UI_KEYS {

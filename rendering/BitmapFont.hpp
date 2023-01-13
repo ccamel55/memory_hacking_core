@@ -5,9 +5,11 @@
 #include <string>
 #include <array>
 
+#include "../type/Bitflag.hpp"
+
 namespace CORE {
 
-	enum E_FONT_FLAGS : char {
+	enum E_FONT_FLAGS : bit_flag_t {
 		FONT_ALIGN_L = 1 << 0,
 		FONT_ALIGN_R = 1 << 1,
 		FONT_OUTLINE = 1 << 2,

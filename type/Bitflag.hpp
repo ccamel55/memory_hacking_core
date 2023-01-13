@@ -2,25 +2,31 @@
 
 namespace CORE {
 
-	class C_Bitflag {
+#if _WIN32
+	using bit_flag_t = uint32_t;
+#else
+	using bit_flag_t = uint64_t;
+#endif
+
+	class BIT_FLAG {
 	public:
-		__forceinline void set_flag(uint32_t flag) {
+		__forceinline void setFlag(bit_flag_t flag) {
 			_flags |= flag;
 		}
 
-		__forceinline void remove_flag(uint32_t flag) {
+		__forceinline void removeFlag(bit_flag_t flag) {
 			_flags &= ~flag;
 		}
 
-		__forceinline bool has_flags(uint32_t flag) {
+		__forceinline bool hasFlag(bit_flag_t flag) {
 			return _flags & flag;
 		}
 
+		__forceinline void toggleFlag(bit_flag_t flag) {
+			_flags ^= flag;
+		}
+
 	private:
-#if _WIN32
-		uint32_t _flags{};
-#else
-		uint64_t _flags{};
-#endif
+		bit_flag_t _flags{};
 	};
 }
