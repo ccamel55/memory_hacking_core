@@ -8,13 +8,9 @@
 
 using namespace CORE;
 
-Notifications_Form::Notifications_Form() {
+Notifications_Form::Notifications_Form() : UI_BaseForm("Notifications", UI_NOTIFICATIONS::FORM_SIZE) {
 
-	_name = "Notifications";
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_NOTIFICATIONS;
-
-	_size = UI_NOTIFICATIONS::FORM_SIZE;
-	_position = { 50, 50 }; // default position
 
 	_numPages = 0;
 	_curPage = 0;

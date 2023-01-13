@@ -2,13 +2,9 @@
 
 using namespace CORE;
 
-Settings_Form::Settings_Form() {
+Settings_Form::Settings_Form() : UI_BaseForm("Settings", UI_SETTINGS::FORM_SIZE) {
 
-	_name = "Settings";
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_SETTINGS;
-
-	_size = UI_SETTINGS::FORM_SIZE;
-	_position = { 50, 50 }; // default position
 }
 
 Settings_Form::~Settings_Form() {

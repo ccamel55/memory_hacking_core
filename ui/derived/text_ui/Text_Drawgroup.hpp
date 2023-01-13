@@ -1,10 +1,10 @@
 #pragma once
 
-#include "../../interfaces/UI_BaseText.hpp"
+#include "Text_BaseControl.hpp"
 
 namespace CORE {
 
-	class Text_Drawgroup : public UI_BaseText {
+	class Text_Drawgroup : public Text_BaseControl {
 	public:
 		Text_Drawgroup();
 		~Text_Drawgroup();
@@ -24,7 +24,7 @@ namespace CORE {
 				_active->getFlags().setFlag(E_UI_FLAGS::UI_ACTIVE);
 			}
 
-			control->setParent(dynamic_pointer_cast<UI_BaseText>(shared_from_this()));
+			control->setParent(dynamic_pointer_cast<Text_BaseControl>(shared_from_this()));
 			control->setPosition(_controlOffset);
 
 			_controlOffset._y += UI_TEXTUI::CONTROL_SPACING._y;
@@ -41,7 +41,7 @@ namespace CORE {
 
 		POINT_INT _controlOffset{};
 
-		std::shared_ptr<UI_BaseText> _active{};
-		std::vector<std::shared_ptr<UI_BaseText>> _controls{};
+		std::shared_ptr<Text_BaseControl> _active{};
+		std::vector<std::shared_ptr<Text_BaseControl>> _controls{};
 	};
 }

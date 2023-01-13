@@ -1,6 +1,6 @@
 #pragma once
 
-#include "../../interfaces/UI_BaseText.hpp"
+#include "../../interfaces/UI_BaseDragBar.hpp"
 #include "Text_Drawgroup.hpp"
 
 #include "Text_Bool.hpp"
@@ -8,7 +8,7 @@
 
 namespace CORE {
 
-	class Text_Form : public UI_BaseText {
+	class Text_Form : public UI_BaseDragBar {
 	public:
 		Text_Form(const std::string& name);
 		~Text_Form();
@@ -16,9 +16,11 @@ namespace CORE {
 		void render();
 		void update();
 		void input();
+
 		std::shared_ptr<Text_Drawgroup> addDrawgroup();
+		std::shared_ptr<Text_Drawgroup> getDrawGroup();
 	private:
-		bool _dragging{};
 		bool _expanded{};
+		std::shared_ptr<Text_Drawgroup> _drawGroup{};
 	};
 }

@@ -9,7 +9,7 @@ C_BitmapFont::C_BitmapFont() {
     _width = 0;
     _height = 0;
 
-    std::memset(&_texCoOrds, 0, sizeof(_texCoOrds));
+    std::memset(&_texCoords, 0, sizeof(_texCoords));
 }
 
 C_BitmapFont::~C_BitmapFont() {
@@ -96,7 +96,7 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
 
         ExtTextOut(hDC, x, y, ETO_OPAQUE, NULL, str, 1, NULL);
 
-        auto& texCoord = _texCoOrds[c - 32];
+        auto& texCoord = _texCoords[c - 32];
 
         texCoord._x1 = static_cast<float>(x - _spacing) / _width;
         texCoord._y1 = static_cast<float>(y) / _height;
@@ -117,7 +117,7 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
 }
 
 float C_BitmapFont::getStringHeight() {
-    return (_texCoOrds[0]._y2 - _texCoOrds[0]._y1) * _height;
+    return (_texCoords[0]._y2 - _texCoords[0]._y1) * _height;
 }
 
 float C_BitmapFont::getStringWidth(const std::string& text) {
@@ -134,13 +134,13 @@ float C_BitmapFont::getStringWidth(const std::string& text) {
             continue;
         }
 
-        ret += (_texCoOrds[c - 32]._x2 - _texCoOrds[c - 32]._x1) * _width - 2.f * _spacing;
+        ret += (_texCoords[c - 32]._x2 - _texCoords[c - 32]._x1) * _width - 2.f * _spacing;
     }
 
     return ret;
 }
 
-DWORD* C_BitmapFont::getFontBitmap() {
+uint32_t* C_BitmapFont::getFontBitmap() {
     return _bitmapPtr;
 }
 
@@ -156,6 +156,6 @@ DWORD C_BitmapFont::getSpacing() {
     return _spacing;
 }
 
-T_TexCoOrd& C_BitmapFont::getTextCoords(size_t c) {
-    return _texCoOrds.at(c);
+T_TexCoord& C_BitmapFont::getTextCoords(size_t c) {
+    return _texCoords.at(c);
 }

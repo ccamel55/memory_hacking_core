@@ -10,7 +10,7 @@ void C_Texture::release() {
 	}
 }
 
-void C_Texture::bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bitmapWidth, int bitmapHeight) {
+void C_Texture::bindBitmap(IDirect3DDevice9* device, const uint32_t* bitmap, int bitmapWidth, int bitmapHeight) {
 
 	if (FAILED(device->CreateTexture(bitmapWidth, bitmapHeight, 1, D3DUSAGE_DYNAMIC, D3DFMT_A8R8G8B8, D3DPOOL_DEFAULT, &_texture, NULL))) {
 		throw std::exception("Failed to create texture");
@@ -21,18 +21,18 @@ void C_Texture::bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bi
 	_texture->LockRect(0, &rect, 0, 0);
 
 	// oop D3DFMT_A8R8G8B8 = 4 x 8bits or just 4 bytes
-	auto texData = reinterpret_cast<unsigned int*>(rect.pBits);
+	auto texData = static_cast<uint32_t*>(rect.pBits);
 
 	for (int y = 0; y < bitmapHeight; y++) {
 
 		for (int x = 0; x < bitmapWidth; x++) {
 
-			const auto alpha = (unsigned char)((bitmap[bitmapWidth * y + x] & 0xff) >> 4);
+			const auto alpha = static_cast<uint32_t>((bitmap[bitmapWidth * y + x]));
 
 			if (alpha > 0) {
 
 				// draw with color and full alpha
-				texData[bitmapWidth * y + x] = static_cast<DWORD>(0xFF000000 | bitmap[bitmapWidth * y + x]);
+				texData[bitmapWidth * y + x] = static_cast<uint32_t>(0xFF000000 | bitmap[bitmapWidth * y + x]);
 			}
 			else {
 				texData[bitmapWidth * y + x] = 0x00000000;

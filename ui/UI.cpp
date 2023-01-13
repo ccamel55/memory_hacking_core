@@ -83,7 +83,7 @@ void C_UI::input() {
 			// handle input for text menu.
 			if (w->getType() == E_UI_ELEMENT_TYPE::UI_ELEMENT_TEXT) {
 				w->input();
-			}
+			} 
 		}
 	}
 }

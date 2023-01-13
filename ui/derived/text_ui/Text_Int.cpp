@@ -32,7 +32,7 @@ void Text_Int::render() {
 
 void Text_Int::update() {
 
-	auto parent = dynamic_pointer_cast<UI_BaseText>(getParent());
+	auto parent = dynamic_pointer_cast<Text_BaseControl>(getParent());
 	_drawPosition = parent->getPosition() + getPosition();
 
 	if ((getFlags().hasFlag(E_UI_FLAGS::UI_ACTIVE)) && getDrawGroup()) {

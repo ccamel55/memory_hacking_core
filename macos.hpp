@@ -85,18 +85,30 @@ namespace CORE {
 			LTRIM(s);
 		}
 
-		inline void SPLIT_STRING(std::string s, std::vector<std::string> ret, const std::string& split = " ") {
+		inline std::vector<std::string> SPLIT_STRING(const std::string& s, const char split = ' ') {
 
-			size_t pos = 0;
-			std::string token{};
+			std::string s_copy = s;
+			std::vector<std::string> ret{};
+			
+			size_t idx = 0;
+			 
+			// look for first instance of split character
+			while ((idx = s_copy.find(split)) != std::string::npos) {
 
-			while ((pos = s.find(split)) != std::string::npos) {
+				const auto& curStr = s_copy.substr(0, idx);
 
-				token = s.substr(0, pos);
-				ret.push_back(token);
+				// add as substring if its not split char
+				if (!curStr.empty()) {
+					ret.push_back(curStr);
+				}
 
-				s.erase(0, pos + split.length());
+				s_copy.erase(0, idx + 1);
 			}
+
+			// add last string
+			ret.push_back(s_copy);
+
+			return ret;
 		}
 	}
 };

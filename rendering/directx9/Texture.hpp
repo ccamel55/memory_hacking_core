@@ -16,7 +16,7 @@ namespace CORE::DX9 {
 		}
 
 		void release();
-		void bindBitmap(IDirect3DDevice9* device, const DWORD* bitmap, int bitmapWidth, int bitmapHeight);
+		void bindBitmap(IDirect3DDevice9* device, const uint32_t* bitmap, int bitmapWidth, int bitmapHeight);
 		IDirect3DTexture9* getTexture();
 	private:
 		IDirect3DTexture9* _texture{};

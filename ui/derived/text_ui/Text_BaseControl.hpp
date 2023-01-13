@@ -1,17 +1,13 @@
 #pragma once
 
-#include "UI_BaseControl.hpp"
+#include "../../interfaces/UI_BaseControl.hpp"
 
 namespace CORE {
 
 	class Text_Drawgroup;
 
-	class UI_BaseText : public UI_BaseControl {
+	class Text_BaseControl : public UI_BaseControl {
 	public:
-		void render() {};
-		void update() {};
-		void input() {};
-
 		const POINT_INT& getDrawGroupPosition();
 		void setDrawGroupPosition(const POINT_INT& drawGroupPosition);
 

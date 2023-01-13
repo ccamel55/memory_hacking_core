@@ -12,53 +12,30 @@
 
 using namespace CORE;
 
-namespace {
+Console_Form::Console_Form() : UI_BaseForm("Console", UI_CONSOLE::FORM_SIZE) {
 
-	inline void ltrim(std::string& s) {
-		s.erase(s.begin(), std::find_if(s.begin(), s.end(), [](unsigned char ch) {
-			return !std::isspace(ch);
-			}));
-	}
-
-	// trim from end (in place)
-	inline void rtrim(std::string& s) {
-		s.erase(std::find_if(s.rbegin(), s.rend(), [](unsigned char ch) {
-			return !std::isspace(ch);
-			}).base(), s.end());
-	}
-
-	inline void trim(std::string& s) {
-		rtrim(s);
-		ltrim(s);
-	}
-
-	inline std::vector<std::string> splitString(const std::string& s) {
-
-		std::stringstream ss(s);
-
-		std::istream_iterator<std::string> begin(ss);
-		std::istream_iterator<std::string> end{};
-
-		std::vector<std::string> vstrings(begin, end);
-		std::copy(vstrings.begin(), vstrings.end(), std::ostream_iterator<std::string>(std::cout, "\n"));
-
-		return vstrings;
-	}
-}
-
-Console_Form::Console_Form() {
-
-	_name = "Console";
 	_type = E_UI_ELEMENT_TYPE::UI_ELEMENT_CONSOLE;
-
-	_size = UI_CONSOLE::FORM_SIZE;
-	_position = { 50, 50 }; // default position
-
+	
 	_inputBox = std::make_shared<Console_Input>(&_commands);
 	_logBox = std::make_shared<Console_Log>();
 
 	addCommand("help", "prints out all commands");
-	setData("help", [&, this]() { for (const auto& c : _commands) { _logBox->addToLog(c.first.data() + std::string(" : ") + c.second._description.data()); } });
+	setData("help", [&, this]() { for (const auto& c : _commands) {
+		
+		switch (c.second._type)
+		{
+		case E_CONSOLE_VAR_TYPE::VAR_INT:
+			_logBox->addToLog(fmt::format("{} : {} (min: {}, max {})", c.first.data(), c.second._description.data(), c.second._data._int._min, c.second._data._int._max));
+			break;
+		case E_CONSOLE_VAR_TYPE::VAR_FLOAT:
+			_logBox->addToLog(fmt::format("{} : {} (min: {}, max{})", c.first.data(), c.second._description.data(), c.second._data._float._min, c.second._data._float._max));
+			break;
+		default:
+			_logBox->addToLog(fmt::format("{} : {}", c.first.data(), c.second._description.data()));
+			break;
+		}
+
+	} });
 
 	addCommand("clear", "prints out all commands");
 	setData("clear", [&, this]() { _logBox->clearLog(); });
@@ -106,14 +83,14 @@ void Console_Form::input() {
 		if (UI_INPUT::isPressed(VK_RETURN)) {
 
 			auto cmd = _inputBox->getInput();
-			trim(cmd);
+			STRING::TRIM(cmd);
 
 			if (cmd.size() > 0) {
 
 				// handle input here
 				_logBox->addToLog("] " + cmd);
 	
-				const auto& stringSplit = splitString(cmd);
+				const auto stringSplit = STRING::SPLIT_STRING(cmd);
 
 				if (_commands.count(stringSplit.at(0)) > 0) {
 
@@ -147,6 +124,9 @@ void Console_Form::input() {
 								_logBox->addToLog("invalid type (expected float)", E_CONSOLE_LOG_TYPE::LOG_ERROR);
 							}
 						}
+						else if (stringSplit.size() == 1) {
+							_logBox->addToLog(fmt::format("current state = {} : {} (min: {}, max{})", *cmd._data._float._data, cmd._description.data(), cmd._data._float._min, cmd._data._float._max));
+						}
 
 						break;
 					case VAR_INT:
@@ -166,6 +146,9 @@ void Console_Form::input() {
 							catch (...) {
 								_logBox->addToLog("invalid type (expected int)", E_CONSOLE_LOG_TYPE::LOG_ERROR);
 							}				
+						}
+						else if (stringSplit.size() == 1) {
+							_logBox->addToLog(fmt::format("current state = {} : {} (min: {}, max{})", *cmd._data._int._data, cmd._description.data(), cmd._data._int._min, cmd._data._int._max));
 						}
 
 						break;

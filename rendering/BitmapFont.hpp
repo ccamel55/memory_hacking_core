@@ -17,7 +17,7 @@ namespace CORE {
 		FONT_CENTER_Y = 1 << 4,
 	};
 
-	struct T_TexCoOrd {
+	struct T_TexCoord {
 		float _x1;
 		float _y1;
 		float _x2;
@@ -34,19 +34,19 @@ namespace CORE {
 		void setFont(const std::string& fontFamily, size_t height, size_t weight);
 		float getStringHeight();
 		float getStringWidth(const std::string& text);
-		DWORD* getFontBitmap();
+		uint32_t* getFontBitmap();
 		int getWidth();
 		int getHeight();
 		DWORD getSpacing();
-		T_TexCoOrd& getTextCoords(size_t c);
+		T_TexCoord& getTextCoords(size_t c);
 	private:
-		DWORD* _bitmapPtr;
+		uint32_t* _bitmapPtr;
 		HBITMAP _bitmapHandle;
 
 		int _width;
 		int _height;
 		DWORD _spacing;
 
-		std::array<T_TexCoOrd, 128 - 32> _texCoOrds;
+		std::array<T_TexCoord, 128 - 32> _texCoords;
 	};
 }
