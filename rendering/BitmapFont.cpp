@@ -1,5 +1,7 @@
 #include "BitmapFont.hpp"
 
+#include <fstream>
+
 using namespace CORE;
 
 C_BitmapFont::C_BitmapFont() {
@@ -24,7 +26,7 @@ void C_BitmapFont::setFont(const std::string& fontFamily, size_t height, size_t 
 
     // super ghetto way, we can fix this laterzzz
     if (height > 60) {
-        _width = 2048;
+        _width = 2048; 
         _height = 2048;
     }
     else if (height > 30) {

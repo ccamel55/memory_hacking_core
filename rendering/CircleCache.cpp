@@ -1,6 +1,7 @@
 #include "CircleCache.hpp"
 
 #include <cmath>
+#include "../math/AVXMath.hpp"
 
 using namespace CORE;
 

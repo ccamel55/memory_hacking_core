@@ -10,6 +10,14 @@
 
 namespace CORE {
 
+	enum E_FONT_FLAGS : bit_flag_t {
+		FONT_ALIGN_L = 1 << 0,
+		FONT_ALIGN_R = 1 << 1,
+		FONT_OUTLINE = 1 << 2,
+		FONT_CENTER_X = 1 << 3,
+		FONT_CENTER_Y = 1 << 4,
+	};
+
 	/* contians API functions for drawing specefic geomerty */
 	class C_RenderImpl {
 	public:
