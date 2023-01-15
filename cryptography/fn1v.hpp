@@ -22,7 +22,7 @@ namespace CORE {
 
 			hash_t uHashed = OFFSET_BASIS;
 
-			for (size_t i = 0U; i < strlen(szString); i++) {
+			for (size_t i = 0; i < strlen(szString); i++) {
 
 				uHashed ^= szString[i];
 				uHashed *= FNV_PRIME;
@@ -52,7 +52,7 @@ namespace CORE {
 
 			hash_t uHashed = OFFSET_BASIS;
 
-			for (size_t i = 0U; i < strlen(szString); i++) {
+			for (size_t i = 0; i < strlen(szString); i++) {
 
 				uHashed ^= szString[i];
 				uHashed *= FNV_PRIME;

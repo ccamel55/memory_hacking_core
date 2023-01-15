@@ -22,5 +22,8 @@ namespace CORE::DX9 {
 	private:
 		IDirect3DDevice9* _device{};
 		IDirect3DStateBlock9* _stateBlock{};
+
+		IDirect3DVertexShader9* _vertexShader{};
+		IDirect3DVertexDeclaration9* _vertexDeclaration{};
 	};
 }
