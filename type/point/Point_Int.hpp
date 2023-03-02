@@ -12,14 +12,14 @@ namespace CORE {
 
 		}
 
-		const POINT_INT operator+(const POINT_INT& in) const {
+		POINT_INT operator+(const POINT_INT& in) const {
 			return POINT_INT(
 				_x + in._x,
 				_y + in._y
 			);
 		}
 
-		const POINT_INT operator-(const POINT_INT& in) const {
+		POINT_INT operator-(const POINT_INT& in) const {
 			return POINT_INT(
 				_x - in._x,
 				_y - in._y

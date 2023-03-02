@@ -17,7 +17,7 @@ namespace CORE {
 			_y = y;
 		}
 
-		const Vector2D operator+(const Vector2D& in) const {
+		Vector2D operator+(const Vector2D& in) const {
 			return Vector2D(
 				_x + in._x,
 				_y + in._y
@@ -32,7 +32,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator+(float in) const {
+		Vector2D operator+(float in) const {
 			return Vector2D(
 				_x + in,
 				_y + in
@@ -47,7 +47,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator-(const Vector2D& in) const {
+		Vector2D operator-(const Vector2D& in) const {
 			return Vector2D(
 				_x - in._x,
 				_y - in._y
@@ -62,7 +62,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator-(float in) const {
+		Vector2D operator-(float in) const {
 			return Vector2D(
 				_x - in,
 				_y - in
@@ -77,7 +77,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator*(const Vector2D& in) const {
+		Vector2D operator*(const Vector2D& in) const {
 			return Vector2D(
 				_x * in._x,
 				_y * in._y
@@ -92,7 +92,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator*(float in) const {
+		Vector2D operator*(float in) const {
 			return Vector2D(
 				_x * in,
 				_y * in
@@ -107,7 +107,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator/(const Vector2D& in) const {
+		Vector2D operator/(const Vector2D& in) const {
 			return Vector2D(
 				_x / in._x,
 				_y / in._y
@@ -122,7 +122,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector2D operator/(float in) const {
+		Vector2D operator/(float in) const {
 			return Vector2D(
 				_x / in,
 				_y / in

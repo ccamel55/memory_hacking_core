@@ -22,7 +22,7 @@ namespace CORE {
 			_z = z;
 		}
 
-		const Vector3D operator+(const Vector3D& in) const {
+		Vector3D operator+(const Vector3D& in) const {
 			return Vector3D(
 				_x + in._x,
 				_y + in._y,
@@ -39,7 +39,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator+(float in) const {
+		Vector3D operator+(float in) const {
 			return Vector3D(
 				_x + in,
 				_y + in,
@@ -56,7 +56,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator-(const Vector3D& in) const {
+		Vector3D operator-(const Vector3D& in) const {
 			return Vector3D(
 				_x - in._x,
 				_y - in._y,
@@ -73,7 +73,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator-(float in) const {
+		Vector3D operator-(float in) const {
 			return Vector3D(
 				_x - in,
 				_y - in,
@@ -90,7 +90,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator*(const Vector3D& in) const {
+		Vector3D operator*(const Vector3D& in) const {
 			return Vector3D(
 				_x * in._x,
 				_y * in._y,
@@ -107,7 +107,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator*(float in) const {
+		Vector3D operator*(float in) const {
 			return Vector3D(
 				_x * in,
 				_y * in,
@@ -124,7 +124,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator/(const Vector3D& in) const {
+		Vector3D operator/(const Vector3D& in) const {
 			return Vector3D(
 				_x / in._x,
 				_y / in._y,
@@ -141,7 +141,7 @@ namespace CORE {
 			return *this;
 		}
 
-		const Vector3D operator/(float in) const {
+		Vector3D operator/(float in) const {
 			return Vector3D(
 				_x / in,
 				_y / in,
@@ -208,7 +208,7 @@ namespace CORE {
 			return (_x * _x + _y * _y);
 		}
 
-		const Vector3D normalize() const {
+		Vector3D normalize() const {
 
 			auto out = *this;
 			const auto length = out.length();

@@ -12,14 +12,14 @@ namespace CORE {
 
 		}
 
-		const POINT_FLOAT operator+(const POINT_FLOAT& in) const {
+		POINT_FLOAT operator+(const POINT_FLOAT& in) const {
 			return POINT_FLOAT(
 				_x + in._x,
 				_y + in._y
 			);
 		}
 
-		const POINT_FLOAT operator-(const POINT_FLOAT& in) const {
+		POINT_FLOAT operator-(const POINT_FLOAT& in) const {
 			return POINT_FLOAT(
 				_x - in._x,
 				_y - in._y
