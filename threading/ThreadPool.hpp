@@ -11,12 +11,16 @@
 
 namespace CORE {
 
+	struct T_ThreadJob {
+		void* param = nullptr;
+		std::function<void(void* param)> fn = nullptr;
+	};
+
 	class C_ThreadPool : public Singleton<C_ThreadPool> {
 	public:
 		void spawnThreads();
 		void killThreads();
-		void queueTask(const std::function<void()>& task);
-		bool isBusy();
+		void queueTask(T_ThreadJob& task);
 	private:
 		static void threadLoop(void* instance);
 	private:
@@ -26,6 +30,6 @@ namespace CORE {
 		std::condition_variable _mutexCondition{};
 
 		std::vector<std::thread> _threadPool{};
-		std::queue<std::function<void()>> _tasks{};
+		std::queue<T_ThreadJob> _tasks{};
 	};
 }

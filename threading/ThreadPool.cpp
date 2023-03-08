@@ -36,18 +36,12 @@ void C_ThreadPool::killThreads() {
 	_threadPool.clear();
 }
 
-void C_ThreadPool::queueTask(const std::function<void()> &task) {
+void C_ThreadPool::queueTask(T_ThreadJob& task) {
 
 	std::unique_lock<std::mutex> lock(_queueMutex);
-	_tasks.push(task);
+	_tasks.push(std::move(task));
 
 	_mutexCondition.notify_one();
-}
-
-bool C_ThreadPool::isBusy() {
-	
-	std::unique_lock<std::mutex> lock(_queueMutex);
-	return _tasks.empty();
 }
 
 void C_ThreadPool::threadLoop(void* instance) {
@@ -70,6 +64,7 @@ void C_ThreadPool::threadLoop(void* instance) {
 		auto task = threadPoolInstance->_tasks.front();
 		threadPoolInstance->_tasks.pop();
 
-		task();
+		// param is a pointer to some data that exists in heap!
+		task.fn(task.param);
 	}
 }

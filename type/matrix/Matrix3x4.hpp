@@ -59,6 +59,33 @@ namespace CORE {
 			this->_data[2][3] = vecOrigin._z;
 		}
 
+		constexpr void setIdentity() {
+
+			// reset matrix to identity matrix
+			_data[0][0] = 1.f;
+			_data[0][1] = 0.f;
+			_data[0][2] = 0.f;
+			_data[0][3] = 0.f;
+
+			_data[1][0] = 0.f;
+			_data[1][1] = 1.f;
+			_data[1][2] = 0.f;
+			_data[1][3] = 0.f;
+
+			_data[2][0] = 0.f;
+			_data[2][1] = 0.f;
+			_data[2][2] = 1.f;
+			_data[2][3] = 0.f;
+		}
+
+		Vector3D getOrigin() const {
+			return {
+				this->_data[0][3],
+				this->_data[1][3],
+				this->_data[2][3]
+			};
+		}
+
 		constexpr void invalidate() {
 
 			for (auto& arrSubData : _data) {

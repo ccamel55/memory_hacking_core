@@ -7,6 +7,7 @@
 
 namespace CORE {
 
+	//! No copy, lock free tripple buffer. this should be pretty fast!
 	template<typename T>
 	class C_TrippleBuffer {
 	public:
