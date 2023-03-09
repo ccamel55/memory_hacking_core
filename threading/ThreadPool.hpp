@@ -11,25 +11,47 @@
 
 namespace CORE {
 
-	struct T_ThreadJob {
-		void* param = nullptr;
-		std::function<void(void* param)> fn = nullptr;
-	};
+	// modified version of thread_pool_light
+	// https://github.com/bshoshany/thread-pool/blob/master/BS_thread_pool_light.hpp
+
+	using concurrency_t = std::invoke_result_t<decltype(std::thread::hardware_concurrency)>;
 
 	class C_ThreadPool : public Singleton<C_ThreadPool> {
 	public:
-		void spawnThreads();
+		void spawnThreads(std::function<void()> workerConstructor = nullptr, std::function<void()> workerDestructor = nullptr);
 		void killThreads();
-		void queueTask(T_ThreadJob& task);
-	private:
-		static void threadLoop(void* instance);
-	private:
-		bool _shouldTerminate{};
+		void waitForTasks();
 
-		std::mutex _queueMutex{};
-		std::condition_variable _mutexCondition{};
+		template <typename F, typename... A>
+		void addTask(F&& task, A&&... args) {
 
-		std::vector<std::thread> _threadPool{};
-		std::queue<T_ThreadJob> _tasks{};
+			std::function<void()> taskFunction = std::bind(std::forward<F>(task), std::forward<A>(args)...); {
+
+				const std::scoped_lock taskLock(_tasksMutex);
+				_tasks.push(taskFunction);
+			}
+
+			_taskCount++;
+			_cvTaskAvailable.notify_one();
+		}
+	private:
+		static void workerThread(void* param);
+
+		std::function<void()> _workerConstructor = nullptr;
+		std::function<void()> _workerDestructor = nullptr;
+
+        std::atomic<bool> _running = false;
+		std::atomic<bool> _waiting = false;
+
+        std::condition_variable _cvTaskAvailable = {};
+        std::condition_variable _cvTaskDone = {};
+
+		concurrency_t _threadCount = 0;
+		std::atomic<size_t> _taskCount = 0;
+
+		mutable std::mutex _tasksMutex = {};
+
+        std::queue<std::function<void()>> _tasks = {};
+        std::unique_ptr<std::thread[]> _threads = nullptr;
 	};
 }

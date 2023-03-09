@@ -231,6 +231,14 @@ namespace CORE {
 			return (_x * in._x + _y * in._y + _z * in._z);
 		}
 
+		Vector3D cross(const Vector3D& in) const {
+			return {
+				this->_y * in._z - this->_z * in._y,
+				this->_z * in._x - this->_x * in._z,
+				this->_x * in._y - this->_y * in._x,
+			};
+		}
+
 	public:
 		float _x{};
 		float _y{};
